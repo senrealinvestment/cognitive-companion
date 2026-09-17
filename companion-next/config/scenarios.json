@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "scenarios": [
+    {
+      "id": "anaphylaxis",
+      "label": "Anaphylaxis",
+      "criteria": "Abrupt perioperative hypotension or cardiovascular collapse with bronchospasm, increased airway pressure, hypoxemia, flushing, urticaria, or temporal association with a likely exposure. Do not choose for isolated hypotension without corroborating features."
+    },
+    {
+      "id": "malignant_hyperthermia",
+      "label": "Malignant hyperthermia",
+      "criteria": "Compatible exposure with otherwise unexplained rising end-tidal carbon dioxide, tachycardia, rigidity, hyperthermia, or metabolic derangement. Do not choose for isolated fever."
+    },
+    {
+      "id": "other_or_unclear",
+      "label": "Other or unclear",
+      "criteria": "The supplied evidence is insufficient, contradictory, or better explained by a scenario not listed above."
+    }
+  ]
+}
