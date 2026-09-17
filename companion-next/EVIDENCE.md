@@ -66,3 +66,28 @@ Final coder validation:
   No access to their application files, imports, endpoints, or process controls.
 - Unrelated research markdown remains untracked and unstaged. All slice commits
   are local and scoped to companion-next; no merge or push.
+
+## Astra OpenAPI 503 documentation follow-up — 2026-09-17
+
+- Dispatch: `feat/companion-next-jev-slice-1`, HEAD `5e9fa98`.
+- Added `tests/test_api.py::test_openapi_service_unavailable` before changing
+  API metadata. RED: `uv run pytest
+  tests/test_api.py::test_openapi_service_unavailable` exited 1 with the assertion
+  `assert "503" in responses`; only 200 and 422 were documented.
+  Used the existing `.tool-venv/bin` PATH bootstrap because uv was not on PATH.
+- Added route response metadata only: 503 application/json object, required
+  string `reason`, no additional properties, enum `unauthorized`, `rate_limited`,
+  `unavailable`, `timeout`, `invalid_response`. Runtime handler is unchanged.
+- GREEN: the same targeted test passed (1 passed).
+- Gates: `uv run ruff check src tests` passed; `uv run pytest -m "not integration"`
+  passed with 137 passed, 1 integration deselected. Existing upstream
+  Starlette/AnyIO deprecation warning remains.
+- OpenAPI walk passed against a fresh in-process TestClient app with `client=None`:
+  GET /openapi.json, request schema, 200/422 component references, complete 503
+  JSON schema and enum, GET /docs, runtime 422 and sanitized unauthorized 503.
+  Existing offline API tests cover runtime 200 and the failure matrix.
+  This was not a port-8767 listener walk; existing listeners were left untouched.
+- No hosted calls or credential reads. No HUD or second-lane changes. Catalog
+  review remains deferred. Simulation / education / shadow only; hosted
+  selected_id remains an interface, not clinical truth or accuracy evidence.
+- Unrelated research file remains untouched. Local commit only; no merge or push.

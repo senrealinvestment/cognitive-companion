@@ -34,7 +34,36 @@ def create_app(*, client=_DEFAULT) -> FastAPI:
         lifespan=lifespan,
     )
 
-    @app.post("/v1/assess", response_model=JevAssessment)
+    @app.post(
+        "/v1/assess",
+        response_model=JevAssessment,
+        responses={
+            503: {
+                "description": "Assessment unavailable or invalid; returns a bounded reason code.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": ["reason"],
+                            "properties": {
+                                "reason": {
+                                    "type": "string",
+                                    "enum": [
+                                        "unauthorized",
+                                        "rate_limited",
+                                        "unavailable",
+                                        "timeout",
+                                        "invalid_response",
+                                    ],
+                                }
+                            },
+                            "additionalProperties": False,
+                        }
+                    }
+                },
+            }
+        },
+    )
     async def assess(state: EncounterState):
         try:
             if app.state.startup_reason:

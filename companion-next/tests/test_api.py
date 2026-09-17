@@ -37,6 +37,26 @@ def payload(text="Synthetic simulation."):
     return {"session_id": "synthetic-api", "revision": 9, "transcript": text}
 
 
+def test_openapi_service_unavailable():
+    with TestClient(create_app(client=None)) as client:
+        document = client.get("/openapi.json").json()
+    responses = document["paths"]["/v1/assess"]["post"]["responses"]
+    assert "503" in responses
+    schema = responses["503"]["content"]["application/json"]["schema"]
+    assert schema["type"] == "object"
+    assert schema["required"] == ["reason"]
+    assert set(schema["properties"]) == {"reason"}
+    reason = schema["properties"]["reason"]
+    assert reason["type"] == "string"
+    assert set(reason["enum"]) == {
+        "unauthorized",
+        "rate_limited",
+        "unavailable",
+        "timeout",
+        "invalid_response",
+    }
+
+
 @pytest.mark.parametrize("selected,text", FIXTURES)
 def test_success(selected, text):
     sdk = FakeSDK(response(answer(choice=selected)))
