@@ -25,5 +25,5 @@ class FakeSDK:
             raise self.error
         return self.result
 
-    async def close(self):
+    async def aclose(self):
         self.closed = True

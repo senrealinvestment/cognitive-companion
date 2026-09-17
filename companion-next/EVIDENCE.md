@@ -28,3 +28,7 @@ TDD checkpoints (commands from companion-next with .tool-venv/bin/uv):
   zero calls. Sanitized exceptions retain no upstream exception context.
 - Unused lanes: run pytest tests/test_stubs.py — RED missing stub modules;
   GREEN 2 passed. No network clients or agreement types.
+- API: run pytest tests/test_api.py — RED missing API module; GREEN 39 passed.
+  Three synthetic fixtures and complete failure matrix exercised in-process with
+  fake SDK, including abstention success, strict 422, sanitized 503, OpenAPI
+  response contract and unused-lane tripwires. Injected clients close on lifespan.
