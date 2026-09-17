@@ -26,3 +26,5 @@ TDD checkpoints (commands from companion-next with .tool-venv/bin/uv):
   wall-clock deadline, connection, absent/malformed answers and invalid values
   fail closed. Caller traceback/log sentinel checks pass; invalid catalog makes
   zero calls. Sanitized exceptions retain no upstream exception context.
+- Unused lanes: run pytest tests/test_stubs.py — RED missing stub modules;
+  GREEN 2 passed. No network clients or agreement types.
