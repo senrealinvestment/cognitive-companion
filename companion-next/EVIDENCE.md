@@ -21,3 +21,8 @@ TDD checkpoints (commands from companion-next with .tool-venv/bin/uv):
 - SDK adapter: run pytest tests/test_jev_adapter.py — RED missing adapter module;
   GREEN 1 passed. Typed Choice, exact criteria, question/model, request revision,
   preserved probabilities/confidence, zero retries and monotonic latency verified.
+- Failures: run pytest tests/test_failures.py — RED missing sanitized error type;
+  GREEN 32 passed (33 with adapter regression). Status errors, timeout including
+  wall-clock deadline, connection, absent/malformed answers and invalid values
+  fail closed. Caller traceback/log sentinel checks pass; invalid catalog makes
+  zero calls. Sanitized exceptions retain no upstream exception context.
