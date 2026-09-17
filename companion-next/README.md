@@ -1,4 +1,4 @@
-# companion-next — Jev slice 1
+# companion-next — Jev gate-only slice 2
 
 Simulation / education / shadow only. Not a clinical device. Synthetic text only.
 Python validates state and assessments; models cannot author algorithms or activate
@@ -6,8 +6,8 @@ cards. No audio is captured or persisted.
 
 This isolated service uses hosted TypeSafe Jev, model `jev-latest`, through
 `typesafe-sdk==0.6.0` at `https://api.typesafe.ai/v1/systemone`. One SDK `Choice`
-question named `algorithm` selects `anaphylaxis`, `malignant_hyperthermia`, or
-`other_or_unclear`. No alternate model or raw-HTTP fallback exists.
+question named `algorithm` in the unchanged slice-1 `/v1/assess` interface smoke
+selects `anaphylaxis`, `malignant_hyperthermia`, or `other_or_unclear`. No alternate model or raw-HTTP fallback exists.
 
 ## Run from this directory
 
@@ -63,6 +63,57 @@ Latency uses a monotonic clock. Confidence describes distribution concentration,
 not clinical truth or permission to act. Typed output guarantees an interface,
 not correctness. See the [Choice docs](https://docs.typesafe.ai/primitives/choice.md)
 and [Python SDK docs](https://docs.typesafe.ai/sdk/python.md).
+
+## Gate-only API
+
+`POST /v1/gate` accepts the same `EncounterState` request as assess. It asks two
+Nouls (`decision_shaped`, `enough_evidence`) and two Choices (`mode_hint`, `family`)
+in one `system_one` call over the same complete encounter state. All questions
+are independent; transcript content is data, not overriding instructions.
+
+Criteria and thresholds are **synthetic, unvalidated engineering fixtures, not
+faculty-approved**. Python returns `retrieve` only when both Nouls are at least
+0.80, both Choice confidences are at least 0.70, mode is `emergency` or `rounds`,
+and each selected Choice label is its distribution's unique maximum. Thresholds
+are inclusive; there is no averaging or compensation. `other` is an eligible
+family pack, not a disease or automatic abstention. Mode hints are advisory only;
+Python retains mode ownership. No mode transition or faculty lock is changed.
+
+Both valid outcomes are HTTP 200:
+
+```json
+{"revision":1,"outcome":"silence","pack":null,"mode_hint":"neither","mode_hint_advisory":true,"latency_ms":25.0}
+```
+
+```json
+{"revision":1,"outcome":"retrieve","pack":"other","mode_hint":"rounds","mode_hint_advisory":true,"latency_ms":25.0}
+```
+
+Families are `airway`, `circulation`, `metabolic`, and `other`. Retrieve identifies
+only a family pack; it performs no retrieval or reasoner call. Silence means a
+valid policy failure or uncertainty, including tied Choice maxima. No numeric
+judgments, diagnostic fields, or free-text explanation appear in the response.
+
+All four answers must validate before policy runs, even if one already implies
+silence. A selected label below the maximum, missing/wrong primitive, unknown
+label, or malformed distribution is `invalid_response`. Internal judgments are
+frozen, including copied nested distributions. Numbers must be finite [0,1],
+not booleans or numeric strings. Distributions require exactly the declared keys
+and mass within inclusive absolute 0.01 of one; values are never normalized.
+
+Invalid input returns 422 before any SDK call. Service failures and malformed
+answers return 503 with only `{"reason":"..."}`, using the same five bounded
+reasons listed above. Failures never become silence. Gate uses zero retries,
+a 10-second SDK timeout and enclosing asyncio deadline, and monotonic latency.
+It shares the lifespan-managed client with assess. Startup catalog validation
+remains required; gate calls do not load or use the catalog.
+
+`/v1/assess` remains the unchanged slice-1 interface smoke and is not deprecated.
+Its selected IDs are not clinical truth. Synthetic-only use is an operational
+restriction: `EncounterState` does not prove submitted text is synthetic.
+Offline tests establish interface and policy behavior, not clinical accuracy.
+No hosted validation was performed for slice 2. Verify, reasoning, retrieval,
+shadow evaluation, faculty criteria, HUD, and convergence require later slices.
 
 ## Scope and evidence
 

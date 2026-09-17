@@ -41,3 +41,31 @@ class FakeSDK:
 
     async def aclose(self):
         self.closed = True
+
+
+def gate_choice(labels, selected, **changes):
+    return SimpleNamespace(
+        **(
+            {
+                "choice": selected,
+                "confidence": 0.9,
+                "probabilities": {label: float(label == selected) for label in labels},
+            }
+            | changes
+        )
+    )
+
+
+def gate_response(*, mode="rounds", family="other", decision=0.9, evidence=0.9):
+    return SimpleNamespace(
+        nouls={
+            "decision_shaped": SimpleNamespace(noul=decision),
+            "enough_evidence": SimpleNamespace(noul=evidence),
+        },
+        choices={
+            "mode_hint": gate_choice(("emergency", "rounds", "neither"), mode),
+            "family": gate_choice(
+                ("airway", "circulation", "metabolic", "other"), family
+            ),
+        },
+    )
