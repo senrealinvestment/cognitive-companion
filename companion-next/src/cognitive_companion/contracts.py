@@ -1,5 +1,5 @@
 from collections.abc import Mapping
-from math import fsum, isclose
+from decimal import Decimal
 from types import MappingProxyType
 from typing import Annotated, Literal
 
@@ -40,7 +40,8 @@ class JevAssessment(FrozenModel):
     def valid_probabilities(cls, value):
         if set(value) != set(IDS):
             raise ValueError("probability keys must exactly match catalog")
-        if not isclose(fsum(value.values()), 1.0, abs_tol=0.01, rel_tol=0):
+        mass = sum(Decimal(str(probability)) for probability in value.values())
+        if abs(mass - Decimal(1)) > Decimal("0.01"):
             raise ValueError("probabilities must sum to one within 0.01")
         return MappingProxyType(dict(value))
 

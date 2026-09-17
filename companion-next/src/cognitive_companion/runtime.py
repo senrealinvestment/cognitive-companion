@@ -1,4 +1,5 @@
 """External credentials are read only during service lifespan or opted-in smoke."""
+
 import logging
 import shlex
 import stat
@@ -46,6 +47,6 @@ def open_client() -> AsyncTypeSafeClient:
                 retry=RetryPolicy(max_retries=0),
                 timeout=TIMEOUT_SECONDS,
             )
-    except Exception:
+    except Exception:  # noqa: BLE001 - sanitize the external SDK trust boundary
         reason = "unavailable"
     raise AssessmentUnavailable(reason)

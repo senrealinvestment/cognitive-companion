@@ -1,4 +1,5 @@
 """Frozen demo source: parent architecture plan Task 1.2; review unverified."""
+
 import hashlib
 import json
 from pathlib import Path
@@ -19,6 +20,8 @@ def load_catalog(path: Path = CATALOG_PATH):
         canonical = json.dumps(data, sort_keys=True, separators=(",", ":")).encode()
         if hashlib.sha256(canonical).hexdigest() != FROZEN_DIGEST:
             raise ValueError
-        return MappingProxyType({item["id"]: item["criteria"] for item in data["scenarios"]})
+        return MappingProxyType(
+            {item["id"]: item["criteria"] for item in data["scenarios"]}
+        )
     except (OSError, ValueError, TypeError, KeyError):
         raise CatalogError("invalid catalog") from None

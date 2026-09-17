@@ -1,15 +1,29 @@
 from types import SimpleNamespace
 
-PROBABILITIES = dict(anaphylaxis=.803, malignant_hyperthermia=.1, other_or_unclear=.1)
+PROBABILITIES = {
+    "anaphylaxis": 0.803,
+    "malignant_hyperthermia": 0.1,
+    "other_or_unclear": 0.1,
+}
 
 
 def answer(**changes):
-    return SimpleNamespace(**(dict(choice="anaphylaxis", probabilities=PROBABILITIES.copy(),
-                                  confidence=.73) | changes))
+    return SimpleNamespace(
+        **(
+            {
+                "choice": "anaphylaxis",
+                "probabilities": PROBABILITIES.copy(),
+                "confidence": 0.73,
+            }
+            | changes
+        )
+    )
 
 
 def response(value=None):
-    return SimpleNamespace(choices={"algorithm": value if value is not None else answer()})
+    return SimpleNamespace(
+        choices={"algorithm": value if value is not None else answer()}
+    )
 
 
 class FakeSDK:

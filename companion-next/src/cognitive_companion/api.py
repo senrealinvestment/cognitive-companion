@@ -3,9 +3,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
+from . import runtime
 from .adapters.jev import AssessmentUnavailable, JevAdapter
 from .contracts import EncounterState, JevAssessment
-from . import runtime
 
 _DEFAULT = object()
 

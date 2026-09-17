@@ -36,8 +36,10 @@ async def test_missing_client():
 
 async def test_invalid_catalog_prevents_call(monkeypatch):
     client = FakeSDK()
+
     def invalid():
         raise CatalogError(SENTINEL)
+
     monkeypatch.setattr("cognitive_companion.adapters.jev.load_catalog", invalid)
     with pytest.raises(AssessmentUnavailable, match="unavailable"):
         await JevAdapter(client).assess(STATE)
@@ -45,9 +47,11 @@ async def test_invalid_catalog_prevents_call(monkeypatch):
 
 
 async def test_wall_clock_timeout(monkeypatch):
-    monkeypatch.setattr("cognitive_companion.adapters.jev.TIMEOUT_SECONDS", .01)
+    monkeypatch.setattr("cognitive_companion.adapters.jev.TIMEOUT_SECONDS", 0.01)
+
     class HangingSDK:
         async def system_one(self, **kwargs):
             await asyncio.sleep(1)
+
     with pytest.raises(AssessmentUnavailable, match="timeout"):
         await JevAdapter(HangingSDK()).assess(STATE)

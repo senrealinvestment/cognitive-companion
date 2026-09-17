@@ -11,4 +11,6 @@ async def test_grok_tripwire():
 
 
 async def test_literature_unavailable():
-    assert await NullLiteratureAdapter().assess(None) == {"research_status": "unavailable"}
+    assert await NullLiteratureAdapter().assess(None) == {
+        "research_status": "unavailable"
+    }

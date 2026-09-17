@@ -36,3 +36,33 @@ TDD checkpoints (commands from companion-next with .tool-venv/bin/uv):
   GREEN 10 passed (49 with API regression). Fixed external credential source,
   mode check, missing/invalid preflight without client creation, explicit endpoint,
   zero retries, bounded timeout and lifecycle closure verified.
+- Probability tolerance boundary: run pytest tests/test_contracts.py -k
+  inclusive_mass_boundary — RED 2 failed at exact totals 0.99/1.01 due to binary
+  subtraction. GREEN all 38 contract cases using decimal arithmetic solely for
+  the mass check; accepted probabilities remain unchanged.
+- Offline socket guard added and default integration exclusion retained.
+- Explicit hosted smoke: run pytest -m integration --live tests/test_integration.py
+  -q — EXECUTED, 1 passed in 0.54s, using the nonmedical bicycle/library sentence
+  and real SDK. Not a fake result, not a clinical accuracy assessment.
+
+Final coder validation:
+- uv sync --locked --all-groups: succeeded (32 resolved, 30 installed checked).
+- uv run ruff check src tests: all checks passed.
+- uv run pytest -m "not integration": 136 passed, 1 integration deselected.
+  Includes SDK response-validation exception cases through adapter and API.
+  One upstream Starlette/AnyIO deprecation warning; no test failures.
+- Offline suite ran after the successful hosted smoke with credentials still
+  available externally; no unit test read the real credential or called hosted API.
+- No local service startup or listener API walk performed: per execution plan,
+  that walk follows Grok Build review. README specifies 127.0.0.1:8767 because 8766
+  is occupied. Three synthetic cases have in-process fake-backed API evidence only.
+- Grok Build review and Astra final decision remain pending; coder does not issue
+  PASS/BLOCK. Catalog acceptance still requires missing review evidence.
+- Staged files and all new commits: scope and credential-pattern scan clean
+  (private-key, token and credential-URL patterns; values never printed).
+  Real credential was not loaded for scans. SDK sentinel tests cover caller
+  tracebacks, logs and API JSON. git diff --cached --check clean.
+- Final listener metadata unchanged: 8765 PID 33970 and 8766 PID 94163.
+  No access to their application files, imports, endpoints, or process controls.
+- Unrelated research markdown remains untracked and unstaged. All slice commits
+  are local and scoped to companion-next; no merge or push.
