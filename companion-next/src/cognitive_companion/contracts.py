@@ -63,6 +63,28 @@ GateFamily = Literal["airway", "circulation", "metabolic", "other"]
 FiniteNonnegativeFloat = Annotated[float, Field(strict=True, ge=0, allow_inf_nan=False)]
 
 
+class JevGateRequest(EncounterState):
+    faculty_id: str | None = Field(
+        default=None,
+        description="Inert metadata; does not establish faculty authority.",
+    )
+    mode_hint: ModeHint | None = Field(
+        default=None, description="Accepted but unused; does not control mode."
+    )
+
+
+SilenceReason = Literal[
+    "decision_shaped_below_threshold",
+    "insufficient_evidence",
+    "mode_neither",
+    "mode_confidence_below_threshold",
+    "family_confidence_below_threshold",
+    "mode_tied",
+    "family_tied",
+]
+RequestId = Annotated[str, Field(min_length=1, pattern=r"\S")]
+
+
 class GateChoice(FrozenModel):
     choice: str
     probabilities: Mapping[str, Probability]
@@ -112,7 +134,8 @@ class GateJudgments(FrozenModel):
     family: FamilyJudgment
 
 
-class JevGateSilence(FrozenModel):
+class GateSilenceDecision(FrozenModel):
+    reasons: Annotated[list[SilenceReason], Field(min_length=1, max_length=7)]
     revision: Revision
     outcome: Literal["silence"]
     pack: None
@@ -123,15 +146,31 @@ class JevGateSilence(FrozenModel):
     latency_ms: FiniteNonnegativeFloat
 
 
-class JevGateRetrieve(FrozenModel):
+class GateRetrieveDecision(FrozenModel):
+    reasons: Annotated[list[Literal["gate_passed"]], Field(min_length=1, max_length=1)]
     revision: Revision
-    outcome: Literal["retrieve"]
+    outcome: Literal["retrieve"] = Field(
+        description="Synonym for retrieve_pack; identifies a family without retrieval."
+    )
     pack: GateFamily
     mode_hint: Literal["emergency", "rounds"]
     mode_hint_advisory: Literal[True] = Field(
         description="Advisory only; Python owns mode."
     )
     latency_ms: FiniteNonnegativeFloat
+
+
+GateDecision = Annotated[
+    GateSilenceDecision | GateRetrieveDecision, Field(discriminator="outcome")
+]
+
+
+class JevGateSilence(GateSilenceDecision):
+    request_id: RequestId
+
+
+class JevGateRetrieve(GateRetrieveDecision):
+    request_id: RequestId
 
 
 JevGate = Annotated[JevGateSilence | JevGateRetrieve, Field(discriminator="outcome")]

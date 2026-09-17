@@ -15,10 +15,10 @@ from typesafe_sdk import (
 from ..contracts import (
     EncounterState,
     FamilyJudgment,
+    GateDecision,
     GateJudgments,
-    JevGate,
-    JevGateRetrieve,
-    JevGateSilence,
+    GateRetrieveDecision,
+    GateSilenceDecision,
     ModeJudgment,
 )
 from .jev import Reason
@@ -72,7 +72,7 @@ def gate_questions():
 
 def decide_gate(
     state: EncounterState, judgments: GateJudgments, *, latency_ms: float
-) -> JevGate:
+) -> GateDecision:
     mode = judgments.mode_hint
     family = judgments.family
     common = {
@@ -81,17 +81,35 @@ def decide_gate(
         "mode_hint_advisory": True,
         "latency_ms": latency_ms,
     }
-    if (
-        judgments.decision_shaped >= DECISION_SHAPED_THRESHOLD
-        and judgments.enough_evidence >= ENOUGH_EVIDENCE_THRESHOLD
-        and mode.choice in ("emergency", "rounds")
-        and mode.confidence >= MODE_CONFIDENCE_THRESHOLD
-        and family.confidence >= FAMILY_CONFIDENCE_THRESHOLD
-        and mode.unique_maximum
-        and family.unique_maximum
-    ):
-        return JevGateRetrieve(outcome="retrieve", pack=family.choice, **common)
-    return JevGateSilence(outcome="silence", pack=None, **common)
+    failures = (
+        (
+            judgments.decision_shaped < DECISION_SHAPED_THRESHOLD,
+            "decision_shaped_below_threshold",
+        ),
+        (
+            judgments.enough_evidence < ENOUGH_EVIDENCE_THRESHOLD,
+            "insufficient_evidence",
+        ),
+        (mode.choice == "neither", "mode_neither"),
+        (
+            mode.confidence < MODE_CONFIDENCE_THRESHOLD,
+            "mode_confidence_below_threshold",
+        ),
+        (
+            family.confidence < FAMILY_CONFIDENCE_THRESHOLD,
+            "family_confidence_below_threshold",
+        ),
+        (not mode.unique_maximum, "mode_tied"),
+        (not family.unique_maximum, "family_tied"),
+    )
+    reasons = [code for failed, code in failures if failed]
+    if reasons:
+        return GateSilenceDecision(
+            outcome="silence", pack=None, reasons=reasons, **common
+        )
+    return GateRetrieveDecision(
+        outcome="retrieve", pack=family.choice, reasons=["gate_passed"], **common
+    )
 
 
 class GateUnavailable(Exception):
@@ -105,7 +123,7 @@ class JevGateAdapter:
         self.client = client
         self.clock = clock
 
-    async def gate(self, state: EncounterState) -> JevGate:
+    async def gate(self, state: EncounterState) -> GateDecision:
         if self.client is None:
             raise GateUnavailable("unauthorized")
         reason: Reason = "unavailable"

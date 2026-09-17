@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from typing import get_args
+from uuid import uuid4
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
@@ -7,7 +8,7 @@ from fastapi.responses import JSONResponse
 from . import runtime
 from .adapters.jev import AssessmentUnavailable, JevAdapter, Reason
 from .adapters.jev_gate import GateUnavailable, JevGateAdapter
-from .contracts import EncounterState, JevAssessment, JevGate
+from .contracts import EncounterState, JevAssessment, JevGate, JevGateRequest
 
 _DEFAULT = object()
 
@@ -79,7 +80,10 @@ def create_app(*, client=_DEFAULT) -> FastAPI:
         "/v1/gate",
         response_model=JevGate,
         description="Synthetic, unvalidated gate. Mode hints are advisory; Python owns mode. "
-        "Retrieve identifies a family pack only; no retrieval or reasoner runs.",
+        "Client faculty_id and mode_hint are inert metadata, accepted but unused in this "
+        "slice; the response hint remains Jev's advisory judgment. "
+        "Retrieve is a synonym for retrieve_pack and identifies a family pack only; "
+        "no retrieval or reasoner runs.",
         responses={
             200: {
                 "description": "Valid silence or family-pack decision.",
@@ -90,6 +94,8 @@ def create_app(*, client=_DEFAULT) -> FastAPI:
                                 "value": {
                                     "revision": 1,
                                     "outcome": "silence",
+                                    "reasons": ["mode_neither"],
+                                    "request_id": "ca4019a84c914606af6d4ec27204b950",
                                     "pack": None,
                                     "mode_hint": "neither",
                                     "mode_hint_advisory": True,
@@ -100,6 +106,8 @@ def create_app(*, client=_DEFAULT) -> FastAPI:
                                 "value": {
                                     "revision": 1,
                                     "outcome": "retrieve",
+                                    "reasons": ["gate_passed"],
+                                    "request_id": "237caaade2ac4741a5ea8cba427e0eab",
                                     "pack": "other",
                                     "mode_hint": "rounds",
                                     "mode_hint_advisory": True,
@@ -130,12 +138,33 @@ def create_app(*, client=_DEFAULT) -> FastAPI:
             },
         },
     )
-    async def gate(state: EncounterState):
+    async def gate(request: JevGateRequest):
+        request_id = uuid4().hex
+        # Metadata never reaches the adapter or TypeSafe and cannot control mode.
+        state = EncounterState(
+            session_id=request.session_id,
+            revision=request.revision,
+            transcript=request.transcript,
+        )
         try:
             if app.state.startup_reason:
                 raise GateUnavailable(app.state.startup_reason)
-            return await app.state.jev_gate.gate(state)
+            decision = await app.state.jev_gate.gate(state)
+            return decision.model_dump() | {"request_id": request_id}
         except GateUnavailable as error:
             return JSONResponse(status_code=503, content={"reason": error.reason})
 
+    generate_openapi = app.openapi
+
+    def openapi_with_null_pack():
+        document = generate_openapi()
+        # FastAPI excludes None while serializing OpenAPI examples. Restore the
+        # required null in the generated/cached document, not just the source.
+        success = document["paths"]["/v1/gate"]["post"]["responses"]["200"]
+        success["content"]["application/json"]["examples"]["silence"]["value"][
+            "pack"
+        ] = None
+        return document
+
+    app.openapi = openapi_with_null_pack
     return app

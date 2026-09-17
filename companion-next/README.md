@@ -66,10 +66,25 @@ and [Python SDK docs](https://docs.typesafe.ai/sdk/python.md).
 
 ## Gate-only API
 
-`POST /v1/gate` accepts the same `EncounterState` request as assess. It asks two
-Nouls (`decision_shaped`, `enough_evidence`) and two Choices (`mode_hint`, `family`)
-in one `system_one` call over the same complete encounter state. All questions
-are independent; transcript content is data, not overriding instructions.
+`POST /v1/gate` accepts a gate-specific request retaining the required
+`session_id`, positive integer `revision`, and nonblank `transcript`:
+
+```json
+{"session_id":"synthetic-demo","revision":1,"transcript":"Synthetic simulation: review a concrete concern with an observed change.","faculty_id":"synthetic-faculty","mode_hint":"emergency"}
+```
+
+`faculty_id` is an optional string and `mode_hint` is optionally `emergency`,
+`rounds`, or `neither`; both may be omitted or null. Both are inert metadata:
+`faculty_id` establishes no faculty authority or approval, and client `mode_hint`
+is accepted but unused in this slice. Neither controls mode. Only the original
+three encounter fields reach the adapter and TypeSafe. Extra fields, including
+a client-supplied `request_id`, are rejected. `/v1/assess` continues to accept only
+the original `EncounterState` and rejects these metadata fields.
+
+The gate asks two Nouls (`decision_shaped`, `enough_evidence`) and two Choices
+(`mode_hint`, `family`) in one `system_one` call over the complete original
+encounter state. All questions are independent; transcript content is data,
+not overriding instructions.
 
 Criteria and thresholds are **synthetic, unvalidated engineering fixtures, not
 faculty-approved**. Python returns `retrieve` only when both Nouls are at least
@@ -77,20 +92,46 @@ faculty-approved**. Python returns `retrieve` only when both Nouls are at least
 and each selected Choice label is its distribution's unique maximum. Thresholds
 are inclusive; there is no averaging or compensation. `other` is an eligible
 family pack, not a disease or automatic abstention. Mode hints are advisory only;
-Python retains mode ownership. No mode transition or faculty lock is changed.
+Python retains mode ownership. The response `mode_hint` remains Jev's advisory
+judgment, independently of any client hint. No mode transition or faculty lock
+is changed.
 
 Both valid outcomes are HTTP 200:
 
 ```json
-{"revision":1,"outcome":"silence","pack":null,"mode_hint":"neither","mode_hint_advisory":true,"latency_ms":25.0}
+{"revision":1,"outcome":"silence","pack":null,"mode_hint":"neither","mode_hint_advisory":true,"latency_ms":25.0,"reasons":["mode_neither"],"request_id":"ca4019a84c914606af6d4ec27204b950"}
 ```
 
 ```json
-{"revision":1,"outcome":"retrieve","pack":"other","mode_hint":"rounds","mode_hint_advisory":true,"latency_ms":25.0}
+{"revision":1,"outcome":"retrieve","pack":"other","mode_hint":"rounds","mode_hint_advisory":true,"latency_ms":25.0,"reasons":["gate_passed"],"request_id":"237caaade2ac4741a5ea8cba427e0eab"}
 ```
 
-Families are `airway`, `circulation`, `metabolic`, and `other`. Retrieve identifies
-only a family pack; it performs no retrieval or reasoner call. Silence means a
+Every valid gate request gets a fresh server-generated opaque `request_id`
+(random UUID hex), included in either 200 outcome. Repeating an identical request
+gets a distinct ID; this is a per-request identifier, not a session ID, authority
+claim, or idempotency key. It is not sent to TypeSafe. Error bodies remain unchanged
+and contain no request ID.
+
+`reasons` is required and nonempty. Python emits only bounded policy codes, never
+model-generated explanations. Retrieve has exactly `["gate_passed"]`. Silence
+includes every applicable failure code in the following fixed order:
+
+| Code | Meaning |
+| --- | --- |
+| `decision_shaped_below_threshold` | Decision-shaped Noul is below 0.80. |
+| `insufficient_evidence` | Enough-evidence Noul is below 0.80. |
+| `mode_neither` | Jev selected `neither`. |
+| `mode_confidence_below_threshold` | Mode Choice confidence is below 0.70. |
+| `family_confidence_below_threshold` | Family Choice confidence is below 0.70. |
+| `mode_tied` | Selected mode shares the maximum probability. |
+| `family_tied` | Selected family shares the maximum probability. |
+
+`gate_passed` means all existing policy predicates passed; it is not clinical
+validation. Multiple failures do not short-circuit reason collection.
+
+Families are `airway`, `circulation`, `metabolic`, and `other`. The wire outcome
+`retrieve` is the documented synonym for `retrieve_pack`. It identifies only a
+family pack; it performs no retrieval or reasoner call. Silence means a
 valid policy failure or uncertainty, including tied Choice maxima. No numeric
 judgments, diagnostic fields, or free-text explanation appear in the response.
 
@@ -112,7 +153,9 @@ remains required; gate calls do not load or use the catalog.
 Its selected IDs are not clinical truth. Synthetic-only use is an operational
 restriction: `EncounterState` does not prove submitted text is synthetic.
 Offline tests establish interface and policy behavior, not clinical accuracy.
-No hosted validation was performed for slice 2. Verify, reasoning, retrieval,
+No hosted validation was performed for slice 2. The contract correction is
+validated offline with injected failures; live 503 behavior remains unvalidated.
+Verify, reasoning, retrieval,
 shadow evaluation, faculty criteria, HUD, and convergence require later slices.
 
 ## Scope and evidence

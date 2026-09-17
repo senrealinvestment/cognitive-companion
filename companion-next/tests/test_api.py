@@ -1,9 +1,11 @@
 import pytest
 from fastapi.testclient import TestClient
+from pydantic import TypeAdapter
 
 from cognitive_companion.adapters.grok import GrokStandinAdapter
 from cognitive_companion.adapters.literature import NullLiteratureAdapter
 from cognitive_companion.api import create_app
+from cognitive_companion.contracts import EncounterState, JevGate
 
 from .failure_cases import INVALID_RESPONSES, SENTINEL, SERVICE_FAILURES
 from .fakes import FakeSDK, answer, gate_response, response
@@ -144,12 +146,18 @@ def test_gate_success_isolated(decision, outcome, monkeypatch):
     assert set(data) == {
         "revision",
         "outcome",
+        "reasons",
+        "request_id",
         "pack",
         "mode_hint",
         "mode_hint_advisory",
         "latency_ms",
     }
     assert data["outcome"] == outcome
+    assert data["reasons"] == [
+        "gate_passed" if outcome == "retrieve" else "decision_shaped_below_threshold"
+    ]
+    assert isinstance(data["request_id"], str) and data["request_id"].strip()
     assert data["pack"] == ("other" if outcome == "retrieve" else None)
     assert len(sdk.calls) == 1
     assert sdk.closed
@@ -191,6 +199,9 @@ def test_gate_invalid_input(changes):
     with TestClient(create_app(client=sdk)) as client:
         result = client.post("/v1/gate", json=payload() | changes)
     assert result.status_code == 422
+    with TestClient(create_app(client=FakeSDK())) as client:
+        assess_error = client.post("/v1/assess", json=payload() | changes)
+    assert result.json() == assess_error.json()
     assert not sdk.calls
 
 
@@ -248,6 +259,21 @@ def test_gate_openapi():
     assert set(responses) == {"200", "422", "503"}
     success = responses["200"]["content"]["application/json"]
     assert set(success["examples"]) == {"silence", "retrieve"}
+    silence_example = success["examples"]["silence"]["value"]
+    assert "pack" in silence_example and silence_example["pack"] is None
+    for example in success["examples"].values():
+        TypeAdapter(JevGate).validate_python(example["value"])
+    request = operation["requestBody"]["content"]["application/json"]["schema"]
+    assert request["$ref"].endswith("JevGateRequest")
+    request_schema = document["components"]["schemas"]["JevGateRequest"]
+    assert set(request_schema["required"]) == {"session_id", "revision", "transcript"}
+    assert set(request_schema["properties"]) == {
+        "session_id",
+        "revision",
+        "transcript",
+        "faculty_id",
+        "mode_hint",
+    }
     assert success["schema"]["discriminator"]["propertyName"] == "outcome"
     assert len(success["schema"]["oneOf"]) == 2
     error = responses["503"]["content"]["application/json"]["schema"]
@@ -264,6 +290,8 @@ def test_gate_openapi():
     fields = {
         "revision",
         "outcome",
+        "reasons",
+        "request_id",
         "pack",
         "mode_hint",
         "mode_hint_advisory",
@@ -303,3 +331,110 @@ def test_gate_and_assess_share_one_client(monkeypatch):
     assert len(opened) == 1
     assert len(sdk.calls) == 2
     assert sdk.closes == 1
+
+
+@pytest.mark.parametrize("decision", [0.9, 0.5])
+@pytest.mark.parametrize("mode_hint", [None, "emergency", "rounds", "neither"])
+@pytest.mark.parametrize("faculty_id", [None, "claimed-faculty"])
+def test_gate_metadata_is_inert_and_ids_are_fresh(
+    decision, mode_hint, faculty_id, monkeypatch
+):
+    from cognitive_companion.adapters.jev_gate import JevGateAdapter
+
+    original_gate = JevGateAdapter.gate
+    adapter_states = []
+
+    async def gate(adapter, state):
+        assert type(state) is EncounterState
+        adapter_states.append(state.model_dump())
+        return await original_gate(adapter, state)
+
+    monkeypatch.setattr(JevGateAdapter, "gate", gate)
+    sdk = FakeSDK(gate_response(decision=decision))
+    metadata = {"faculty_id": faculty_id, "mode_hint": mode_hint}
+    with TestClient(create_app(client=sdk)) as client:
+        responses = [
+            client.post("/v1/gate", json=body)
+            for body in (payload(), payload() | metadata, payload() | metadata)
+        ]
+    assert all(result.status_code == 200 for result in responses)
+    bodies = [result.json() for result in responses]
+    ids = [body["request_id"] for body in bodies]
+    assert all(isinstance(value, str) and value.strip() for value in ids)
+    assert len(set(ids)) == 3
+    decisions = [
+        {
+            key: value
+            for key, value in body.items()
+            if key not in ("request_id", "latency_ms")
+        }
+        for body in bodies
+    ]
+    assert decisions[0] == decisions[1] == decisions[2]
+    assert decisions[0]["mode_hint"] == "rounds"
+    assert adapter_states == [payload()] * 3
+    assert [call["state"] for call in sdk.calls] == [payload()] * 3
+
+
+@pytest.mark.parametrize(
+    "metadata", [{"faculty_id": "claimed-faculty"}, {"mode_hint": "rounds"}]
+)
+def test_assess_still_rejects_gate_metadata(metadata):
+    sdk = FakeSDK()
+    with TestClient(create_app(client=sdk)) as client:
+        result = client.post("/v1/assess", json=payload() | metadata)
+    key, value = next(iter(metadata.items()))
+    assert result.status_code == 422
+    assert result.json() == {
+        "detail": [
+            {
+                "type": "extra_forbidden",
+                "loc": ["body", key],
+                "msg": "Extra inputs are not permitted",
+                "input": value,
+            }
+        ]
+    }
+    assert not sdk.calls
+
+
+@pytest.mark.parametrize(
+    "metadata,error",
+    [
+        (
+            {"faculty_id": 123},
+            {
+                "type": "string_type",
+                "loc": ["body", "faculty_id"],
+                "msg": "Input should be a valid string",
+                "input": 123,
+            },
+        ),
+        (
+            {"mode_hint": "invalid"},
+            {
+                "type": "literal_error",
+                "loc": ["body", "mode_hint"],
+                "msg": "Input should be 'emergency', 'rounds' or 'neither'",
+                "input": "invalid",
+                "ctx": {"expected": "'emergency', 'rounds' or 'neither'"},
+            },
+        ),
+        (
+            {"request_id": "client-id"},
+            {
+                "type": "extra_forbidden",
+                "loc": ["body", "request_id"],
+                "msg": "Extra inputs are not permitted",
+                "input": "client-id",
+            },
+        ),
+    ],
+)
+def test_gate_invalid_metadata_exact_error(metadata, error):
+    sdk = FakeSDK()
+    with TestClient(create_app(client=sdk)) as client:
+        result = client.post("/v1/gate", json=payload() | metadata)
+    assert result.status_code == 422
+    assert result.json() == {"detail": [error]}
+    assert not sdk.calls

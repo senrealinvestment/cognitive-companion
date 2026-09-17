@@ -37,6 +37,7 @@ async def test_retrieve_and_request(mode, family):
     ticks = iter([12.0, 12.025])
     result = await JevGateAdapter(sdk, clock=lambda: next(ticks)).gate(STATE)
     assert result.outcome == "retrieve"
+    assert result.reasons == ["gate_passed"]
     assert result.pack == family
     assert result.mode_hint == mode
     assert result.mode_hint_advisory is True
@@ -94,21 +95,36 @@ def test_exact_boundaries(field, threshold, direction):
     gate = decide_gate(STATE, judgments(result), latency_ms=0)
     assert gate.outcome == ("silence" if direction < 0 else "retrieve")
     assert gate.pack == (None if direction < 0 else "other")
+    codes = {
+        "decision_shaped": "decision_shaped_below_threshold",
+        "enough_evidence": "insufficient_evidence",
+        "mode_hint": "mode_confidence_below_threshold",
+        "family": "family_confidence_below_threshold",
+    }
+    assert gate.reasons == [codes[field] if direction < 0 else "gate_passed"]
 
 
 @pytest.mark.parametrize(
-    "changes",
+    "changes,reasons",
     [
-        {"mode": "neither"},
-        {"decision": 0.5},
-        {"evidence": 0.5},
-        {"decision": 0, "evidence": 0, "mode": "neither"},
+        ({"mode": "neither"}, ["mode_neither"]),
+        ({"decision": 0.5}, ["decision_shaped_below_threshold"]),
+        ({"evidence": 0.5}, ["insufficient_evidence"]),
+        (
+            {"decision": 0, "evidence": 0, "mode": "neither"},
+            [
+                "decision_shaped_below_threshold",
+                "insufficient_evidence",
+                "mode_neither",
+            ],
+        ),
     ],
 )
-def test_silence(changes):
+def test_silence(changes, reasons):
     result = decide_gate(STATE, judgments(gate_response(**changes)), latency_ms=0)
     assert result.outcome == "silence"
     assert result.pack is None
+    assert result.reasons == reasons
 
 
 @pytest.mark.parametrize("field", ["mode_hint", "family"])
@@ -119,7 +135,9 @@ def test_ties_are_valid_silence(field):
     choice.probabilities = {
         k: 0.5 if k in (other, choice.choice) else 0 for k in choice.probabilities
     }
-    assert decide_gate(STATE, judgments(result), latency_ms=0).outcome == "silence"
+    decision = decide_gate(STATE, judgments(result), latency_ms=0)
+    assert decision.outcome == "silence"
+    assert decision.reasons == ["mode_tied" if field == "mode_hint" else "family_tied"]
 
 
 def malformed_responses():
@@ -252,6 +270,12 @@ def test_immutable_and_copied():
 @pytest.mark.parametrize(
     "changes",
     [
+        {"reasons": []},
+        {"reasons": ["model-generated explanation"]},
+        {"reasons": ["gate_passed"]},
+        {"request_id": ""},
+        {"request_id": " "},
+        {"request_id": None},
         {"pack": "airway"},
         {"extra": True},
         {"latency_ms": float("nan")},
@@ -268,6 +292,8 @@ def test_public_contract_rejects(changes):
         "mode_hint": "rounds",
         "mode_hint_advisory": True,
         "latency_ms": 0,
+        "reasons": ["insufficient_evidence"],
+        "request_id": "server-generated-test-id",
     }
     with pytest.raises(ValidationError):
         TypeAdapter(JevGate).validate_python(data | changes)
@@ -276,7 +302,16 @@ def test_public_contract_rejects(changes):
 @pytest.mark.parametrize("outcome", ["silence", "retrieve"])
 @pytest.mark.parametrize(
     "field",
-    ["revision", "outcome", "pack", "mode_hint", "mode_hint_advisory", "latency_ms"],
+    [
+        "revision",
+        "outcome",
+        "pack",
+        "mode_hint",
+        "mode_hint_advisory",
+        "latency_ms",
+        "reasons",
+        "request_id",
+    ],
 )
 def test_all_public_fields_required(outcome, field):
     data = {
@@ -287,6 +322,11 @@ def test_all_public_fields_required(outcome, field):
         "mode_hint_advisory": True,
         "latency_ms": 0,
     }
+    data["reasons"] = [
+        "gate_passed" if outcome == "retrieve" else "insufficient_evidence"
+    ]
+    data["request_id"] = "server-generated-test-id"
+    TypeAdapter(JevGate).validate_python(data)
     del data[field]
     with pytest.raises(ValidationError):
         TypeAdapter(JevGate).validate_python(data)
@@ -350,3 +390,36 @@ async def test_sdk_wrong_primitive(field):
     )
     with pytest.raises(GateUnavailable, match="invalid_response"):
         await JevGateAdapter(FakeSDK(result)).gate(STATE)
+
+
+def test_all_failures_reported_in_policy_order():
+    raw = gate_response(decision=0, evidence=0, mode="neither")
+    for choice in raw.choices.values():
+        choice.confidence = 0.1
+        other = next(k for k in choice.probabilities if k != choice.choice)
+        choice.probabilities = {
+            k: 0.5 if k in (other, choice.choice) else 0 for k in choice.probabilities
+        }
+    decision = decide_gate(STATE, judgments(raw), latency_ms=0)
+    assert decision.outcome == "silence"
+    assert decision.reasons == [
+        "decision_shaped_below_threshold",
+        "insufficient_evidence",
+        "mode_neither",
+        "mode_confidence_below_threshold",
+        "family_confidence_below_threshold",
+        "mode_tied",
+        "family_tied",
+    ]
+
+
+@pytest.mark.parametrize(
+    "reasons",
+    [[], ["insufficient_evidence"], ["explanation"], ["gate_passed", "gate_passed"]],
+)
+def test_retrieve_reason_contract(reasons):
+    decision = decide_gate(STATE, judgments(), latency_ms=0)
+    data = decision.model_dump() | {"request_id": "test-id"}
+    TypeAdapter(JevGate).validate_python(data)
+    with pytest.raises(ValidationError):
+        TypeAdapter(JevGate).validate_python(data | {"reasons": reasons})
