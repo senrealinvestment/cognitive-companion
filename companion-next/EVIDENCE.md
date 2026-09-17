@@ -15,3 +15,6 @@ TDD checkpoints (commands from companion-next with .tool-venv/bin/uv):
   module; GREEN 12 passed after frozen JSON and digest-checked loader.
   Source: parent architecture plan Task 1.2. No review provenance supplied;
   catalog acceptance remains blocked pending review evidence.
+- Contracts: run pytest tests/test_contracts.py — RED missing contracts module;
+  GREEN 36 passed. Includes strict numerics, unchanged near-boundary mass, defensive
+  copy and nested mutation rejection.
