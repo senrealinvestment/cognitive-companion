@@ -18,3 +18,6 @@ TDD checkpoints (commands from companion-next with .tool-venv/bin/uv):
 - Contracts: run pytest tests/test_contracts.py — RED missing contracts module;
   GREEN 36 passed. Includes strict numerics, unchanged near-boundary mass, defensive
   copy and nested mutation rejection.
+- SDK adapter: run pytest tests/test_jev_adapter.py — RED missing adapter module;
+  GREEN 1 passed. Typed Choice, exact criteria, question/model, request revision,
+  preserved probabilities/confidence, zero retries and monotonic latency verified.
