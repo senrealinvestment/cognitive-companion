@@ -32,3 +32,7 @@ TDD checkpoints (commands from companion-next with .tool-venv/bin/uv):
   Three synthetic fixtures and complete failure matrix exercised in-process with
   fake SDK, including abstention success, strict 422, sanitized 503, OpenAPI
   response contract and unused-lane tripwires. Injected clients close on lifespan.
+- Runtime: run pytest tests/test_runtime.py — RED missing runtime module;
+  GREEN 10 passed (49 with API regression). Fixed external credential source,
+  mode check, missing/invalid preflight without client creation, explicit endpoint,
+  zero retries, bounded timeout and lifecycle closure verified.
