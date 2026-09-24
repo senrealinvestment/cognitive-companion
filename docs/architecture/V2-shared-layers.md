@@ -137,7 +137,7 @@ Salience · category · escalate · action/urgency — all **local** (Laya on H1
 Only if/when **enterprise BAA** secured. **No verified public self-serve API** (enterprise/Epic integrations). Dashed fallback in diagram.
 
 ### Still clinician opt-in
-Wake word / button; never auto; soft glyph from System One. **Wake phrase (placeholder, 2026-09-24): "Hey Dr. Bellomo"**. A multi-word phrase like this is less likely to fire by accident on normal room talk. It needs a custom-trained model, because no off-the-shelf model knows this phrase. Before any public or commercial use, confirm it is acceptable to use a real clinician's name. Latency local deep: **estimate 5–30 s** depending on retrieval+gen (**labeled estimate**). Output: panel+citations primary; optional MedGemma one-liner + wording check.
+Wake word / button; never auto; soft glyph from System One. **Wake phrase (placeholder, 2026-09-24): "Hey Dr. Bellomo"**. A multi-word phrase like this is less likely to fire by accident on normal room talk. It needs a custom-trained model, because no off-the-shelf model knows this phrase. The name honors Prof. Rinaldo Bellomo AO, the intensive care researcher who died on 6 May 2025. Before any public or commercial use, get permission from his family or estate so the phrase doesn't imply an endorsement. Latency local deep: **estimate 5–30 s** depending on retrieval+gen (**labeled estimate**). Output: panel+citations primary; optional MedGemma one-liner + wording check.
 
 ---
 
@@ -168,7 +168,7 @@ Unchanged: MedGemma (+4B draft option) · local antibiogram · gate+wording chec
 - Local research LLM pick (72B vs 671B MoE tradeoff)  
 - Corpus rights (PMC OA + guidelines) + E-utilities policy  
 - OE enterprise BAA pursue or defer  
-- Wake-word engine (placeholder phrase: "Hey Dr. Bellomo"; custom model needed; check name use before shipping)  
+- Wake-word engine (placeholder phrase: "Hey Dr. Bellomo"; custom model needed; tribute to the late Prof. Bellomo; get family/estate permission before shipping)  
 - Gold nudge authors / sim consent  
 
 ---
