@@ -41,10 +41,23 @@ Details and scorecard: [ONEPAGER.md](ONEPAGER.md).
 | [ONEPAGER.md](ONEPAGER.md) | Product brief, MVP, safety, hardware scorecard |
 | [FUNDING.md](FUNDING.md) | Funding map: institutional → NIH/AHRQ → SBIR → ARPA-H |
 | [VCU-ANESTHESIOLOGY-FUNDS-REQUEST.md](VCU-ANESTHESIOLOGY-FUNDS-REQUEST.md) | Internal funds request — VCU Dept of Anesthesiology |
-| [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Interactive dark architecture diagram |
+| [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Interactive dark architecture diagram (V2: dual speech · Jev core · no cards) |
 | [assets/crisis-mirror-architecture.png](assets/crisis-mirror-architecture.png) | Architecture diagram (PNG) |
 | [crisis-mirror-flow.excalidraw](crisis-mirror-flow.excalidraw) | Editable flow (open on [excalidraw.com](https://excalidraw.com)) |
 | [assets/original-sketch.jpg](assets/original-sketch.jpg) | Original whiteboard sketch (historical) |
+
+
+## V2 architecture notes (speech A/B · Jev core)
+
+V2 **supersedes the V1 local protocol-card / pocket-binder cue layer**. Cue decisions come from **Jev** (Noul / Choice category / Score); the clinician-visible HUD string is a thin category→display-label map (proposal) or another explicit alternative — see open questions in the shared note. Only the on-device speech stack is A/B’d.
+
+| File | Description |
+|------|-------------|
+| [docs/architecture/V2-shared-layers.md](docs/architecture/V2-shared-layers.md) | Shared post-speech path (identical for A/B): ASR flywheel, Jev, gate, evidence escalation, labels |
+| [docs/architecture/V2A-nvidia-speech.md](docs/architecture/V2A-nvidia-speech.md) | Parakeet-TDT + Nemotron-3 Diarization |
+| [docs/architecture/V2B-google-speech.md](docs/architecture/V2B-google-speech.md) | MedASR + open-weight diarization options |
+| [docs/architecture/V2-speech-comparison.md](docs/architecture/V2-speech-comparison.md) | Side-by-side table + recommended V2B diarization |
+| [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Diagram: dual speech lanes → Jev → gate → HUD (no card boxes) |
 
 ## Status
 
