@@ -12,3 +12,8 @@ Mics → Parakeet + Nemotron-3 → de-ID → **NanoJev (Laya fallback)** (a–d)
 
 ## Open decisions
 Speech compute on laptop/Mac; v2 vs v3; CUDA for NanoJev vs Laya fallback on Apple-only; Choice hierarchy if vocab >255.
+
+## See also (shared, identical)
+
+- Fine-tune tracks T1/T2/T3 + data platform: [`V2-shared-layers.md`](./V2-shared-layers.md) § WORKSTREAM A
+- Deep research clinician opt-in (never auto-fire): same file § WORKSTREAM B

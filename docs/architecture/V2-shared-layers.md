@@ -105,3 +105,127 @@ Safety gate: thresholds on **local** System One probs (calibrate on our labels) 
 - https://jevlist.ai/projects/nanojev  
 - https://huggingface.co/convaiinnovations/laya · https://pypi.org/project/laya-serve/ · https://pypi.org/project/laya-mlx/  
 - https://openjev.sh/docs/advanced (Choice ≤255 API shape)
+
+
+---
+
+## WORKSTREAM A — Three fine-tune tracks (shared data platform)
+
+**Correction (write plainly):** **KER, noise/overlap augmentation, and audio de-ID are speech-layer concerns.** MedGemma is **text (+ optional image)** and **never hears audio**. Do not feed wavs into MedGemma training. Structure **three separate tracks** that share one data platform (consent, de-ID, versioning, registry).
+
+### Shared data platform (all tracks)
+
+| Item | Rule |
+|------|------|
+| Source | Thousands of hours **sim-lab** crisis + edge-case sessions + ongoing helpful/accurate labels |
+| De-ID | Strip staff names / free-text identifiers from transcripts; voice consent for sim recordings (no patients in Phase 1, but **staff PHI-adjacent**) |
+| Rights | Sim-center ownership; if **VCU** sim lab → **institutional approval**. Known constraint: **VCU will not allow institutional systems connected to Grok Bot** — training pipelines run on approved institutional/edge compute, not this agent |
+| Versioning | Dataset revisions (e.g. DVC / HF dataset revisions); immutable held-out eval sets **never trained on** |
+| Registry | Semver per adapter/checkpoint; pinned manifests; canary in sim; **one-click rollback**; **no bedside self-updates** |
+
+### Track T1 — ASR fine-tune (ONLY speech difference V2A vs V2B)
+
+| | V2A | V2B |
+|--|-----|-----|
+| Base | Parakeet-TDT 0.6B | MedASR 105M |
+| Manifests | NeMo JSONL | HF `datasets` |
+| Supervised pairs | Audio + **corrected** transcripts | same |
+| Augmentation | ICU alarm/noise mix, overlap/cross-talk, RIR, SNR sweeps | same toolkit, different trainer |
+| Method | LoRA / NeMo PEFT + **replay** of general speech | PEFT/SFT + replay |
+| Eval gate | **KER** (crisis-term lexicon) + WER + diarization **DER** | same metrics |
+
+### Track T2 — MedGemma fine-tune (text nudges; identical for V2A/V2B)
+
+**Base selection (verify current HAI-DEF line):**
+
+| Variant | Use | Memory (**estimates**) |
+|---------|-----|------------------------|
+| **MedGemma 1.5 / 1 4B-IT multimodal** (text path) | **Recommended** for laptop/small Mac + quantization (Q4 ~2.3–2.5 GB weights; often 3–5 GB RAM) | edge default |
+| MedGemma 27B text-IT / multimodal | Only if workstation/GPU allows | ~ tens of GB — not phone |
+
+License: **HAI-DEF Terms** ([card](https://developers.google.com/health-ai-developer-foundations/medgemma/model-card)). Camera-free product → train/eval on **text**; ignore vision unless Phase 2 changes.
+
+**Supervised mapping (important):**  
+`(de-ID state summary + NanoJev category/urgency + tool context) → target nudge text`  
+Target nudges are **written/approved by clinicians**. **Raw transcripts are not supervised targets.**
+
+**Augment:** helpful/accurate labels → preference pairs (optional **DPO** later); synthetic scenarios with clinician review.
+
+**Recipe (starting points — tune empirically):** LoRA/QLoRA via PEFT/TRL, or **MLX-LM LoRA** on Apple Silicon. Example starting ranges (labeled as starting points): rank 8–64, α 16–64, lr ~1e-4–2e-4, 1–3 epochs, seq len fit to nudge+context, bf16/q4 as hardware allows.
+
+**Eval gates (all must pass to promote):**
+1. Nudge accuracy vs clinician reference set  
+2. Advisory phrasing + length compliance (≤8 words or chosen limit)  
+3. Hallucination / unsupported-claim rate  
+4. **Dosing-order refusal**  
+5. Latency on target laptop/Mac  
+6. **Regression** on general medical bench (e.g. MedQA subset) — detect catastrophic forgetting  
+
+**Replay:** mix general medical instruction data + prior-version data each cycle.
+
+### Track T3 — NanoJev decision-model fine-tune (identical for V2A/V2B)
+
+Typed outputs only (choice/boolean/score). Train offline on labeled routing decisions. Eval: accuracy + **calibration (ECE / reliability)** on held-out labels. Replay buffer; version pin; MIT + Qwen license review. Choice still **2–255** per call — hierarchy if vocab larger.
+
+---
+
+## WORKSTREAM B — Deep research = clinician opt-in (never auto-fires)
+
+**Hard rule:** OpenEvidence-class deep research **NEVER auto-fires.**  
+NanoJev may raise a **soft suggestion** (“may benefit from external evidence”). The **cloud call happens only** when the clinician:
+
+1. Speaks a **wake word**, or  
+2. Presses a **button** (glasses touch / phone / Mac).
+
+### Suggestion UX (non-intrusive)
+- Small HUD **glyph/icon** (not a full cue)  
+- No tone, or soft distinct tone  
+- Auto-expires after **N** seconds  
+- Rate-limited  
+- **Never interrupts** an active advisory cue  
+
+### Wake-word / trigger options (verify licenses)
+
+| Option | License / notes | Fit |
+|--------|-----------------|-----|
+| **openWakeWord** | Code **Apache-2.0**; bundled pretrained models often **CC BY-NC-SA 4.0** → train/own custom models for commercial clinical use | Strong OSS path if we train custom wake head |
+| **Porcupine (Picovoice)** | Repo Apache-2.0; **AccessKey** + commercial terms for production | Accurate; enterprise licensing |
+| **sherpa-onnx KWS** | Runtime Apache-2.0; **audit each model weight license** | On-device ONNX |
+| **Apple on-device** | Speech framework / custom; Apple Silicon friendly | Mac/iPad path |
+| **Reuse ASR + NanoJev intent** | No separate KWS; detect phrase in transcript / noul “user requested evidence?” | Simpler ops; more latency/false triggers in noise |
+
+**False activation in noisy ICU:** high threshold, confirm UI, button always available as fallback, ignore wake during active critical cue window.
+
+### What’s sent
+De-ID query composed from recent context; **show composed query to clinician before send** (recommended). Audit log every send.
+
+### Latency / delivery
+Expect **delayed** path (proposal **10–60 s** — **OpenEvidence typical API latency unverified**; no public self-serve API found). Delivery: HUD “evidence ready” → open **phone/Mac panel**. **Not** read aloud mid-crisis unless requested.
+
+### OpenEvidence status (sources)
+- HIPAA / BAA for covered entities: [security](https://www.openevidence.com/security), [HIPAA announce](https://www.openevidence.com/announcements/openevidence-is-now-hipaa-compliant)  
+- Access pattern 2026: **enterprise / Epic workflow integrations** (e.g. UTMB, Mount Sinai, Cedars, NM Epic notes) — **no verified public self-serve developer API**  
+- Alternatives if no OE API: other cited-answer APIs with BAA; private literature RAG under institutional BAA  
+
+### Output handling
+| | Mode | Recommendation |
+|--|------|----------------|
+| **(a)** | Full evidence + citations on phone/Mac panel | **Primary** |
+| **(b)** | Optional MedGemma one-line HUD summary + citation link | Optional; **safety output check** + **preserve citations** |
+
+### Reconciliation
+Fast-path nudge remains; deep result **augments** later (does not silently overwrite without clinician notice). Deduplicate / rate-limit interplay.
+
+### Privacy
+**BAA required** for cloud research model; de-ID before send; full audit.
+
+---
+
+## Additional open questions (from these workstreams)
+
+- Which MedGemma variant for Phase 1 (4B-IT quantized vs 27B)?  
+- Wake-word engine choice (+ custom model training if openWakeWord NC weights)?  
+- OpenEvidence enterprise API + institutional BAA path vs alternative?  
+- Data rights/consent for sim audio (VCU approval; not via Grok Bot)?  
+- Who writes/approves target nudge gold set?  
+- Training compute: local Mac MLX vs cloud GPU (if data leaves device → de-ID + agreements)?  

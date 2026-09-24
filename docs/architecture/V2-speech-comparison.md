@@ -18,3 +18,6 @@ Cloud = deep research only. No protocol cards. No continuous cloud decision stre
 
 ## Caveat
 0.6B does **not** lift the 255 Choice cap — hierarchical routing still required above cap ([HF NanoJev](https://huggingface.co/C-Tianyu/NanoJev)).
+
+## Shared workstreams (identical)
+Three fine-tune tracks (ASR differs A/B; MedGemma + NanoJev shared). Deep research = clinician wake-word/button opt-in only — see shared-layers WORKSTREAM A/B.
