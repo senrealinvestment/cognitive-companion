@@ -49,15 +49,15 @@ Details and scorecard: [ONEPAGER.md](ONEPAGER.md).
 
 ## V2 architecture notes (speech A/B · Jev core)
 
-V2 **supersedes the V1 local protocol-card / pocket-binder cue layer**. Cue decisions come from **Jev** (Noul / Choice category / Score); the clinician-visible HUD string is a thin category→display-label map (proposal) or another explicit alternative — see open questions in the shared note. Only the on-device speech stack is A/B’d.
+V2 **supersedes the V1 protocol-card layer**. **Jev is a multi-point router** (salience · category · escalation · action/urgency) over a de-ID speech stream. **Local fast path:** MedGemma (or lighter Gemma) + domain sub-agents (e.g. ID + local antibiogram). **Deep path:** OpenEvidence-class, only when Jev escalates. Cue text: MedGemma generative (leading) or vetted category labels (fallback). Only the on-device speech stack is A/B’d. See critical flags in the shared note (continuous Jev streaming vs design rule; phone compute; etc.).
 
 | File | Description |
 |------|-------------|
-| [docs/architecture/V2-shared-layers.md](docs/architecture/V2-shared-layers.md) | Shared post-speech path (identical for A/B): ASR flywheel, Jev, gate, evidence escalation, labels |
+| [docs/architecture/V2-shared-layers.md](docs/architecture/V2-shared-layers.md) | Shared path: Jev multi-point router, MedGemma fast path, deep research, gate, labels, critical flags |
 | [docs/architecture/V2A-nvidia-speech.md](docs/architecture/V2A-nvidia-speech.md) | Parakeet-TDT + Nemotron-3 Diarization |
 | [docs/architecture/V2B-google-speech.md](docs/architecture/V2B-google-speech.md) | MedASR + open-weight diarization options |
 | [docs/architecture/V2-speech-comparison.md](docs/architecture/V2-speech-comparison.md) | Side-by-side table + recommended V2B diarization |
-| [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Diagram: dual speech lanes → Jev → gate → HUD (no card boxes) |
+| [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Diagram: dual speech → Jev router (a–d) → fast/deep → gate → HUD (no cards) |
 
 ## Status
 
