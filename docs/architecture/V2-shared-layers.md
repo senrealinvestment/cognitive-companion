@@ -2,7 +2,7 @@
 
 > **V2A and V2B are FULL STACKS** (NVIDIA Spark path vs Apple Mac path), not speech-only.  
 > This file is the **shared product spine**: SystemOneClient adapter, safety gate, labeling loop, clinician opt-in deep research, three fine-tune tracks, data platform.  
-> Hardware comparison: [`V2-hardware-options.md`](./V2-hardware-options.md) · Hybrid: [`V2-hybrid.md`](./V2-hybrid.md).
+> Hardware comparison: [`V2-hardware-options.md`](./V2-hardware-options.md) · Hybrid: [`V2-hybrid.md`](./V2-hybrid.md) · Local research LLMs: [`V2-local-medical-reasoning-models.md`](./V2-local-medical-reasoning-models.md).
 
 ---  
 > **No cloud Jev. No protocol cards.**  
@@ -196,3 +196,7 @@ Shared: sim consent, de-ID, DVC/HF versions, registry, rollback, no bedside self
 ## WORKSTREAM B (retained, updated) — Deep research opt-in
 
 Never auto-fires. Soft suggest → wake/button → **local RAG primary** (citations mandatory) → optional OE if BAA. Panel primary; optional MedGemma HUD one-liner + wording check.
+
+
+### Local medical reasoning model catalog
+See [`V2-local-medical-reasoning-models.md`](./V2-local-medical-reasoning-models.md) for verified benchmarks, licenses, memory fit (Spark/Mac), corrections to brief figures, and a suggested shortlist (MedGemma 27B baseline + one larger research model per profile).

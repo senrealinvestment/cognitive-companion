@@ -19,3 +19,6 @@ Mac and Spark **cannot pool memory**. ConnectX-7 linking is **Spark↔Spark only
 Want CUDA speech/train **and** Mac-scale RAG without forcing NanoJev onto MLX or NeMo onto Mac.
 
 Shared product layers remain identical ([`V2-shared-layers.md`](./V2-shared-layers.md)).
+
+## Local medical reasoning models
+Catalog (benchmarks, licenses, Spark/Mac fit, shortlist): [`V2-local-medical-reasoning-models.md`](./V2-local-medical-reasoning-models.md).

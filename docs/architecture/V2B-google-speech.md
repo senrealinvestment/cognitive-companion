@@ -18,3 +18,6 @@ Max memory for 27B + large RAG + research models; Laya without CUDA port. NeMo/N
 
 ## Thin clients
 Glasses/phone stream audio over **LAN** to Studio (sim OK; hospital IT for clinical).
+
+## Local medical reasoning models
+Catalog (benchmarks, licenses, Spark/Mac fit, shortlist): [`V2-local-medical-reasoning-models.md`](./V2-local-medical-reasoning-models.md).

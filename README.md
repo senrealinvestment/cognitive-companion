@@ -60,6 +60,7 @@ V2 **supersedes the V1 protocol-card layer** and **removes cloud Jev**. The Syst
 | [docs/architecture/V2-speech-comparison.md](docs/architecture/V2-speech-comparison.md) | Full-stack A/B comparison |
 | [docs/architecture/V2-hardware-options.md](docs/architecture/V2-hardware-options.md) | Mac Studio vs DGX Spark vs Hybrid |
 | [docs/architecture/V2-hybrid.md](docs/architecture/V2-hybrid.md) | Dual-box service split |
+| [docs/architecture/V2-local-medical-reasoning-models.md](docs/architecture/V2-local-medical-reasoning-models.md) | Local research LLM options + verified scores |
 | [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Diagram: dual speech → local System One (a–d) → fast/deep → gate → HUD (no cards, no cloud Jev) |
 
 ## Status

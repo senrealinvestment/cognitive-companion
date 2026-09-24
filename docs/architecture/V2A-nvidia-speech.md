@@ -21,3 +21,6 @@ Parakeet CC-BY-4.0; Nemotron-3 ~100M OpenMDW; chunked ASR.
 
 ## See also
 Shared gate, labeling, opt-in deep research, three fine-tune tracks, SystemOneClient.
+
+## Local medical reasoning models
+Catalog (benchmarks, licenses, Spark/Mac fit, shortlist): [`V2-local-medical-reasoning-models.md`](./V2-local-medical-reasoning-models.md).
