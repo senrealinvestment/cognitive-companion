@@ -62,7 +62,7 @@ Only if you truly pursue regulated bedside product
 ### B. Specialty / education societies (examples to watch)
 - ASA / SCA / SCCM / ASTS education or innovation awards  
 - Simulation societies (SSH and similar)  
-- Transplant / critical care foundation micro-grants  
+- Critical care foundation micro-grants (medical, surgical, transplant, neuro, cardiac)  
 
 These are often **$5k–$50k**, perfect for hardware + scenario pack + small study.
 
@@ -217,7 +217,7 @@ That’s fundable. “Replace intensivist judgment with glasses AI” is not.
 
 1. **Academic-only** vs **spin-out LLC** (SBIR door)?  
 2. First external ask: **society education grant** vs **institutional pilot** vs **FOA hunt with co-PI**?  
-3. Primary clinical story: **transplant ICU education** wedge vs **generic ICU cognitive forcing** (broader market, thinner novelty)?
+3. ~~Primary clinical story: transplant ICU education wedge vs generic ICU cognitive forcing?~~ **Decided 2026-09-24:** target all intensive care units (critical care broadly: medical, surgical, transplant, neuro, cardiac, and others). Still advisory only.
 
 ---
 

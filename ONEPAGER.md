@@ -39,7 +39,7 @@ Ambient **audio** from clinician smart glasses (or phone) feeds a local protocol
 
 ## Why no camera (design law)
 
-A face-worn camera in a transplant ICU is a **PHI + consent + culture** problem, not just a tech feature:
+A face-worn camera in any ICU is a **PHI + consent + culture** problem, not just a tech feature:
 
 - Patients, families, and staff in frame without clean consent
 - Harder IRB / compliance / “what is that recording?” optics

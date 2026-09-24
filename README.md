@@ -1,7 +1,7 @@
 # Crisis Mirror
 
 **Smart glasses ambient AI — cognitive companion for clinical medicine**  
-Real-time cue + cost/quality feedback loop for transplant ICU / critical care.
+Real-time advisory cue + cost/quality feedback loop for all intensive care units (medical, surgical, transplant, neuro, cardiac, and other critical care units). Advisory only; the clinician decides.
 
 ![Crisis Mirror Architecture](assets/crisis-mirror-architecture.png)
 

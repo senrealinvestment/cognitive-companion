@@ -27,7 +27,7 @@ I am requesting modest departmental support to build and test **Crisis Mirror** 
 | In crisis, learners freeze or fixate; attendings carry the cognitive load | Discrete **≤8-word HUD + tone** cues that force the next check (“consider vasoplegia vs bleed”) |
 | Generic sim debriefs are delayed and variable | Immediate, protocol-tied prompts + after-action **helpful / accurate** labels |
 | Wearable cameras are a PHI/culture non-starter | **No wearable camera by design** — Halo camera **hard-off**; audio + display only |
-| Transplant ICU excellence needs reproducible teaching of rare decompensations | Scenario pack starts with **liver reperfusion instability** and expandable ICU crises |
+| Critical care excellence across all ICUs (medical, surgical, transplant, neuro, cardiac) needs reproducible teaching of rare decompensations | Scenario pack covers cross-ICU crises (e.g., **liver reperfusion instability**, hemorrhage, airway, shock) and expands by unit |
 
 This aligns with departmental missions in **education, patient safety culture, and innovation**—with a path to society grants and later extramural funding once we have pilot data. Housing the pilot in the **departmental simulation lab under Dr. Kazior** keeps learner access, curriculum fit, and equipment stewardship inside Anesthesiology education.
 

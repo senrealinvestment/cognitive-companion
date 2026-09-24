@@ -4,6 +4,8 @@
 > This file is the **shared product spine**: SystemOneClient adapter, safety gate, labeling loop, clinician opt-in deep research, three fine-tune tracks, data platform.  
 > Hardware comparison: [`V2-hardware-options.md`](./V2-hardware-options.md) · Hybrid: [`V2-hybrid.md`](./V2-hybrid.md) · Local research LLMs: [`V2-local-medical-reasoning-models.md`](./V2-local-medical-reasoning-models.md).
 
+> **Target setting:** all intensive care units (critical care broadly: medical, surgical, transplant, neuro, cardiac, and other critical care units). Broadened from transplant ICU on 2026-09-24. **Advisory only:** cues suggest, the clinician decides; nothing here makes or executes clinical decisions.
+
 ---  
 > **No cloud Jev. No protocol cards.**  
 > **Hardware axis** is separate from speech axis.
