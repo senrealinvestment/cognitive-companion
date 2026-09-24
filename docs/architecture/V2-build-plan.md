@@ -11,7 +11,7 @@
 |----------|--------|-------|
 | Sim-only scope | **CONFIRMED** | Sergio approved, Sep 24 2026. No live-unit cues until consultant review. |
 | Cue-text default | **Recorded default (pending final confirmation)** | MedGemma plus wording gate; vetted labels as fallback. |
-| Gold-nudge authors and approvers | **OPEN** | Who writes and who approves is undecided. |
+| Gold-nudge authors and approvers | **DECIDED** | Sergio, Sep 24 2026: ICU physician panel (anesthesiology, surgical, and medical critical care) writes and approves. **Proposed:** ≥2 of 3 specialties sign off each nudge; disagreements logged and adjudicated. **Optional (pending Sergio):** ICU nursing, pharmacy, respiratory therapy reviewers. |
 | Hardware path | **OPEN** | V2A DGX Spark, V2B Mac Studio, or Hybrid (see Phases 1+). |
 
 ## Ownership
@@ -31,7 +31,7 @@
 
 **Goal:** Lean scaffolds: interface stubs, eval harness skeleton, dataset/consent specs, and sim scenarios. No model training and no hardware-dependent cue work.
 
-**Done when:** `SystemOneClient` contract drafted (`laya`/`nanojev` mapping to `/v1/systemone` or `/api/evaluate` :8765) for salience, category, escalate, action/urgency, mocks green; wording-gate stub (HUD ≤8 words, advisory refuse rules, research “no source means no claim”) with fixture tests; message types for the push cue path, deep research as a separate non-auto module; eval skeleton (T1 KER/WER/DER; T2 dosing-refusal, advisory phrasing, MedQA hooks; T3 ECE/routing; version registry + rollback); dataset and sim-consent specs (manikin/standardized participant; audio de-ID) and gold-nudge schema with no EHR/patient fields; 3–5 education-only scenarios.
+**Done when:** `SystemOneClient` contract drafted (`laya`/`nanojev` mapping to `/v1/systemone` or `/api/evaluate` :8765) for salience, category, escalate, action/urgency, mocks green; wording-gate stub (HUD ≤8 words, advisory refuse rules, research “no source means no claim”) with fixture tests; message types for the push cue path, deep research as a separate non-auto module; eval skeleton (T1 KER/WER/DER; T2 dosing-refusal, advisory phrasing, MedQA hooks; T3 ECE/routing; version registry + rollback); dataset and sim-consent specs (manikin/standardized participant; audio de-ID) and gold-nudge schema (panel above) with no EHR/patient fields; 3–5 education-only scenarios.
 
 **Owners:** CC Architect and Sergio’s engineer (see table for specialists).
 
@@ -49,11 +49,11 @@
 
 **Consent:** Written informed consent from every sim participant (including operator and faculty), covering audio/video if any, storage duration, who can access recordings, and withdrawal rights. Participants are staff/volunteers in sim, never patients. No real patient data, QI/QA, or VCU institutional systems. Phase 0 sim-consent spec must exist first. IRB review vs exemption is **open for Regulatory & Privacy** and must be settled before session 1.
 
-**Done when:** 3–5 consented sessions complete; outputs include seed gold nudges (still pending undecided approvers), a draft cue-category list, and an explicit go/no-go for Phases 1–4.
+**Done when:** 3–5 consented sessions complete; outputs include seed gold nudges (approved by the ICU physician panel above), a draft cue-category list, and an explicit go/no-go for Phases 1–4.
 
 **Proposed go/no-go (example thresholds for Sergio to set, not final):** **Go** if teams rate cues net helpful in most sessions, no cue caused harmful distraction or a wrong action, and some categories show repeated value. **No-go:** redesign or stop before buying hardware.
 
-**Still open before start:** IRB versus exemption (Regulatory & Privacy); gold-nudge approvers remain OPEN.
+**Still open before start:** IRB versus exemption (Regulatory & Privacy).
 
 ---
 
