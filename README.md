@@ -47,17 +47,18 @@ Details and scorecard: [ONEPAGER.md](ONEPAGER.md).
 | [assets/original-sketch.jpg](assets/original-sketch.jpg) | Original whiteboard sketch (historical) |
 
 
-## V2 architecture notes (speech A/B · Jev core)
+## V2 architecture notes (speech A/B · local System One)
 
-V2 **supersedes the V1 protocol-card layer**. **Jev is a multi-point router** (salience · category · escalation · action/urgency) over a de-ID speech stream. **Local fast path:** MedGemma (or lighter Gemma) + domain sub-agents (e.g. ID + local antibiogram). **Deep path:** OpenEvidence-class, only when Jev escalates. Cue text: MedGemma generative (leading) or vetted category labels (fallback). Only the on-device speech stack is A/B’d. See critical flags in the shared note (continuous Jev streaming vs design rule; phone compute; etc.).
+V2 **supersedes the V1 protocol-card layer** and **removes cloud Jev**. The System One decision/routing layer is **fully local**: **NanoJev** (0.6B, MIT, :8765) is **default**; **Laya** (~421M, Apache, Apple MLX) is **fallback** — interchangeable via a client abstraction (NanoJev needs an API adapter). Same model fills salience, category routing, escalation, and action/urgency. **Fast path:** MedGemma + domain tools (e.g. local antibiogram). **Cloud:** deep research only when escalated (BAA). Only speech is A/B’d. See critical flags in the shared note.
+
 
 | File | Description |
 |------|-------------|
-| [docs/architecture/V2-shared-layers.md](docs/architecture/V2-shared-layers.md) | Shared path: Jev multi-point router, MedGemma fast path, deep research, gate, labels, critical flags |
+| [docs/architecture/V2-shared-layers.md](docs/architecture/V2-shared-layers.md) | Shared path: local System One (NanoJev default · Laya fallback), MedGemma fast, deep research cloud-only, flags |
 | [docs/architecture/V2A-nvidia-speech.md](docs/architecture/V2A-nvidia-speech.md) | Parakeet-TDT + Nemotron-3 Diarization |
 | [docs/architecture/V2B-google-speech.md](docs/architecture/V2B-google-speech.md) | MedASR + open-weight diarization options |
 | [docs/architecture/V2-speech-comparison.md](docs/architecture/V2-speech-comparison.md) | Side-by-side table + recommended V2B diarization |
-| [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Diagram: dual speech → Jev router (a–d) → fast/deep → gate → HUD (no cards) |
+| [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Diagram: dual speech → local System One (a–d) → fast/deep → gate → HUD (no cards, no cloud Jev) |
 
 ## Status
 

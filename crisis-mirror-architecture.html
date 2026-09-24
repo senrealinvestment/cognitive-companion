@@ -1,261 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache">
-  <title>Crisis Mirror — V2 Jev Router Architecture</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'JetBrains Mono', monospace; background: #020617; min-height: 100vh; padding: 2rem; color: white; }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .header { margin-bottom: 1.25rem; }
-    .header-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
-    .pulse-dot { width: 12px; height: 12px; background: #22d3ee; border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-    h1 { font-size: 1.35rem; font-weight: 700; }
-    .badge { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.25rem 0.55rem; border-radius: 999px; border: 1px solid #fb7185; color: #fda4af; background: rgba(136, 19, 55, 0.35); }
-    .badge2 { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.25rem 0.55rem; border-radius: 999px; border: 1px solid #a78bfa; color: #c4b5fd; background: rgba(76, 29, 149, 0.35); }
-    .badge3 { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.25rem 0.55rem; border-radius: 999px; border: 1px solid #fbbf24; color: #fde68a; background: rgba(120, 53, 15, 0.35); }
-    .subtitle { color: #94a3b8; font-size: 0.8rem; margin-left: 1.75rem; line-height: 1.45; max-width: 58rem; }
-    .diagram-container { background: rgba(15, 23, 42, 0.5); border-radius: 1rem; border: 1px solid #1e293b; padding: 1.15rem; overflow-x: auto; }
-    svg { width: 100%; min-width: 1100px; display: block; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1.35rem; }
-    .card { background: rgba(15, 23, 42, 0.5); border-radius: 0.75rem; border: 1px solid #1e293b; padding: 1rem; }
-    .card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
-    .card-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .card-dot.cyan { background: #22d3ee; } .card-dot.emerald { background: #34d399; }
-    .card-dot.violet { background: #a78bfa; } .card-dot.amber { background: #fbbf24; }
-    .card-dot.rose { background: #fb7185; } .card-dot.slate { background: #94a3b8; }
-    .card h3 { font-size: 0.8rem; font-weight: 600; }
-    .card ul { list-style: none; color: #94a3b8; font-size: 0.7rem; line-height: 1.4; }
-    .card li { margin-bottom: 0.3rem; }
-    .footer { text-align: center; margin-top: 1.35rem; color: #475569; font-size: 0.7rem; line-height: 1.5; }
-    .callout { margin-top: 1.15rem; padding: 0.95rem 1.1rem; border-radius: 0.75rem; border: 1px solid #7f1d1d; background: rgba(69, 10, 10, 0.35); color: #fecaca; font-size: 0.72rem; line-height: 1.5; }
-    .callout strong { color: #fee2e2; }
-    .callout2 { margin-top: 0.75rem; padding: 0.95rem 1.1rem; border-radius: 0.75rem; border: 1px solid #334155; background: rgba(15, 23, 42, 0.65); color: #cbd5e1; font-size: 0.75rem; line-height: 1.5; }
-    .callout2 strong { color: #e2e8f0; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<title>Crisis Mirror V2 — NanoJev local System One</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'JetBrains Mono',monospace;background:#020617;min-height:100vh;padding:2rem;color:#fff}
+.container{max-width:1200px;margin:0 auto}
+.header-row{display:flex;align-items:center;gap:1rem;margin-bottom:.5rem;flex-wrap:wrap}
+.pulse-dot{width:12px;height:12px;background:#22d3ee;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+h1{font-size:1.3rem;font-weight:700}
+.badge{font-size:.6rem;font-weight:700;padding:.25rem .55rem;border-radius:999px;border:1px solid #fb7185;color:#fda4af;background:rgba(136,19,55,.35)}
+.badge2{font-size:.6rem;font-weight:700;padding:.25rem .55rem;border-radius:999px;border:1px solid #34d399;color:#6ee7b7;background:rgba(6,78,59,.35)}
+.badge3{font-size:.6rem;font-weight:700;padding:.25rem .55rem;border-radius:999px;border:1px solid #a78bfa;color:#c4b5fd;background:rgba(76,29,149,.35)}
+.subtitle{color:#94a3b8;font-size:.78rem;margin-left:1.75rem;line-height:1.45;max-width:58rem;margin-bottom:1rem}
+.diagram-container{background:rgba(15,23,42,.5);border-radius:1rem;border:1px solid #1e293b;padding:1.1rem;overflow-x:auto}
+svg{width:100%;min-width:1100px;display:block}
+.callout{margin-top:1rem;padding:.9rem 1.1rem;border-radius:.75rem;border:1px solid #334155;background:rgba(15,23,42,.65);color:#cbd5e1;font-size:.72rem;line-height:1.5}
+.callout strong{color:#e2e8f0}
+.flag{margin-top:.75rem;padding:.9rem 1.1rem;border-radius:.75rem;border:1px solid #7f1d1d;background:rgba(69,10,10,.35);color:#fecaca;font-size:.7rem;line-height:1.45}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-top:1.2rem}
+.card{background:rgba(15,23,42,.5);border:1px solid #1e293b;border-radius:.75rem;padding:1rem}
+.card h3{font-size:.8rem;margin-bottom:.4rem}
+.card ul{list-style:none;color:#94a3b8;font-size:.68rem;line-height:1.4}
+.footer{text-align:center;margin-top:1.2rem;color:#475569;font-size:.68rem}
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="header-row">
-        <div class="pulse-dot"></div>
-        <h1>Crisis Mirror V2 — Jev multi-point router</h1>
-        <span class="badge">NO CAMERA · NO CARDS</span>
-        <span class="badge2">JEV ROUTER</span>
-        <span class="badge3">FAST Gemma · DEEP OE</span>
-      </div>
-      <p class="subtitle">
-        Speech A/B → de-ID → <span style="color:#c4b5fd">Jev at (a) salience (b) category (c) escalate (d) action/urgency</span>
-        → local MedGemma fast path (+ domain sub-agents / antibiogram) <em>or</em> delayed deep research → reconcile → gate (+ wording check) → HUD.
-        <span style="color:#fda4af">FLAG: continuous Jev salience conflicts with “no continuous cloud streaming.”</span>
-      </p>
-    </div>
+<div class="container">
+<div class="header-row">
+  <div class="pulse-dot"></div>
+  <h1>Crisis Mirror V2 — local System One router</h1>
+  <span class="badge">NO CAMERA · NO CARDS</span>
+  <span class="badge2">NANOJEV DEFAULT</span>
+  <span class="badge3">LAYA FALLBACK</span>
+</div>
+<p class="subtitle">
+  Speech A/B → de-ID → <strong style="color:#6ee7b7">NanoJev (default)</strong> / Laya fallback at (a) salience (b) category (c) escalate (d) action/urgency
+  → MedGemma fast + tools · cloud deep research only if escalated → gate → HUD.
+  Edge target: <strong>laptop / small Apple Silicon Mac</strong> (not phone). No continuous cloud decision stream.
+</p>
+<div class="diagram-container">
+<svg viewBox="0 0 1120 1220" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="m-cyan" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#22d3ee"/></marker>
+  <marker id="m-emerald" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#34d399"/></marker>
+  <marker id="m-violet" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#a78bfa"/></marker>
+  <marker id="m-amber" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#fbbf24"/></marker>
+  <marker id="m-rose" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#fb7185"/></marker>
+  <marker id="m-slate" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#94a3b8"/></marker>
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#1e293b" stroke-width=".5"/></pattern>
+</defs>
+<rect width="100%" height="100%" fill="url(#grid)"/>
 
-    <div class="diagram-container">
-      <svg viewBox="0 0 1120 1280" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <marker id="m-cyan" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#22d3ee"/></marker>
-          <marker id="m-emerald" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#34d399"/></marker>
-          <marker id="m-violet" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#a78bfa"/></marker>
-          <marker id="m-amber" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#fbbf24"/></marker>
-          <marker id="m-rose" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#fb7185"/></marker>
-          <marker id="m-slate" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#94a3b8"/></marker>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)"/>
+<!-- L1 -->
+<rect x="48" y="16" width="1024" height="88" rx="12" fill="rgba(34,211,238,.05)" stroke="#22d3ee" stroke-width="1.2" stroke-dasharray="7,4"/>
+<text x="64" y="36" fill="#22d3ee" font-size="11" font-weight="700">LAYER 1 — GLASSES / PHONE (camera-free I/O)</text>
+<rect x="72" y="48" width="160" height="44" rx="7" fill="#0f172a" stroke="#22d3ee"/><text x="152" y="68" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Ambient mics</text><text x="152" y="82" fill="#64748b" font-size="8" text-anchor="middle">gated buffers</text>
+<rect x="260" y="48" width="160" height="44" rx="7" fill="#0f172a" stroke="#34d399"/><text x="340" y="68" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Wearable/phone</text><text x="340" y="82" fill="#6ee7b7" font-size="8" text-anchor="middle">HUD host</text>
+<rect x="448" y="48" width="160" height="44" rx="7" fill="#0f172a" stroke="#fbbf24"/><text x="528" y="68" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">HUD + tone</text><text x="528" y="82" fill="#fde68a" font-size="8" text-anchor="middle">≤8-word advisory</text>
+<rect x="636" y="48" width="160" height="44" rx="7" fill="#0f172a" stroke="#34d399"/><text x="716" y="68" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Clinician acts</text><text x="716" y="82" fill="#64748b" font-size="8" text-anchor="middle">human decides</text>
+<rect x="824" y="48" width="220" height="44" rx="7" fill="#0f172a" stroke="#fbbf24"/><text x="934" y="68" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Labels helpful/accurate</text><text x="934" y="82" fill="#fde68a" font-size="8" text-anchor="middle">→ offline loops</text>
+<line x1="232" y1="70" x2="254" y2="70" stroke="#22d3ee" stroke-width="1.3" marker-end="url(#m-cyan)"/>
+<line x1="420" y1="70" x2="442" y2="70" stroke="#fbbf24" stroke-width="1.3" marker-end="url(#m-amber)"/>
+<line x1="608" y1="70" x2="630" y2="70" stroke="#34d399" stroke-width="1.3" marker-end="url(#m-emerald)"/>
+<line x1="796" y1="70" x2="818" y2="70" stroke="#fbbf24" stroke-width="1.3" marker-end="url(#m-amber)"/>
 
-        <!-- L1 -->
-        <rect x="48" y="16" width="1024" height="100" rx="12" fill="rgba(34,211,238,0.05)" stroke="#22d3ee" stroke-width="1.2" stroke-dasharray="7,4"/>
-        <text x="64" y="38" fill="#22d3ee" font-size="11" font-weight="700">LAYER 1 — GLASSES / PHONE (camera-free)</text>
-        <rect x="72" y="52" width="170" height="50" rx="8" fill="#0f172a" stroke="#22d3ee" stroke-width="1.4"/>
-        <text x="157" y="74" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Ambient mics</text>
-        <text x="157" y="90" fill="#64748b" font-size="8" text-anchor="middle">gated buffers</text>
-        <rect x="282" y="52" width="170" height="50" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.4"/>
-        <text x="367" y="74" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Wearable / phone</text>
-        <text x="367" y="90" fill="#6ee7b7" font-size="8" text-anchor="middle">G2 · Halo off · phone</text>
-        <rect x="492" y="52" width="170" height="50" rx="8" fill="#0f172a" stroke="#fbbf24" stroke-width="1.4"/>
-        <text x="577" y="74" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">HUD + tone</text>
-        <text x="577" y="90" fill="#fde68a" font-size="8" text-anchor="middle">≤8-word advisory</text>
-        <rect x="702" y="52" width="170" height="50" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.4"/>
-        <text x="787" y="74" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Clinician acts</text>
-        <text x="787" y="90" fill="#64748b" font-size="8" text-anchor="middle">human decides</text>
-        <rect x="902" y="52" width="146" height="50" rx="8" fill="#0f172a" stroke="#fbbf24" stroke-width="1.4"/>
-        <text x="975" y="74" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Labels</text>
-        <text x="975" y="90" fill="#fde68a" font-size="8" text-anchor="middle">helpful · accurate</text>
-        <line x1="242" y1="77" x2="276" y2="77" stroke="#22d3ee" stroke-width="1.4" marker-end="url(#m-cyan)"/>
-        <line x1="452" y1="77" x2="486" y2="77" stroke="#fbbf24" stroke-width="1.4" marker-end="url(#m-amber)"/>
-        <line x1="662" y1="77" x2="696" y2="77" stroke="#34d399" stroke-width="1.4" marker-end="url(#m-emerald)"/>
-        <line x1="872" y1="77" x2="896" y2="77" stroke="#fbbf24" stroke-width="1.4" marker-end="url(#m-amber)"/>
+<!-- Speech -->
+<rect x="48" y="120" width="1024" height="140" rx="12" fill="rgba(52,211,153,.05)" stroke="#34d399" stroke-width="1.2" stroke-dasharray="7,4"/>
+<text x="64" y="140" fill="#34d399" font-size="11" font-weight="700">LAYER 2a — SPEECH A/B → edge laptop / small Mac</text>
+<rect x="72" y="156" width="460" height="88" rx="10" fill="rgba(8,51,68,.35)" stroke="#22d3ee"/>
+<text x="88" y="176" fill="#22d3ee" font-size="11" font-weight="700">V2A NVIDIA</text>
+<rect x="88" y="186" width="200" height="46" rx="6" fill="#0f172a" stroke="#22d3ee"/><text x="188" y="206" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">Parakeet-TDT 0.6B</text><text x="188" y="220" fill="#94a3b8" font-size="8" text-anchor="middle">CC-BY-4.0</text>
+<rect x="308" y="186" width="200" height="46" rx="6" fill="#0f172a" stroke="#22d3ee"/><text x="408" y="206" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">Nemotron-3 Diar</text><text x="408" y="220" fill="#94a3b8" font-size="8" text-anchor="middle">OpenMDW · ≤8</text>
+<rect x="560" y="156" width="488" height="88" rx="10" fill="rgba(76,29,149,.25)" stroke="#a78bfa"/>
+<text x="576" y="176" fill="#a78bfa" font-size="11" font-weight="700">V2B GOOGLE</text>
+<rect x="576" y="186" width="200" height="46" rx="6" fill="#0f172a" stroke="#a78bfa"/><text x="676" y="206" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">MedASR 105M</text><text x="676" y="220" fill="#94a3b8" font-size="8" text-anchor="middle">HAI-DEF</text>
+<rect x="796" y="186" width="232" height="46" rx="6" fill="#0f172a" stroke="#a78bfa"/><text x="912" y="206" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">Open-weight diar</text><text x="912" y="220" fill="#c4b5fd" font-size="8" text-anchor="middle">Nemotron-3 rec.</text>
 
-        <!-- Speech A/B -->
-        <rect x="48" y="132" width="1024" height="168" rx="12" fill="rgba(52,211,153,0.05)" stroke="#34d399" stroke-width="1.2" stroke-dasharray="7,4"/>
-        <text x="64" y="154" fill="#34d399" font-size="11" font-weight="700">LAYER 2a — SPEECH A/B (only difference)</text>
-        <rect x="72" y="168" width="460" height="112" rx="10" fill="rgba(8,51,68,0.35)" stroke="#22d3ee" stroke-width="1.4"/>
-        <text x="88" y="190" fill="#22d3ee" font-size="11" font-weight="700">V2A NVIDIA</text>
-        <rect x="88" y="200" width="200" height="64" rx="7" fill="#0f172a" stroke="#22d3ee"/>
-        <text x="188" y="228" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Parakeet-TDT 0.6B</text>
-        <text x="188" y="246" fill="#94a3b8" font-size="8" text-anchor="middle">CC-BY-4.0 · chunked</text>
-        <rect x="308" y="200" width="200" height="64" rx="7" fill="#0f172a" stroke="#22d3ee"/>
-        <text x="408" y="228" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Nemotron-3 Diar</text>
-        <text x="408" y="246" fill="#94a3b8" font-size="8" text-anchor="middle">~100M · OpenMDW · ≤8</text>
-        <rect x="560" y="168" width="488" height="112" rx="10" fill="rgba(76,29,149,0.25)" stroke="#a78bfa" stroke-width="1.4"/>
-        <text x="576" y="190" fill="#a78bfa" font-size="11" font-weight="700">V2B GOOGLE</text>
-        <rect x="576" y="200" width="200" height="64" rx="7" fill="#0f172a" stroke="#a78bfa"/>
-        <text x="676" y="228" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">MedASR 105M</text>
-        <text x="676" y="246" fill="#94a3b8" font-size="8" text-anchor="middle">HAI-DEF · EN dictation</text>
-        <rect x="796" y="200" width="232" height="64" rx="7" fill="#0f172a" stroke="#a78bfa"/>
-        <text x="912" y="226" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Open-weight diar</text>
-        <text x="912" y="246" fill="#c4b5fd" font-size="8" text-anchor="middle">Nemotron-3 rec. / pyannote</text>
+<!-- de-id -->
+<rect x="400" y="276" width="320" height="44" rx="8" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+<text x="560" y="294" fill="#fff" font-size="12" font-weight="600" text-anchor="middle">De-ID summary / segments (LOCAL)</text>
+<text x="560" y="310" fill="#64748b" font-size="8" text-anchor="middle">no continuous cloud stream for decisions</text>
+<path d="M302 244 L302 268 L560 268 L560 276" fill="none" stroke="#22d3ee" stroke-width="1.3" marker-end="url(#m-cyan)"/>
+<path d="M804 244 L804 268 L560 268" fill="none" stroke="#a78bfa" stroke-width="1.3"/>
 
-        <path d="M 302 280 L 302 308 L 560 308" fill="none" stroke="#22d3ee" stroke-width="1.4"/>
-        <path d="M 804 280 L 804 308 L 580 308" fill="none" stroke="#a78bfa" stroke-width="1.4"/>
-        <text x="560" y="302" fill="#94a3b8" font-size="8" text-anchor="middle">converge</text>
+<!-- System One -->
+<rect x="48" y="340" width="1024" height="168" rx="12" fill="rgba(52,211,153,.08)" stroke="#34d399" stroke-width="1.5"/>
+<text x="64" y="362" fill="#34d399" font-size="11" font-weight="700">LAYER 2b — LOCAL SYSTEM ONE (fills all routing points)</text>
+<rect x="72" y="376" width="520" height="56" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.8"/>
+<text x="332" y="400" fill="#6ee7b7" font-size="13" font-weight="700" text-anchor="middle">NanoJev (default) — Laya fallback</text>
+<text x="332" y="418" fill="#94a3b8" font-size="8" text-anchor="middle">0.6B MIT · HTTP :8765 · Choice 2–255 · config-swap via SystemOneClient</text>
+<rect x="612" y="376" width="420" height="56" rx="8" fill="#0f172a" stroke="#64748b" stroke-dasharray="4,3"/>
+<text x="822" y="400" fill="#94a3b8" font-size="11" font-weight="600" text-anchor="middle">Edge: laptop / small Mac</text>
+<text x="822" y="418" fill="#64748b" font-size="8" text-anchor="middle">CUDA preferred for NanoJev · Laya if Apple-only MLX</text>
 
-        <!-- De-ID -->
-        <rect x="420" y="320" width="280" height="52" rx="8" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
-        <text x="560" y="342" fill="#fff" font-size="12" font-weight="600" text-anchor="middle">De-ID summary / segments</text>
-        <text x="560" y="360" fill="#64748b" font-size="8" text-anchor="middle">strip PHI · speakers · alarms</text>
-        <line x1="560" y1="308" x2="560" y2="320" stroke="#94a3b8" stroke-width="1.4" marker-end="url(#m-slate)"/>
+<rect x="72" y="448" width="220" height="48" rx="7" fill="#0f172a" stroke="#34d399"/><text x="182" y="468" fill="#6ee7b7" font-size="10" font-weight="700" text-anchor="middle">(a) Salience</text><text x="182" y="484" fill="#94a3b8" font-size="8" text-anchor="middle">which segments matter</text>
+<rect x="312" y="448" width="220" height="48" rx="7" fill="#0f172a" stroke="#34d399"/><text x="422" y="468" fill="#6ee7b7" font-size="10" font-weight="700" text-anchor="middle">(b) Category route</text><text x="422" y="484" fill="#94a3b8" font-size="8" text-anchor="middle">→ sub-agent · ≤255 / hierarchy</text>
+<rect x="552" y="448" width="220" height="48" rx="7" fill="#0f172a" stroke="#34d399"/><text x="662" y="468" fill="#6ee7b7" font-size="10" font-weight="700" text-anchor="middle">(c) Escalation</text><text x="662" y="484" fill="#94a3b8" font-size="8" text-anchor="middle">deep research?</text>
+<rect x="792" y="448" width="240" height="48" rx="7" fill="#0f172a" stroke="#34d399"/><text x="912" y="468" fill="#6ee7b7" font-size="10" font-weight="700" text-anchor="middle">(d) Action + urgency</text><text x="912" y="484" fill="#94a3b8" font-size="8" text-anchor="middle">→ gate / tone</text>
+<line x1="560" y1="320" x2="560" y2="340" stroke="#34d399" stroke-width="1.5" marker-end="url(#m-emerald)"/>
 
-        <!-- Jev router -->
-        <rect x="48" y="390" width="1024" height="150" rx="12" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="1.4"/>
-        <text x="64" y="412" fill="#a78bfa" font-size="11" font-weight="700">LAYER 2b — JEV AS ROUTER (cloud · four labeled points)</text>
-        <text x="64" y="428" fill="#fda4af" font-size="8">FLAG-1: salience over stream ≈ continuous de-ID text to cloud — conflicts with no-continuous-streaming unless pre-filter or rule relax + BAA</text>
+<!-- Fast / Deep -->
+<rect x="48" y="528" width="520" height="168" rx="12" fill="rgba(52,211,153,.06)" stroke="#34d399"/>
+<text x="64" y="550" fill="#34d399" font-size="11" font-weight="700">LOCAL FAST PATH (&lt;1–2 s target)</text>
+<rect x="72" y="566" width="200" height="56" rx="7" fill="#0f172a" stroke="#34d399"/><text x="172" y="590" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">MedGemma 4B</text><text x="172" y="606" fill="#6ee7b7" font-size="8" text-anchor="middle">cue / quick think · HAI-DEF</text>
+<rect x="292" y="566" width="240" height="56" rx="7" fill="#0f172a" stroke="#34d399"/><text x="412" y="586" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">Domain sub-agents</text><text x="412" y="602" fill="#94a3b8" font-size="8" text-anchor="middle">ID etc · LoRA/prompt (FLAG-4)</text>
+<rect x="72" y="636" width="460" height="44" rx="7" fill="#0f172a" stroke="#22d3ee"/><text x="302" y="654" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">Local antibiogram (CLSI M39 · static · no live EHR)</text><text x="302" y="668" fill="#64748b" font-size="8" text-anchor="middle">organism × antibiotic × %S</text>
 
-        <rect x="72" y="444" width="220" height="76" rx="8" fill="#0f172a" stroke="#a78bfa" stroke-width="1.5"/>
-        <text x="182" y="468" fill="#c4b5fd" font-size="11" font-weight="700" text-anchor="middle">(a) Salience</text>
-        <text x="182" y="488" fill="#fff" font-size="9" text-anchor="middle">which segments matter</text>
-        <text x="182" y="504" fill="#94a3b8" font-size="8" text-anchor="middle">Noul / Choice per segment</text>
+<rect x="592" y="528" width="480" height="168" rx="12" fill="rgba(148,163,184,.07)" stroke="#94a3b8" stroke-dasharray="6,4"/>
+<text x="608" y="550" fill="#94a3b8" font-size="11" font-weight="700">CLOUD — DEEP RESEARCH ONLY (dashed)</text>
+<text x="608" y="566" fill="#64748b" font-size="8">Only if (c) escalates · delayed · BAA if PHI · no public OE self-serve API verified</text>
+<rect x="612" y="584" width="200" height="60" rx="7" fill="#0f172a" stroke="#94a3b8" stroke-dasharray="4,3"/><text x="712" y="610" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">OpenEvidence</text><text x="712" y="626" fill="#94a3b8" font-size="8" text-anchor="middle">enterprise / BAA</text>
+<rect x="836" y="584" width="200" height="60" rx="7" fill="#0f172a" stroke="#94a3b8" stroke-dasharray="4,3"/><text x="936" y="610" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Alt deep model</text><text x="936" y="626" fill="#94a3b8" font-size="8" text-anchor="middle">cited-answer API</text>
+<rect x="612" y="660" width="424" height="24" rx="6" fill="#0f172a" stroke="#64748b"/><text x="824" y="676" fill="#94a3b8" font-size="8" text-anchor="middle">Delivery later: HUD / phone / post-event</text>
 
-        <rect x="312" y="444" width="220" height="76" rx="8" fill="#0f172a" stroke="#a78bfa" stroke-width="1.5"/>
-        <text x="422" y="468" fill="#c4b5fd" font-size="11" font-weight="700" text-anchor="middle">(b) Category route</text>
-        <text x="422" y="488" fill="#fff" font-size="9" text-anchor="middle">ICU/crisis taxonomy</text>
-        <text x="422" y="504" fill="#94a3b8" font-size="8" text-anchor="middle">→ sub-agent / lookup · ≤255</text>
+<path d="M422 496 L422 528" fill="none" stroke="#34d399" stroke-width="1.4" marker-end="url(#m-emerald)"/>
+<path d="M662 496 L662 512 L800 512 L800 528" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-dasharray="5,4" marker-end="url(#m-slate)"/>
 
-        <rect x="552" y="444" width="220" height="76" rx="8" fill="#0f172a" stroke="#a78bfa" stroke-width="1.5"/>
-        <text x="662" y="468" fill="#c4b5fd" font-size="11" font-weight="700" text-anchor="middle">(c) Escalation</text>
-        <text x="662" y="488" fill="#fff" font-size="9" text-anchor="middle">needs deep research?</text>
-        <text x="662" y="504" fill="#94a3b8" font-size="8" text-anchor="middle">Noul or category flag</text>
+<!-- Gate -->
+<rect x="48" y="716" width="1024" height="100" rx="12" fill="rgba(251,113,133,.06)" stroke="#fb7185"/>
+<text x="64" y="738" fill="#fb7185" font-size="11" font-weight="700">RECONCILE → SAFETY GATE → HUD</text>
+<rect x="72" y="752" width="240" height="48" rx="7" fill="#0f172a" stroke="#fbbf24"/><text x="192" y="772" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">Reconcile fast + deep</text><text x="192" y="788" fill="#fde68a" font-size="8" text-anchor="middle">nudge first · deep augments</text>
+<rect x="340" y="752" width="340" height="48" rx="7" fill="#0f172a" stroke="#fb7185"/><text x="510" y="768" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">Gate: threshold · rate · strip IDs</text><text x="510" y="784" fill="#fda4af" font-size="8" text-anchor="middle">+ wording check if Gemma text</text>
+<rect x="708" y="752" width="324" height="48" rx="7" fill="#0f172a" stroke="#fbbf24"/><text x="870" y="772" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">Cue → HUD + tone</text><text x="870" y="788" fill="#fde68a" font-size="8" text-anchor="middle">generative leading · label fallback</text>
+<path d="M302 680 L302 716" fill="none" stroke="#34d399" stroke-width="1.3" marker-end="url(#m-emerald)"/>
+<path d="M824 696 L824 716" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#m-slate)"/>
+<line x1="312" y1="776" x2="334" y2="776" stroke="#fb7185" stroke-width="1.3" marker-end="url(#m-rose)"/>
+<line x1="680" y1="776" x2="702" y2="776" stroke="#fbbf24" stroke-width="1.3" marker-end="url(#m-amber)"/>
+<path d="M1032 776 L1088 776 L1088 70 L824 70" fill="none" stroke="#fbbf24" stroke-width="1.3" marker-end="url(#m-amber)"/>
 
-        <rect x="792" y="444" width="240" height="76" rx="8" fill="#0f172a" stroke="#a78bfa" stroke-width="1.5"/>
-        <text x="912" y="468" fill="#c4b5fd" font-size="11" font-weight="700" text-anchor="middle">(d) Action + urgency</text>
-        <text x="912" y="488" fill="#fff" font-size="9" text-anchor="middle">Noul warranted? · Score</text>
-        <text x="912" y="504" fill="#94a3b8" font-size="8" text-anchor="middle">feeds safety gate / tone</text>
+<!-- Offline -->
+<rect x="48" y="836" width="1024" height="150" rx="12" fill="rgba(251,191,36,.06)" stroke="#fbbf24" stroke-dasharray="7,4"/>
+<text x="64" y="858" fill="#fbbf24" font-size="11" font-weight="700">OFFLINE LEARNING (from clinician labels)</text>
+<rect x="72" y="874" width="220" height="92" rx="8" fill="#0f172a" stroke="#fbbf24"/><text x="182" y="900" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">ASR flywheel</text><text x="182" y="918" fill="#fde68a" font-size="8" text-anchor="middle">KER → LoRA + replay</text><text x="182" y="934" fill="#64748b" font-size="8" text-anchor="middle">deploy / monitor</text><text x="182" y="950" fill="#64748b" font-size="8" text-anchor="middle">no bedside self-update</text>
+<rect x="316" y="874" width="360" height="92" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.6"/><text x="496" y="896" fill="#6ee7b7" font-size="11" font-weight="700" text-anchor="middle">NanoJev fine-tune + thresholds</text><text x="496" y="914" fill="#fff" font-size="8" text-anchor="middle">open weights · MIT · offline on labels</text><text x="496" y="930" fill="#94a3b8" font-size="8" text-anchor="middle">held-out eval · replay buffer · version pin/rollback</text><text x="496" y="948" fill="#64748b" font-size="8" text-anchor="middle">Laya fallback can be fine-tuned too (Apache)</text>
+<rect x="700" y="874" width="332" height="92" rx="8" fill="#0f172a" stroke="#fbbf24"/><text x="866" y="900" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Gemma cue-quality data</text><text x="866" y="918" fill="#fde68a" font-size="8" text-anchor="middle">offline adapter / prompt iter</text><text x="866" y="936" fill="#64748b" font-size="8" text-anchor="middle">reject bad generative cues</text>
+<path d="M934 92 L934 110 L182 110 L182 836" fill="none" stroke="#fbbf24" stroke-width="1.1" stroke-dasharray="4,3"/>
+<path d="M182 836 L496 836 L496 874" fill="none" stroke="#fbbf24" stroke-width="1.1" stroke-dasharray="4,3" marker-end="url(#m-amber)"/>
+<path d="M496 836 L866 836 L866 874" fill="none" stroke="#fbbf24" stroke-width="1.1" stroke-dasharray="4,3" marker-end="url(#m-amber)"/>
+<path d="M182 836 L182 874" fill="none" stroke="#fbbf24" stroke-width="1.1" stroke-dasharray="4,3" marker-end="url(#m-amber)"/>
 
-        <line x1="560" y1="372" x2="560" y2="390" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#m-violet)"/>
-        <line x1="292" y1="482" x2="306" y2="482" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#m-violet)"/>
-        <line x1="532" y1="482" x2="546" y2="482" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#m-violet)"/>
-        <line x1="772" y1="482" x2="786" y2="482" stroke="#a78bfa" stroke-width="1.2" marker-end="url(#m-violet)"/>
+<!-- Key -->
+<rect x="48" y="1008" width="1024" height="100" rx="10" fill="rgba(15,23,42,.95)" stroke="#334155"/>
+<text x="64" y="1032" fill="#fff" font-size="11" font-weight="700">KEY · CAVEATS</text>
+<text x="64" y="1052" fill="#fda4af" font-size="8">Choice 2–255 is an API-shape cap (NanoJev HF) — 0.6B improves accuracy among many categories but does NOT remove hierarchical routing if vocab &gt;255.</text>
+<text x="64" y="1070" fill="#94a3b8" font-size="8">Solid=local real-time · Dashed=cloud delayed · No protocol cards · No cloud Jev · CUDA gap on Apple-only → Laya fallback</text>
+<text x="64" y="1088" fill="#64748b" font-size="8">docs/architecture/V2-shared-layers.md · V2A · V2B · V2-speech-comparison.md</text>
 
-        <!-- Fast + Deep paths -->
-        <rect x="48" y="560" width="520" height="200" rx="12" fill="rgba(52,211,153,0.06)" stroke="#34d399" stroke-width="1.3"/>
-        <text x="64" y="584" fill="#34d399" font-size="11" font-weight="700">LOCAL FAST PATH (target &lt;1–2 s)</text>
-        <text x="64" y="600" fill="#64748b" font-size="8">Edge box recommended (FLAG-2). Phone-only marginal with MedGemma 4B + ASR.</text>
-        <rect x="72" y="616" width="220" height="64" rx="8" fill="#0f172a" stroke="#34d399"/>
-        <text x="182" y="642" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">MedGemma 4B</text>
-        <text x="182" y="660" fill="#6ee7b7" font-size="8" text-anchor="middle">HAI-DEF · quick think · cue</text>
-        <rect x="312" y="616" width="220" height="64" rx="8" fill="#0f172a" stroke="#34d399"/>
-        <text x="422" y="638" fill="#fff" font-size="10" font-weight="600" text-anchor="middle">Domain sub-agents</text>
-        <text x="422" y="654" fill="#94a3b8" font-size="8" text-anchor="middle">e.g. ID · prompts/LoRA</text>
-        <text x="422" y="668" fill="#64748b" font-size="7" text-anchor="middle">(FLAG-4: not native sub-part)</text>
-        <rect x="72" y="696" width="460" height="48" rx="8" fill="#0f172a" stroke="#22d3ee"/>
-        <text x="302" y="716" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Local antibiogram lookup (CLSI M39-style)</text>
-        <text x="302" y="732" fill="#94a3b8" font-size="8" text-anchor="middle">organism × antibiotic × %S · static · no PHI · no live EHR (FLAG-5)</text>
-
-        <rect x="592" y="560" width="480" height="200" rx="12" fill="rgba(148,163,184,0.07)" stroke="#94a3b8" stroke-width="1.3" stroke-dasharray="6,4"/>
-        <text x="608" y="584" fill="#94a3b8" font-size="11" font-weight="700">DEEP RESEARCH PATH (delayed · dashed)</text>
-        <text x="608" y="600" fill="#64748b" font-size="8">Only if Jev (c) escalates. May take 10–60 s (OQ). No public OE self-serve API verified.</text>
-        <rect x="612" y="620" width="200" height="70" rx="8" fill="#0f172a" stroke="#94a3b8" stroke-dasharray="4,3"/>
-        <text x="712" y="648" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">OpenEvidence</text>
-        <text x="712" y="666" fill="#94a3b8" font-size="8" text-anchor="middle">enterprise / BAA · TBD API</text>
-        <rect x="836" y="620" width="200" height="70" rx="8" fill="#0f172a" stroke="#94a3b8" stroke-dasharray="4,3"/>
-        <text x="936" y="648" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Alt deep model</text>
-        <text x="936" y="666" fill="#94a3b8" font-size="8" text-anchor="middle">cited-answer API / private</text>
-        <rect x="612" y="708" width="424" height="36" rx="8" fill="#0f172a" stroke="#64748b"/>
-        <text x="824" y="730" fill="#94a3b8" font-size="9" text-anchor="middle">Delivery later: HUD / phone panel / post-event (OQ)</text>
-
-        <!-- arrows from Jev -->
-        <path d="M 422 520 L 422 560" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#m-emerald)"/>
-        <text x="430" y="548" fill="#34d399" font-size="8">category →</text>
-        <path d="M 662 520 L 662 540 L 800 540 L 800 560" fill="none" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="5,4" marker-end="url(#m-slate)"/>
-        <text x="700" y="536" fill="#94a3b8" font-size="8">if escalate</text>
-
-        <!-- Reconcile + gate -->
-        <rect x="48" y="784" width="1024" height="120" rx="12" fill="rgba(251,113,133,0.06)" stroke="#fb7185" stroke-width="1.2"/>
-        <text x="64" y="808" fill="#fb7185" font-size="11" font-weight="700">RECONCILE → SAFETY GATE</text>
-        <rect x="72" y="824" width="280" height="60" rx="8" fill="#0f172a" stroke="#fbbf24"/>
-        <text x="212" y="848" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Reconcile fast + deep</text>
-        <text x="212" y="866" fill="#fde68a" font-size="8" text-anchor="middle">nudge first · deep augments (OQ)</text>
-        <rect x="380" y="824" width="320" height="60" rx="8" fill="#0f172a" stroke="#fb7185"/>
-        <text x="540" y="844" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Safety gate</text>
-        <text x="540" y="860" fill="#fda4af" font-size="8" text-anchor="middle">threshold · rate-limit · strip IDs</text>
-        <text x="540" y="874" fill="#fda4af" font-size="8" text-anchor="middle">+ wording check if Gemma text (FLAG-3)</text>
-        <rect x="728" y="824" width="304" height="60" rx="8" fill="#0f172a" stroke="#fbbf24"/>
-        <text x="880" y="848" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Cue → HUD + tone</text>
-        <text x="880" y="866" fill="#fde68a" font-size="8" text-anchor="middle">generative leading · label fallback</text>
-        <line x1="302" y1="696" x2="302" y2="784" stroke="#34d399" stroke-width="1.3" marker-end="url(#m-emerald)"/>
-        <path d="M 824 760 L 824 784" fill="none" stroke="#94a3b8" stroke-width="1.3" stroke-dasharray="5,4" marker-end="url(#m-slate)"/>
-        <line x1="352" y1="854" x2="374" y2="854" stroke="#fb7185" stroke-width="1.4" marker-end="url(#m-rose)"/>
-        <line x1="700" y1="854" x2="722" y2="854" stroke="#fbbf24" stroke-width="1.4" marker-end="url(#m-amber)"/>
-        <!-- cue up -->
-        <path d="M 1032 854 L 1088 854 L 1088 77 L 872 77" fill="none" stroke="#fbbf24" stroke-width="1.4" marker-end="url(#m-amber)"/>
-        <text x="1096" y="480" fill="#fbbf24" font-size="8" transform="rotate(90 1096 480)">cue up</text>
-
-        <!-- Offline -->
-        <rect x="48" y="924" width="1024" height="130" rx="12" fill="rgba(251,191,36,0.06)" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="7,4"/>
-        <text x="64" y="948" fill="#fbbf24" font-size="11" font-weight="700">OFFLINE LEARNING (labels from Layer 1)</text>
-        <rect x="72" y="964" width="300" height="70" rx="8" fill="#0f172a" stroke="#fbbf24"/>
-        <text x="222" y="992" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">ASR flywheel</text>
-        <text x="222" y="1010" fill="#fde68a" font-size="8" text-anchor="middle">KER → LoRA + replay</text>
-        <rect x="400" y="964" width="300" height="70" rx="8" fill="#0f172a" stroke="#fbbf24"/>
-        <text x="550" y="992" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Jev threshold tuning</text>
-        <text x="550" y="1010" fill="#fde68a" font-size="8" text-anchor="middle">not Jev weight fine-tune</text>
-        <rect x="728" y="964" width="300" height="70" rx="8" fill="#0f172a" stroke="#fbbf24"/>
-        <text x="878" y="992" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">Gemma cue-quality data</text>
-        <text x="878" y="1010" fill="#fde68a" font-size="8" text-anchor="middle">offline adapter / prompt iter</text>
-        <path d="M 975 102 L 975 120 L 222 120 L 222 924" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4,3"/>
-        <path d="M 222 924 L 550 924 L 550 964" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#m-amber)"/>
-        <path d="M 550 924 L 878 924 L 878 964" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#m-amber)"/>
-        <path d="M 222 924 L 222 964" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#m-amber)"/>
-
-        <!-- Key + flags -->
-        <rect x="48" y="1072" width="1024" height="88" rx="10" fill="rgba(15,23,42,0.95)" stroke="#334155"/>
-        <text x="64" y="1096" fill="#fff" font-size="11" font-weight="700">KEY · FLAGS</text>
-        <text x="64" y="1116" fill="#fda4af" font-size="8">FLAG-1 continuous Jev stream · FLAG-2 phone compute stack · FLAG-3 generative wording check · FLAG-4 prompts/LoRA/separate · FLAG-5 no VCU systems via Grok Bot</text>
-        <text x="64" y="1136" fill="#94a3b8" font-size="8">Solid=real-time · Dashed=delayed/optional · No protocol-card boxes · Docs: docs/architecture/V2-*.md</text>
-        <text x="64" y="1152" fill="#64748b" font-size="7">OQ: taxonomy · Gemma where · antibiogram · latency · reconcile · Jev budget · streaming rule · cue path · deep vendor</text>
-
-        <rect x="48" y="1176" width="1024" height="84" rx="10" fill="rgba(76,29,149,0.2)" stroke="#a78bfa"/>
-        <text x="64" y="1200" fill="#c4b5fd" font-size="10" font-weight="700">Cue text: (b) MedGemma generative = leading candidate + guardrails · (a) vetted category label = fallback · No card library</text>
-        <text x="64" y="1220" fill="#94a3b8" font-size="8">MedGemma 4B/27B = HAI-DEF · Gemma 3n = lighter phone alt · OE = BAA for covered entities, no verified public self-serve API (2026-09)</text>
-        <text x="64" y="1240" fill="#64748b" font-size="8">Example: ID category → ID LoRA/prompt on Gemma + local antibiogram table query (annual CLSI M39-style)</text>
-      </svg>
-    </div>
-
-    <div class="callout">
-      <strong>Critical:</strong> Jev-first-pass salience implies near-continuous de-ID text to a cloud model — conflicts with “no continuous cloud streaming.” Resolve via on-device pre-filter or explicit rule relax + BAA. ASR+diar+MedGemma 4B likely needs an edge box.
-    </div>
-    <div class="callout2">
-      <strong>V2 one sentence:</strong> Dual speech lanes build de-ID text · Jev routes salience/category/escalation/action · MedGemma (local) drafts fast advisory cues with tool lookups · deep research only when escalated · gate (+ wording check) · human decides · offline labels improve ASR, thresholds, and Gemma cue quality.
-    </div>
-
-    <div class="cards">
-      <div class="card"><div class="card-header"><div class="card-dot cyan"></div><h3>Speech A/B</h3></div>
-        <ul><li>• V2A Parakeet + Nemotron-3</li><li>• V2B MedASR + open diar</li><li>• Converge to de-ID only</li></ul></div>
-      <div class="card"><div class="card-header"><div class="card-dot violet"></div><h3>Jev router</h3></div>
-        <ul><li>• (a) Salience (b) Category</li><li>• (c) Escalate (d) Action/urgency</li><li>• Cloud-only · BAA gate</li></ul></div>
-      <div class="card"><div class="card-header"><div class="card-dot emerald"></div><h3>Fast path</h3></div>
-        <ul><li>• MedGemma / Gemma 3n</li><li>• Domain LoRA or prompts</li><li>• Local antibiogram table</li></ul></div>
-      <div class="card"><div class="card-header"><div class="card-dot slate"></div><h3>Deep + safety</h3></div>
-        <ul><li>• OE / alt if escalated</li><li>• Gate + wording check</li><li>• Labels → 3 offline loops</li></ul></div>
-    </div>
-    <p class="footer">Crisis Mirror V2 · Jev multi-point router · no cards · hard-refresh if you see protocol cards<br>docs/architecture/</p>
-  </div>
+<rect x="48" y="1124" width="1024" height="76" rx="10" fill="rgba(6,78,59,.25)" stroke="#34d399"/>
+<text x="64" y="1148" fill="#6ee7b7" font-size="10" font-weight="700">DEFAULT NanoJev 0.6B (MIT, :8765) · FALLBACK Laya ~421M (Apache, MLX) · swap = SystemOneClient config</text>
+<text x="64" y="1168" fill="#94a3b8" font-size="8">Rationale: edge is already laptop/small Mac → capacity for larger ICU/crisis vocab with fewer stages. Fine-tune NanoJev offline on labels.</text>
+<text x="64" y="1186" fill="#64748b" font-size="8">Publishers: NanoJev=C-Tianyu (not TypeSafe) · Laya=Convai · Deep cloud only needs BAA</text>
+</svg>
+</div>
+<div class="flag"><strong>Honest caveats:</strong> NanoJev Choice = 2–255 (HF). Larger model ≠ unlimited flat vocab. Public NanoJev serve path is CUDA-oriented; Apple-only Mac may need Laya fallback or CUDA box. Native API is /api/evaluate — /v1/systemone via our adapter. Public ckpt is game-domain → clinical fine-tune required.</div>
+<div class="callout"><strong>V2 one sentence:</strong> Dual speech on a laptop/small Mac → local NanoJev routes salience/category/escalation/action → MedGemma drafts fast advisory cues with local tools → cloud deep research only when escalated → gate → human decides → offline labels improve ASR, NanoJev, and Gemma.</div>
+<div class="cards">
+  <div class="card"><h3 style="color:#22d3ee">Speech A/B</h3><ul><li>• V2A Parakeet + Nemotron-3</li><li>• V2B MedASR + open diar</li><li>• Converge to local de-ID</li></ul></div>
+  <div class="card"><h3 style="color:#34d399">NanoJev default</h3><ul><li>• 0.6B · MIT · :8765</li><li>• Laya = Apple MLX fallback</li><li>• Choice 2–255 · hierarchy if larger</li></ul></div>
+  <div class="card"><h3 style="color:#a78bfa">Fast / deep</h3><ul><li>• MedGemma + antibiogram local</li><li>• OE-class cloud if escalated</li><li>• Wording check on generative cues</li></ul></div>
+  <div class="card"><h3 style="color:#fbbf24">Offline</h3><ul><li>• ASR flywheel</li><li>• NanoJev FT + thresholds</li><li>• Gemma cue-quality data</li></ul></div>
+</div>
+<p class="footer">Crisis Mirror V2 · NanoJev default · Laya fallback · no cards · no cloud Jev</p>
+</div>
 </body>
 </html>
