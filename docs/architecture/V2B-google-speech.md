@@ -1,19 +1,20 @@
-# V2B — MedASR speech + local System One (NanoJev default)
+# V2B — Full Apple stack (Mac Studio path)
 
-**Differs from V2A:** ASR + diarization only.  
-**Shared:** [`V2-shared-layers.md`](./V2-shared-layers.md). **NanoJev default · Laya fallback.**  
-**Edge target:** laptop / small Apple Silicon Mac.
+> **Retitled:** V2B is the **Apple full stack**, not speech-only. Shared: [`V2-shared-layers.md`](./V2-shared-layers.md). Hardware: [`V2-hardware-options.md`](./V2-hardware-options.md).
 
-## Speech (verified)
-MedASR 105M (**HAI-DEF**, not Apache) + open diarization (**Nemotron-3 recommended**). Dictation-prior; ambient ICU gap to fine-tune.
+## Stack
+| Layer | Choice |
+|-------|--------|
+| Box | **Mac Studio** target **512 GB** M3 Ultra (819 GB/s); new-buy may be **256 GB max** |
+| System One | **Laya** (MLX native; hierarchical Choice if 50+) |
+| ASR | MedASR 105M (HAI-DEF) |
+| Diarization | Sortformer CoreML / pyannote / Nemotron port |
+| Training | MLX-LM LoRA (T2 MedGemma, T3 Laya); T1 MedASR via HF/MPS |
+| Fast LLM | **MedGemma 27B** baseline (+ 4B draft optional) |
+| Deep research | **Local research LLM + literature RAG** primary; OE optional |
 
-## Flow
-Same shared NanoJev router path as V2A after de-ID.
+## Why V2B
+Max memory for 27B + large RAG + research models; Laya without CUDA port. NeMo/NanoJev not native.
 
-## Open decisions
-Diar pairing; NanoJev CUDA vs Laya on Apple; hierarchy if >255 categories.
-
-## See also (shared, identical)
-
-- Fine-tune tracks T1/T2/T3 + data platform: [`V2-shared-layers.md`](./V2-shared-layers.md) § WORKSTREAM A
-- Deep research clinician opt-in (never auto-fire): same file § WORKSTREAM B
+## Thin clients
+Glasses/phone stream audio over **LAN** to Studio (sim OK; hospital IT for clinical).

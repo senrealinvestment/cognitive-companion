@@ -54,10 +54,12 @@ V2 **supersedes the V1 protocol-card layer** and **removes cloud Jev**. The Syst
 
 | File | Description |
 |------|-------------|
-| [docs/architecture/V2-shared-layers.md](docs/architecture/V2-shared-layers.md) | Shared path: local System One (NanoJev default · Laya fallback), MedGemma fast, deep research cloud-only, flags |
+| [docs/architecture/V2-shared-layers.md](docs/architecture/V2-shared-layers.md) | Shared path: V2A=Spark+NanoJev · V2B=Mac+Laya · optional Hybrid, MedGemma fast, deep research cloud-only, flags |
 | [docs/architecture/V2A-nvidia-speech.md](docs/architecture/V2A-nvidia-speech.md) | Parakeet-TDT + Nemotron-3 Diarization |
 | [docs/architecture/V2B-google-speech.md](docs/architecture/V2B-google-speech.md) | MedASR + open-weight diarization options |
-| [docs/architecture/V2-speech-comparison.md](docs/architecture/V2-speech-comparison.md) | Side-by-side table + recommended V2B diarization |
+| [docs/architecture/V2-speech-comparison.md](docs/architecture/V2-speech-comparison.md) | Full-stack A/B comparison |
+| [docs/architecture/V2-hardware-options.md](docs/architecture/V2-hardware-options.md) | Mac Studio vs DGX Spark vs Hybrid |
+| [docs/architecture/V2-hybrid.md](docs/architecture/V2-hybrid.md) | Dual-box service split |
 | [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Diagram: dual speech → local System One (a–d) → fast/deep → gate → HUD (no cards, no cloud Jev) |
 
 ## Status
