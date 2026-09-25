@@ -4,9 +4,9 @@
 **Who this is for:** Engineers and clinicians who need a shared picture of tables and fields before anyone writes code.  
 **Reading level:** High-school plain English.
 
-> **Do not build this database until the Mac Studio is on hand; this schema is the design to implement then.**
+> **Build and populate this database now on Sergio’s existing Mac Mini as a prototype / dev environment.** Once the **Mac Studio** arrives, migrate the **same schema and data** to it as the **production** environment.
 >
-> Until then, keep using the spreadsheet as the seed list. This document is the plan on paper only.
+> The Excel spreadsheet remains the seed list to import. The table definitions below are the design to implement; they do not change for this environment split.
 
 This schema supports the traffic-light nudge system described in `docs/DOSSIER-plain-language.md` (see **The story so far** and **Nudge system**).
 
@@ -117,7 +117,7 @@ No bedside system should invent new categories on its own. Humans own the menu; 
 
 ## What this schema deliberately does *not* include yet
 
-Keep out of scope until you implement on the Mac Studio:
+Keep out of scope until you implement (start on the Mac Mini prototype; same gaps apply after migrate to the Mac Studio):
 
 - Exact database product (SQLite, Postgres, etc.)  
 - API endpoints or UI screens  
@@ -130,10 +130,10 @@ Keep out of scope until you implement on the Mac Studio:
 
 | File | Role |
 |------|------|
-| `docs/architecture/nudge-category-vocabulary.xlsx` | Current seed spreadsheet (use now) |
+| `docs/architecture/nudge-category-vocabulary.xlsx` | Current seed spreadsheet (import into the Mac Mini prototype) |
 | `docs/DOSSIER-plain-language.md` | Plain-language project dossier + action checklist |
-| This file | Paper schema for the future database |
+| This file | Paper schema for the vocabulary database |
 
 ---
 
-**Reminder:** Do not build this database until the Mac Studio is on hand; this schema is the design to implement then.
+**Reminder:** Build and populate on Sergio’s existing **Mac Mini** (prototype / dev) now; when the **Mac Studio** arrives, migrate the same schema and data to it as **production**.
