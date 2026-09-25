@@ -31,7 +31,7 @@ The V2 redesign grew out of a long architecture discussion. The team had to choo
 
 Those choices are written up in the architecture notes on **GitHub pull request (PR) #1**. This dossier restates them in everyday language.
 
-### Decisions already locked (the short list)
+### Decisions already locked
 
 You will see each of these again below. Here is the spine of the plan:
 
@@ -43,7 +43,7 @@ You will see each of these again below. Here is the spine of the plan:
 6. **Lean Phase 0:** Start thin — architecture and engineering first; specialists only when their piece is needed.  
 7. **VCU paperwork drafted (not finished until VCU says so):** Internal-only **not-human-subjects** path using **HRP-503b**, drafted for Phase 0.5. **Principal investigator (PI): Dr. Michael Kazior.** **Co-investigator: Dr. Sergio Navarrete.** Drafts live on **PR #4**.
 
-### Who is on the team (plain roles)
+### Who is on the team
 
 - A **five-agent planning/build pod** covering, in everyday terms: **architecture**, **speech-to-text**, **clinical logic**, **regulatory and privacy**, and **coordination** (keeping the pieces aligned). Specialists stay scoped to their lane.  
 - About **5–6 medical students** as early **category filters** — helping draft and review the nudge menu and related labeling, with clinicians remaining the authority.  
@@ -56,8 +56,6 @@ Open risks and next actions are listed in the **action checklist** at the end. E
 ---
 
 ## 1. What we build
-
-*(This matches the product described in **The story so far**.)*
 
 Cognitive Companion listens with **audio only** (glasses and/or phone). The current design law is **no wearable camera**, because face-worn video creates serious privacy and consent problems.
 
@@ -73,17 +71,13 @@ What the clinician sees or hears from the system is an **advisory nudge** — a 
 
 ## 2. Why it matters
 
-*(Same problem the redesign is trying to solve.)*
-
 In a busy ICU, people can miss cues under load — not because they are careless, but because attention is scarce. Cognitive Companion’s job is to be a careful second set of ears: quiet most of the time, useful when something important may be missed, and easy to ignore when it is wrong.
 
 That is why the traffic-light system and Wizard-of-Oz grading exist: we want proof that the companion is **helpful and not noisy** before anyone depends on it.
 
 ---
 
-## 3. Status (as of this writing)
-
-*(Detail on the locked decisions from **The story so far**.)*
+## 3. Status
 
 **Decided / in motion**
 
@@ -104,8 +98,6 @@ That is why the traffic-light system and Wizard-of-Oz grading exist: we want pro
 
 ## 4. Architecture (plain)
 
-*(This is the dual-box + local-first design from **The story so far**, explained end-to-end for a first-time reader.)*
-
 Imagine two powerful computers in a **sim control room or closet** — not marketed as bedside medical devices.
 
 1. Glasses or a phone send audio over an **encrypted local network** (a private, protected link inside the facility/lab) to those computers.  
@@ -116,8 +108,6 @@ Imagine two powerful computers in a **sim control room or closet** — not marke
 **Shared product spine (same idea on both boxes):** clean up / de-identify what must stay local → a small local “System One” router that decides salience and urgency → draft a short cue → a safety/wording gate → show a brief heads-up on glasses or phone → later, humans label whether it helped (for offline training only — **no self-updating at the bedside**).
 
 ### Optional add-on: V2D cloud research lane
-
-*(The optional deeper-research path introduced in **The story so far**.)*
 
 V2D means: keep the dual-box local system, and add a **cloud research** option that is **not** used for automatic bedside decisions.
 
@@ -134,8 +124,6 @@ Details for engineers: `docs/architecture/` on **PR #1**, especially `V2D-dual-b
 ---
 
 ## 5. Nudge system
-
-*(How the traffic-light idea from **The story so far** works day to day.)*
 
 Nudges use a **traffic-light** framing clinicians can edit:
 
@@ -159,8 +147,6 @@ File: `docs/architecture/nudge-category-vocabulary.xlsx` (on the same V2 branch 
 
 ## 6. Team
 
-*(Same people as in **The story so far**, with a bit more structure.)*
-
 - **Five-agent Cognitive Companion pod** (planning/build roles in plain words): architecture, speech-to-text, clinical logic, regulatory and privacy, and coordination. Keep specialists paused or narrow until their piece is needed (lean Phase 0).  
 - **About 5–6 medical students** as early filters on categories and labeling batches.  
 - **Investigators:** Dr. Michael Kazior (PI for the VCU determination path); Dr. Sergio Navarrete (co-investigator / co-founder).
@@ -169,7 +155,7 @@ File: `docs/architecture/nudge-category-vocabulary.xlsx` (on the same V2 branch 
 
 ## 7. Doc index (where to click)
 
-*(Pointers to the deeper documents that back **The story so far**. If you are on GitHub’s `main` branch you may not see `docs/` yet — switch the branch dropdown to `v2-speech-layer-ab`.)*
+*(If you are on GitHub’s `main` branch you may not see `docs/` yet — switch the branch dropdown to `v2-speech-layer-ab`.)*
 
 | What | Where |
 |------|--------|
@@ -187,7 +173,7 @@ https://github.com/senrealinvestment/cognitive-companion/blob/v2-speech-layer-ab
 
 ## 8. Action checklist
 
-*(These are the open items flagged in **The story so far**. Copy answers into the `Response:` lines.)*
+*(Copy answers into the `Response:` lines.)*
 
 - [ ] Red-team the **de-ID / non-PHI classifier** before any real clinical data could hit a cloud research lane.  
   Response: ___
@@ -247,8 +233,6 @@ https://github.com/senrealinvestment/cognitive-companion/blob/v2-speech-layer-ab
 ## 9. Wizard-of-Oz grading rubric
 
 **Draft for clinician review — not final.**
-
-*(This is the grading method behind the Wizard-of-Oz step in **The story so far** and in Status.)*
 
 “Wizard of Oz” here means the same thing as in the movie: a hidden person is running the show. In our sims the AI stays **silent**, logging every nudge it *would* have given, while a **human wizard** actually decides what happens — so the model never affects a patient. We are grading its judgment before anyone relies on it.
 
