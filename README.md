@@ -1,9 +1,9 @@
-# Crisis Mirror
+# Cognitive Companion
 
 **Smart glasses ambient AI — cognitive companion for clinical medicine**  
 Real-time advisory cue + cost/quality feedback loop for all intensive care units (medical, surgical, transplant, neuro, cardiac, and other critical care units). Advisory only; the clinician decides.
 
-![Crisis Mirror Architecture](assets/crisis-mirror-architecture.png)
+![Cognitive Companion Architecture](assets/cognitive-companion-architecture.png)
 
 ## Concept
 
@@ -41,9 +41,9 @@ Details and scorecard: [ONEPAGER.md](ONEPAGER.md).
 | [ONEPAGER.md](ONEPAGER.md) | Product brief, MVP, safety, hardware scorecard |
 | [FUNDING.md](FUNDING.md) | Funding map: institutional → NIH/AHRQ → SBIR → ARPA-H |
 | [VCU-ANESTHESIOLOGY-FUNDS-REQUEST.md](VCU-ANESTHESIOLOGY-FUNDS-REQUEST.md) | Internal funds request — VCU Dept of Anesthesiology |
-| [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Interactive dark architecture diagram (V2: dual speech · Jev core · no cards) |
-| [assets/crisis-mirror-architecture.png](assets/crisis-mirror-architecture.png) | Architecture diagram (PNG) |
-| [crisis-mirror-flow.excalidraw](crisis-mirror-flow.excalidraw) | Editable flow (open on [excalidraw.com](https://excalidraw.com)) |
+| [cognitive-companion-architecture.html](cognitive-companion-architecture.html) | Interactive dark architecture diagram (V2: dual speech · Jev core · no cards) |
+| [assets/cognitive-companion-architecture.png](assets/cognitive-companion-architecture.png) | Architecture diagram (PNG) |
+| [cognitive-companion-flow.excalidraw](cognitive-companion-flow.excalidraw) | Editable flow (open on [excalidraw.com](https://excalidraw.com)) |
 | [assets/original-sketch.jpg](assets/original-sketch.jpg) | Original whiteboard sketch (historical) |
 
 
@@ -63,7 +63,7 @@ V2 **supersedes the V1 protocol-card layer** and **removes cloud Jev**. The Syst
 | [docs/architecture/V2D-dual-box-cloud-research.md](docs/architecture/V2D-dual-box-cloud-research.md) | **V2D**: Hybrid + gated non-PHI cloud research (classifier → gateway) |
 | [docs/architecture/V2-local-medical-reasoning-models.md](docs/architecture/V2-local-medical-reasoning-models.md) | Local research LLM options + verified scores |
 | [docs/DOSSIER-plain-language.md](docs/DOSSIER-plain-language.md) | Plain-language dossier for co-investigator / co-founder |
-| [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Diagram: V2A/V2B/Hybrid/V2D → local System One → fast/deep (+ V2D cloud after classifier) → gate → HUD |
+| [cognitive-companion-architecture.html](cognitive-companion-architecture.html) | Diagram: V2A/V2B/Hybrid/V2D → local System One → fast/deep (+ V2D cloud after classifier) → gate → HUD |
 
 ## Status
 

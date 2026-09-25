@@ -1,4 +1,4 @@
-# Crisis Mirror — Funding map (v0.1)
+# Cognitive Companion — Funding map (v0.1)
 
 **What we’re funding:** camera-free smart-glasses **cognitive companion** for critical care  
 (sim lab → education/QI → optional later bedside advisory)
@@ -9,7 +9,7 @@
 
 ## Blunt take
 
-| Path | Fit for Crisis Mirror now | Why |
+| Path | Fit for Cognitive Companion now | Why |
 |------|---------------------------|-----|
 | **University / education / sim lab pots** | **Best first money** | Matches sim-first, advisory, camera-free story |
 | **NIH / AHRQ research grants** | **Strong middle path** | CDS, safety, digital health validity — if you have academic PI + IRB home |
@@ -95,7 +95,7 @@ You (or a co-PI) need an **academic applicant organization**, usually with IRB/e
 - Sometimes better for **engineering + sensing + HCI** than pure clinical trials  
 - Can pair with NIH via collaborative mechanisms
 
-**Crisis Mirror angle that reviews well:**
+**Cognitive Companion angle that reviews well:**
 - Cognitive forcing in high-stakes decompensation  
 - Human-in-loop, advisory-only  
 - Label loop (helpful/accurate) as a **safety science** contribution  
@@ -137,7 +137,7 @@ You (or a co-PI) need an **academic applicant organization**, usually with IRB/e
 - You can stomach aggressive milestones  
 - You are not using ARPA-H as “seed for a side project”
 
-For Crisis Mirror today: **watch list, not week-1 application.**
+For Cognitive Companion today: **watch list, not week-1 application.**
 
 ---
 
@@ -221,4 +221,4 @@ That’s fundable. “Replace intensivist judgment with glasses AI” is not.
 
 ---
 
-*Crisis Mirror funding map · Link / Hermes · not legal/financial advice · verify live FOAs before applying*
+*Cognitive Companion funding map · Link / Hermes · not legal/financial advice · verify live FOAs before applying*

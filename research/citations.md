@@ -70,7 +70,7 @@ Canonical PubMed pages are listed for humans. The retrieved text is the Europe P
 | [45] | Corazza et al. 2023. PediAppRREST tablet RCT. PMID 37535352 | https://europepmc.org/article/MED/37535352 | https://pubmed.ncbi.nlm.nih.gov/37535352 |
 | [46] | RSI checklist sim. PMID 36545368 | https://europepmc.org/article/MED/36545368 | https://pubmed.ncbi.nlm.nih.gov/36545368 |
 | [47] | Cognitive aid anesthetic prep emergency sim. PMID 34946372 | https://europepmc.org/article/MED/34946372 | https://pubmed.ncbi.nlm.nih.gov/34946372 |
-| [48] | crisis-mirror GitHub | https://github.com/senrealinvestment/crisis-mirror | Committed product docs only |
+| [48] | cognitive-companion GitHub | https://github.com/senrealinvestment/cognitive-companion | Committed product docs only |
 
 ## Not retrieved this session (do not cite as read)
 

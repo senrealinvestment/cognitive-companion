@@ -6,7 +6,7 @@
 **Status:** local only — `research/` is not on GitHub  
 **Not:** a protocol, IRB letter, buy order, or legal opinion
 
-Full pack: `~/Projects/crisis-mirror/research/`  
+Full pack: `~/Projects/cognitive-companion/research/`  
 Preferred original: `cognitive-companion-v2-evidence-brief.md`  
 Bibliography: `citations.md` `[1]`–`[48]`
 
@@ -138,7 +138,7 @@ Researcher asked Sergio to answer these before anyone writes firmware or an IRB:
 4. First VCU cycle: curriculum QI, or publishable research?
 5. Audio retention default — ephemeral on-device, transcript store, or vendor cloud?
 
-Also still open: Halo runtime on 300 mAh; QI vs research subjects (learners / faculty / SP); OpenEvidence / UpToDate license; edge-brain location; standardized cue library vs free-form LLM (literature supports checklists, not unconstrained generation); whether the deck still says Crisis Mirror, $299 Halo, or “camera-free Halo.”
+Also still open: Halo runtime on 300 mAh; QI vs research subjects (learners / faculty / SP); OpenEvidence / UpToDate license; edge-brain location; standardized cue library vs free-form LLM (literature supports checklists, not unconstrained generation); whether the deck pricing ($299 Halo) and “camera-free Halo” claims are current.
 
 **Do not start firmware until (1) is a written decision.**
 
@@ -148,7 +148,7 @@ What would close the pack later: vendor note on G2 audio-out; Brilliant note tha
 
 ## Product lock (do not drift)
 
-- Name: Cognitive Companion (repo still `crisis-mirror`)
+- Name: Cognitive Companion (repo: `senrealinvestment/cognitive-companion`)
 - Form: glasses mics + HUD → phone/iPad edge brain → optional OpenEvidence / UpToDate
 - Pilot hardware: Brilliant Labs Halo, camera hard-off
 - Alternative glasses: Even G2 (camera-free by design)

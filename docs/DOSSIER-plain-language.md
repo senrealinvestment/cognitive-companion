@@ -1,4 +1,4 @@
-# Crisis Mirror — plain-language dossier
+# Cognitive Companion — plain-language dossier
 
 **Who this is for:** Co-investigator, co-founder, and anyone joining the core team who has **not** been in the planning chats.  
 **How to read it:** Start at **The story so far**. Later sections zoom in on the same decisions. You should not need any other conversation to follow along.  
@@ -11,7 +11,9 @@ This dossier is a living document — update it as decisions land.
 
 ## The story so far
 
-Crisis Mirror is a project to build an **ambient AI cognitive companion** for clinicians in **transplant ICU and critical care** (and related intensive care settings). “Ambient” means it listens in the background while people work. “Cognitive companion” means it tries to help the clinician **notice** important things — it does **not** give orders and it does **not** replace the clinician’s judgment.
+Cognitive Companion is a project to build an **ambient AI cognitive companion** for clinicians in **transplant ICU and critical care** (and related intensive care settings). “Ambient” means it listens in the background while people work. “Cognitive companion” means it tries to help the clinician **notice** important things — it does **not** give orders and it does **not** replace the clinician’s judgment.
+
+Crisis Mirror was the early working name; the project is now branded Cognitive Companion.
 
 ### Where V1 ended and V2 began
 
@@ -57,7 +59,7 @@ Open risks and next actions are listed in the **action checklist** at the end. E
 
 *(This matches the product described in **The story so far**.)*
 
-Crisis Mirror listens with **audio only** (glasses and/or phone). The current design law is **no wearable camera**, because face-worn video creates serious privacy and consent problems.
+Cognitive Companion listens with **audio only** (glasses and/or phone). The current design law is **no wearable camera**, because face-worn video creates serious privacy and consent problems.
 
 What the clinician sees or hears from the system is an **advisory nudge** — a short suggestion meant to help attention. The system:
 
@@ -73,7 +75,7 @@ What the clinician sees or hears from the system is an **advisory nudge** — a 
 
 *(Same problem the redesign is trying to solve.)*
 
-In a busy ICU, people can miss cues under load — not because they are careless, but because attention is scarce. Crisis Mirror’s job is to be a careful second set of ears: quiet most of the time, useful when something important may be missed, and easy to ignore when it is wrong.
+In a busy ICU, people can miss cues under load — not because they are careless, but because attention is scarce. Cognitive Companion’s job is to be a careful second set of ears: quiet most of the time, useful when something important may be missed, and easy to ignore when it is wrong.
 
 That is why the traffic-light system and Wizard-of-Oz grading exist: we want proof that the companion is **helpful and not noisy** before anyone depends on it.
 
@@ -171,7 +173,7 @@ File: `docs/architecture/nudge-category-vocabulary.xlsx` (on the same V2 branch 
 
 | What | Where |
 |------|--------|
-| Architecture notes + diagram (hardware stacks, shared spine, V2D) | **PR #1** — `docs/architecture/` · `crisis-mirror-architecture.html` · `assets/crisis-mirror-architecture.png` |
+| Architecture notes + diagram (hardware stacks, shared spine, V2D) | **PR #1** — `docs/architecture/` · `cognitive-companion-architecture.html` · `assets/cognitive-companion-architecture.png` |
 | V2D cloud research addendum | `docs/architecture/V2D-dual-box-cloud-research.md` |
 | Nudge category vocabulary spreadsheet | `docs/architecture/nudge-category-vocabulary.xlsx` |
 | Nudge vocabulary **schema** (Mac Mini prototype → Mac Studio production) | `docs/architecture/nudge-vocabulary-schema.md` |
@@ -179,7 +181,7 @@ File: `docs/architecture/nudge-category-vocabulary.xlsx` (on the same V2 branch 
 | This dossier | `docs/DOSSIER-plain-language.md` |
 
 Direct dossier link on the V2 branch:  
-https://github.com/senrealinvestment/crisis-mirror/blob/v2-speech-layer-ab/docs/DOSSIER-plain-language.md
+https://github.com/senrealinvestment/cognitive-companion/blob/v2-speech-layer-ab/docs/DOSSIER-plain-language.md
 
 ---
 

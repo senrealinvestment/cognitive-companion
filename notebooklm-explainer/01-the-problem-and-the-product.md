@@ -57,4 +57,4 @@ We will not claim mortality benefit. We will not claim this is an FDA device. We
 
 This work sits in anesthesiology and critical-care simulation because that is where crisis checklists, airway, hemorrhage, and decompensation already live as teaching problems. The target setting is critical care broadly: medical, surgical, transplant, neuro, cardiac, and other intensive care units, where the same crises recur. Version 1 does not touch live patients. It borrows the cognitive structure of that work and tests it where we are allowed to be wrong: in sim.
 
-The product name in conversation is Cognitive Companion. The repository still carries an older working title, Crisis Mirror. Same project.
+The product is branded **Cognitive Companion** (see the plain-language dossier for the early working-name note).

@@ -34,7 +34,7 @@
 19. Edge brain: on-device model vs campus API vs vendor. Not researched here [unverified].
 20. Standardized cue library vs free-form LLM. The literature supports checklists [34], not unconstrained generation.
 21. Team roles (Navarrete / Kazior / Beltoja) and who owns IRB vs hardware vs sim-center access. Named in committed docs; not re-verified this session [unverified].
-22. Deck (`Cognitive-Companion-Presentation.pptx`) exists. This pack does not audit whether the deck still says Crisis Mirror, $299 Halo, or “camera-free Halo” [unverified].
+22. Deck (`Cognitive-Companion-Presentation.pptx`) exists. This pack does not audit whether the deck pricing ($299 Halo) and “camera-free Halo” claims are current [unverified].
 
 ## Recommended next actions (not implementation)
 

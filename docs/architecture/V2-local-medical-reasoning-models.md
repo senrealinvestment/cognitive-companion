@@ -5,7 +5,7 @@
 ## Global caveats (read first)
 
 1. **None of these models is validated on real-time ICU / crisis companion scenarios.** Scores are exam-style MCQA, HealthBench-style conversational rubrics, or literature QA — **benchmark ≠ bedside**.
-2. For Crisis Mirror’s research path, any local LLM **must** be paired with **local literature retrieval + mandatory citations** (“no source = no claim”). A naked model is not a substitute for OpenEvidence’s licensed corpus.
+2. For Cognitive Companion’s research path, any local LLM **must** be paired with **local literature retrieval + mandatory citations** (“no source = no claim”). A naked model is not a substitute for OpenEvidence’s licensed corpus.
 3. Closing the gap means **fine-tune / eval on Sergio’s sim-lab data** — tie to **T2** (MedGemma cue track) and research-path eval gates (hallucination, dosing refusal, advisory phrasing, regression). No bedside self-updates; version pin + rollback.
 4. Memory numbers below are **estimates** (weights ≈ params×bytes; Q4 ≈ 0.5 B/param rough; real residency = weights + KV + concurrent ASR/System One). Label as estimates.
 

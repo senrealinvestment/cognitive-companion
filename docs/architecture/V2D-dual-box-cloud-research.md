@@ -61,4 +61,4 @@ Local RAG remains **primary** for anything that might touch the patient. Cloud i
 - [`V2-hybrid.md`](./V2-hybrid.md) — dual-box LAN split  
 - [`V2-shared-layers.md`](./V2-shared-layers.md) — shared spine + deep research framing  
 - [`V2-hardware-options.md`](./V2-hardware-options.md) — Spark / Mac / Hybrid table  
-- [`crisis-mirror-architecture.html`](../../crisis-mirror-architecture.html) — diagram includes V2D cloud branch after classifier  
+- [`cognitive-companion-architecture.html`](../../cognitive-companion-architecture.html) — diagram includes V2D cloud branch after classifier  

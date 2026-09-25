@@ -1,6 +1,6 @@
 # Cognitive Companion research pack
 
-Index for researcher deliverables on the camera-free smart-glasses clinical cognitive companion (formerly Crisis Mirror).
+Index for researcher deliverables on the camera-free smart-glasses clinical cognitive companion.
 
 Retrieved 2026-08-18. Local only. Not committed. Do not treat this folder as a GitHub URL.
 
@@ -26,17 +26,17 @@ Fact / inference / unknown labels are first-class. Conflicts are not averaged in
 
 These live at repo root and on GitHub. They are product/funding docs, not researcher evidence.
 
-- `/Users/senlabs/Projects/crisis-mirror/README.md`
-- `/Users/senlabs/Projects/crisis-mirror/ONEPAGER.md`
-- `/Users/senlabs/Projects/crisis-mirror/FUNDING.md` (GitHub sponsors file, not a research funding map)
-- `/Users/senlabs/Projects/crisis-mirror/VCU-ANESTHESIOLOGY-FUNDS-REQUEST.md`
-- `/Users/senlabs/Projects/crisis-mirror/Cognitive-Companion-Presentation.pptx`
+- `/Users/senlabs/Projects/cognitive-companion/README.md`
+- `/Users/senlabs/Projects/cognitive-companion/ONEPAGER.md`
+- `/Users/senlabs/Projects/cognitive-companion/FUNDING.md` (GitHub sponsors file, not a research funding map)
+- `/Users/senlabs/Projects/cognitive-companion/VCU-ANESTHESIOLOGY-FUNDS-REQUEST.md`
+- `/Users/senlabs/Projects/cognitive-companion/Cognitive-Companion-Presentation.pptx`
 
-Public repo (code/docs, not this pack): https://github.com/senrealinvestment/crisis-mirror
+Public repo (code/docs, not this pack): https://github.com/senrealinvestment/cognitive-companion
 
 ## Product lock (do not drift)
 
-- Name: Cognitive Companion (repo still `crisis-mirror`).
+- Name: Cognitive Companion (repo: `senrealinvestment/cognitive-companion`).
 - Form: glasses mics + HUD → phone/iPad edge brain → optional OpenEvidence / UpToDate.
 - Pilot hardware: Brilliant Labs Halo with camera hard-off.
 - Alternative glasses: Even Realities G2 (camera-free by design).

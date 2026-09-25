@@ -207,7 +207,7 @@ function sectionLabel(slide, text, x = 0.5, y = 0.28) {
     });
   });
 
-  s.addText("Formerly Crisis Mirror  ·  July 2026", {
+  s.addText("Cognitive Companion  ·  July 2026", {
     x: 0.5,
     y: 5.15,
     w: 6,
@@ -1280,7 +1280,7 @@ function sectionLabel(slide, text, x = 0.5, y = 0.28) {
   });
 
   s.addText(
-    "Advisory · camera-free · education first  ·  github.com/senrealinvestment/crisis-mirror",
+    "Advisory · camera-free · education first  ·  github.com/senrealinvestment/cognitive-companion",
     {
       x: 0.5,
       y: 5.15,
