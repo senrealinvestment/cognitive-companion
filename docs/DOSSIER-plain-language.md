@@ -49,7 +49,7 @@ You will see each of these again below. Here is the spine of the plan:
 
 ### What is still open
 
-Open risks and next actions are listed in the **action checklist** at the end. Examples: red-teaming the privacy filter before any cloud research, planning live calibration (not only sims), weekly student-batch review, advisory-only liability briefing, not hanging timelines on vendor deals, transcript reuse policy, picking the cloud provider only when implementing V2D, and confirming the 512 GB Mac purchase still makes sense as models get smaller.
+Open risks and next actions are listed in the **action checklist** at the end. Examples: red-teaming the privacy filter before any cloud research, planning live calibration (not only sims), weekly student-batch review, advisory-only liability briefing, not hanging timelines on vendor deals, transcript reuse policy, picking the cloud provider only when implementing V2D, confirming the 512 GB Mac purchase still makes sense as models get smaller, and the engineering items (formal eval pipeline, vocabulary database design, latency budget, failure modes, observability, and adapter contract tests).
 
 ---
 
@@ -151,6 +151,8 @@ That spreadsheet is a **seed training / labeling set**, not finished clinical do
 
 File: `docs/architecture/nudge-category-vocabulary.xlsx` (on the same V2 branch as this dossier).
 
+**Later (after hardware):** Replace the spreadsheet with a versioned database that tracks who tagged what and when. The paper design for that database is `docs/architecture/nudge-vocabulary-schema.md`. **Do not build the database until the Mac Studio is on hand** — design on paper first (see the action checklist).
+
 ---
 
 ## 6. Team
@@ -172,6 +174,7 @@ File: `docs/architecture/nudge-category-vocabulary.xlsx` (on the same V2 branch 
 | Architecture notes + diagram (hardware stacks, shared spine, V2D) | **PR #1** — `docs/architecture/` · `crisis-mirror-architecture.html` · `assets/crisis-mirror-architecture.png` |
 | V2D cloud research addendum | `docs/architecture/V2D-dual-box-cloud-research.md` |
 | Nudge category vocabulary spreadsheet | `docs/architecture/nudge-category-vocabulary.xlsx` |
+| Nudge vocabulary **paper schema** (future database; do not build yet) | `docs/architecture/nudge-vocabulary-schema.md` |
 | IRB / NHSR Phase 0.5 drafts (HRP-503b path) | **PR #4** — `docs/regulatory/` |
 | This dossier | `docs/DOSSIER-plain-language.md` |
 
@@ -206,6 +209,26 @@ https://github.com/senrealinvestment/crisis-mirror/blob/v2-speech-layer-ab/docs/
   Response: ___
 
 - [ ] Confirm **Mac Studio 512 GB** procurement still makes sense given model distillation / size trends.  
+  Response: ___
+
+### Engineering (must become systems, not promises)
+
+- [ ] Build a **formal evaluation pipeline** — continuous-integration (CI) harness, fixed test set, and scoreboard — **before any model training**. “Every update must pass eval” is currently a promise, not a system.  
+  Response: ___
+
+- [ ] Replace the Excel vocabulary spreadsheet with a **versioned, provenance-tracked database** (who tagged what, when) once hardware exists. **For now:** design the schema on paper only (`docs/architecture/nudge-vocabulary-schema.md`). Do **not** build the database until the Mac Studio is on hand.  
+  Response: ___
+
+- [ ] Define a **hard latency budget** for speech-to-cue (for example: 500 ms vs 2 seconds) as a written **spec**, not something discovered after purchase.  
+  Response: ___
+
+- [ ] Define **failure modes and graceful degradation**: Spark drop, network hiccup, low classifier confidence — **suppress cues rather than guess**, and alert a human.  
+  Response: ___
+
+- [ ] Add **observability**: health checks, an audit log of every emitted cue with timestamp, and an alert when the system goes quiet.  
+  Response: ___
+
+- [ ] Write **contract tests** for the `SystemOneClient` adapter so swapping models cannot silently break behavior.  
   Response: ___
 
 - [ ] Additional item: ___  
