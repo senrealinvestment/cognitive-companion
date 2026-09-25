@@ -147,4 +147,28 @@ Copy answers into the `Response:` lines. Check boxes when done.
 
 ---
 
+## 9. Wizard-of-Oz grading rubric
+
+**Draft for clinician review — not final.**
+
+In early sims we can run a **silent phase**: the model does **not** speak to the clinician. It still **logs every moment it would have nudged**.
+
+Each log line should capture, in plain fields:
+
+- **When** (timestamp)
+- **What it heard** (short transcript snippet or note)
+- **What category** it would have chosen
+- **How sure** it was (confidence)
+
+After each sim session, a clinician reviews those logs and answers **three simple questions** per logged call:
+
+1. **Should it have spoken at all?** Yes / No  
+2. **If yes, was the category right?** Yes / No  
+3. **Was the timing right?** Too early / Just right / Too late  
+
+That is the whole grade for one call. No long forms. Stack enough sessions and you can see whether the system is too chatty, wrong-category, or late — before it ever talks in the room.
+
+Use this rubric to train and calibrate; replace or tighten it once the clinical panel signs off.
+
+---
 This dossier is a living document — update it as decisions land.
