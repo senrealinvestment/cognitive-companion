@@ -36,7 +36,7 @@ You will see each of these again below. Here is the spine of the plan:
 1. **Dual-box hardware:** An **NVIDIA DGX Spark** (strong at fast speech work) plus a **Mac Studio with 512 GB of memory** (strong at larger “thinking” and local literature search). Two separate computers on a private network — they do **not** merge into one giant memory pool.  
 2. **Local-first:** Bedside **decisions and nudges stay on those room computers**. Nothing is sent to the public cloud for deciding what to say in the moment.  
 3. **Optional V2D cloud research lane:** Only for **deeper, on-demand** questions after a wake word or button — and only after a strict **local** check that the question is **not** patient-identifying. Details later.  
-4. **Traffic-light nudge system:** Clinicians own the menu of what counts as a nudge (green / yellow / red). A spreadsheet is the seed list.  
+4. **Traffic-light nudge system:** Clinicians own the menu of what counts as a nudge (green / yellow / red). A database is the seed list.  
 5. **Wizard-of-Oz first:** Before trusting hardware and models in the loop, run sims where the AI may log silently while a **human** decides what happens. Grade the AI’s judgment without anyone relying on it yet.  
 6. **Lean Phase 0:** Start thin — architecture and engineering first; specialists only when their piece is needed.  
 7. **VCU paperwork drafted (not finished until VCU says so):** Internal-only **not-human-subjects** path using **HRP-503b**, drafted for Phase 0.5. **Principal investigator (PI): Dr. Michael Kazior.** **Co-investigator: Dr. Sergio Navarrete.** Drafts live on **PR #4**.
@@ -143,15 +143,15 @@ Nudges use a **traffic-light** framing clinicians can edit:
 | **Yellow** | Worth paying attention to (**watch**) |
 | **Red** | Less important — monitor only (**stay quiet**) |
 
-**Clinicians own the category menu.** The seed list is a spreadsheet with organ-system tabs (Neuro, Cardiac, Pulmonary, GI, Hepatology, Renal, Heme, Infectious Disease, Endocrine, Musculoskeletal) plus an **Emergencies** tab whose jump-off reference is the **Stanford Emergency Manual** (also called the Stanford Guide).
+**Clinicians own the category menu.** The seed list is a database with organ-system tabs (Neuro, Cardiac, Pulmonary, GI, Hepatology, Renal, Heme, Infectious Disease, Endocrine, Musculoskeletal) plus an **Emergencies** tab whose jump-off reference is the **Stanford Emergency Manual** (also called the Stanford Guide).
 
 **Auto-escalate:** Some diagnoses or patterns can be marked to **short-circuit** the normal light — jump straight to green when detected, like an ambulance through a red light.
 
-That spreadsheet is a **seed training / labeling set**, not finished clinical doctrine. Panel review replaces placeholders. Medical students may help filter drafts; clinicians approve.
+That database is a **seed training / labeling set**, not finished clinical doctrine. Panel review replaces placeholders. Medical students may help filter drafts; clinicians approve.
 
 File: `docs/architecture/nudge-category-vocabulary.xlsx` (on the same V2 branch as this dossier).
 
-**Vocabulary database plan:** Replace the spreadsheet with a versioned database that tracks who tagged what and when. The paper design is `docs/architecture/nudge-vocabulary-schema.md`. **Build and populate it now on Sergio’s existing Mac Mini** (prototype / dev). When the **Mac Studio** arrives, **migrate the same schema and data** there as **production** (see the action checklist).
+**Vocabulary database plan:** The seed list is the versioned, provenance-tracked database that tracks who tagged what and when (schema: `docs/architecture/nudge-vocabulary-schema.md`). **Build and populate it now on Sergio’s existing Mac Mini** (prototype / dev). When the **Mac Studio** arrives, **migrate the same schema and data** there as **production** (see the action checklist).
 
 ---
 
@@ -185,7 +185,7 @@ https://github.com/senrealinvestment/crisis-mirror/blob/v2-speech-layer-ab/docs/
 
 ## 8. Action checklist
 
-*(These are the open items flagged in **The story so far**. Copy answers into the `Response:` lines.)*
+*(These are the open items flagged in **The story so far**. Copy answers into the `Response:` lines.)**
 
 - [ ] Red-team the **de-ID / non-PHI classifier** before any real clinical data could hit a cloud research lane.  
   Response: ___
@@ -216,7 +216,7 @@ https://github.com/senrealinvestment/crisis-mirror/blob/v2-speech-layer-ab/docs/
 - [ ] Build a **formal evaluation pipeline** — continuous-integration (CI) harness, fixed test set, and scoreboard — **before any model training**. “Every update must pass eval” is currently a promise, not a system.  
   Response: ___
 
-- [ ] Replace the Excel vocabulary spreadsheet with a **versioned, provenance-tracked database** (who tagged what, when). Schema: `docs/architecture/nudge-vocabulary-schema.md`. **Build and populate now on Sergio’s existing Mac Mini** (prototype / dev). When the **Mac Studio** arrives, **migrate the same schema and data** to it as **production**.  
+- [ ] Build and populate the **versioned, provenance-tracked database** (who tagged what, when) that is the nudge-category seed list. Schema: `docs/architecture/nudge-vocabulary-schema.md`. **Build and populate now on Sergio’s existing Mac Mini** (prototype / dev). When the **Mac Studio** arrives, **migrate the same schema and data** to it as **production**.  
   Response: ___
 
 - [ ] Define a **hard latency budget** for speech-to-cue (for example: 500 ms vs 2 seconds) as a written **spec**, not something discovered after purchase.  
