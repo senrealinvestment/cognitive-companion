@@ -62,6 +62,7 @@ V2 **supersedes the V1 protocol-card layer** and **removes cloud Jev**. The Syst
 | [docs/architecture/V2-hybrid.md](docs/architecture/V2-hybrid.md) | Dual-box service split |
 | [docs/architecture/V2D-dual-box-cloud-research.md](docs/architecture/V2D-dual-box-cloud-research.md) | **V2D**: Hybrid + gated non-PHI cloud research (classifier → gateway) |
 | [docs/architecture/V2-local-medical-reasoning-models.md](docs/architecture/V2-local-medical-reasoning-models.md) | Local research LLM options + verified scores |
+| [docs/DOSSIER-plain-language.md](docs/DOSSIER-plain-language.md) | Plain-language dossier for co-investigator / co-founder |
 | [crisis-mirror-architecture.html](crisis-mirror-architecture.html) | Diagram: V2A/V2B/Hybrid/V2D → local System One → fast/deep (+ V2D cloud after classifier) → gate → HUD |
 
 ## Status
