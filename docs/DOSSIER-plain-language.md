@@ -38,7 +38,7 @@ You will see each of these again below. Here is the spine of the plan:
 1. **Dual-box hardware:** An **NVIDIA DGX Spark** (strong at fast speech work) plus a **Mac Studio with 512 GB of memory** (strong at larger “thinking” and local literature search). Two separate computers on a private network — they do **not** merge into one giant memory pool.  
 2. **Local-first:** Bedside **decisions and nudges stay on those room computers**. Nothing is sent to the public cloud for deciding what to say in the moment.  
 3. **Optional V2D cloud research lane:** Only for **deeper, on-demand** questions after a wake word or button — and only after a strict **local** check that the question is **not** patient-identifying. Details later.  
-4. **Traffic-light nudge system:** Clinicians own the menu of what counts as a nudge (green / yellow / red). A database is the seed list.  
+4. **Training system for the System One layer:** Clinicians own a traffic-light ranking (red / yellow / green) that teaches the small, fast “System One” model what moments deserve attention. That ranking is a **training signal** — it does **not** by itself send a nudge to the clinician. A **nudge** is a separate later step: the companion’s short advisory output to the clinician. A database is the seed list for those labels.  
 5. **Wizard-of-Oz first:** Before trusting hardware and models in the loop, run sims where the AI may log silently while a **human** decides what happens. Grade the AI’s judgment without anyone relying on it yet.  
 6. **Lean Phase 0:** Start thin — architecture and engineering first; specialists only when their piece is needed.  
 7. **VCU paperwork drafted (not finished until VCU says so):** Internal-only **not-human-subjects** path using **HRP-503b**, drafted for Phase 0.5. **Principal investigator (PI): Dr. Michael Kazior.** **Co-investigator: Dr. Sergio Navarrete.** Drafts live on **PR #4**.
@@ -46,7 +46,7 @@ You will see each of these again below. Here is the spine of the plan:
 ### Who is on the team
 
 - A **five-agent planning/build pod** covering, in everyday terms: **architecture**, **speech-to-text**, **clinical logic**, **regulatory and privacy**, and **coordination** (keeping the pieces aligned). Specialists stay scoped to their lane.  
-- About **5–6 medical students** as early **category filters** — helping draft and review the nudge menu and related labeling, with clinicians remaining the authority.  
+- About **5–6 medical students** as early **category filters** — helping draft and review the ranking categories and related labeling, with clinicians remaining the authority.  
 - **Investigators** named above for the VCU determination path.
 
 ### What is still open
@@ -73,7 +73,7 @@ What the clinician sees or hears from the system is an **advisory nudge** — a 
 
 In a busy ICU, people can miss cues under load — not because they are careless, but because attention is scarce. Cognitive Companion’s job is to be a careful second set of ears: quiet most of the time, useful when something important may be missed, and easy to ignore when it is wrong.
 
-That is why the traffic-light system and Wizard-of-Oz grading exist: we want proof that the companion is **helpful and not noisy** before anyone depends on it.
+That is why the **System One training** ranking (traffic lights) and Wizard-of-Oz grading exist: we want proof that the companion knows what deserves attention — and only then speaks — before anyone depends on it.
 
 ---
 
@@ -103,9 +103,9 @@ Imagine two powerful computers in a **sim control room or closet** — not marke
 1. Glasses or a phone send audio over an **encrypted local network** (a private, protected link inside the facility/lab) to those computers.  
 2. **DGX Spark** focuses on **speech**: turning sound into text and related speech jobs, plus training work that needs NVIDIA’s CUDA tools.  
 3. **Mac Studio** focuses on **thinking** for the live advisory path: drafting short cue text with a local medical model (the working baseline discussed is **MedGemma 27B**), local literature search when needed, and — for V2D — the privacy gate before any optional cloud research.  
-4. **Nothing goes to the cloud for bedside decisions.** Choosing whether to nudge, and what to say in the moment, stays on the local boxes.
+4. **Nothing goes to the cloud for bedside decisions.** Ranking what matters, and any nudge to the clinician, stays on the local boxes.
 
-**Shared product spine (same idea on both boxes):** clean up / de-identify what must stay local → a small local “System One” router that decides salience and urgency → draft a short cue → a safety/wording gate → show a brief heads-up on glasses or phone → later, humans label whether it helped (for offline training only — **no self-updating at the bedside**).
+**Shared product spine (same idea on both boxes):** clean up / de-identify what must stay local → a small local **System One** layer that reads the transcript in real time and ranks each moment by importance (the traffic-light training target) → only then, if something deserves a clinician-facing alert, draft a short **nudge** (a separate downstream output) → a safety/wording gate → show a brief heads-up on glasses or phone → later, humans label whether ranking and nudges matched their judgment (for offline training only — **no self-updating at the bedside**).
 
 ### Optional add-on: V2D cloud research lane
 
@@ -123,19 +123,23 @@ Details for engineers: `docs/architecture/` on **PR #1**, especially `V2D-dual-b
 
 ---
 
-## 5. Nudge system
+## 5. Training system for the System One layer
 
-Nudges use a **traffic-light** framing clinicians can edit:
+**Why System One exists.** System One is the small, fast decision layer that reads the transcript in real time and ranks each moment by importance. That ranking tells Cognitive Companion what deserves a nudge and what does not. Without it, the companion would either stay silent forever or talk too much.
 
-| Color | Plain meaning |
-|-------|----------------|
-| **Green** | Extremely important — escalate (**nudge now**) |
-| **Yellow** | Worth paying attention to (**watch**) |
-| **Red** | Less important — monitor only (**stay quiet**) |
+**Traffic lights are the training signal — not the nudge.** Clinicians (and student helpers) label moments with a traffic-light ranking. The model learns to match that judgment. The colors mean:
+
+| Color | Plain meaning (attention rank) |
+|-------|--------------------------------|
+| **Green** | Worth attention |
+| **Yellow** | Watch |
+| **Red** | Stay quiet |
+
+A **green** ranking does **not** by itself send anything to the clinician. It only means System One judged the moment important. The **nudge** is a separate downstream action: the short advisory message Cognitive Companion may then show or speak to the clinician after that ranking (and after safety checks).
 
 **Clinicians own the category menu.** The seed list is a database with organ-system tabs (Neuro, Cardiac, Pulmonary, GI, Hepatology, Renal, Heme, Infectious Disease, Endocrine, Musculoskeletal) plus an **Emergencies** tab whose jump-off reference is the **Stanford Emergency Manual** (also called the Stanford Guide).
 
-**Auto-escalate:** Some diagnoses or patterns can be marked to **short-circuit** the normal light — jump straight to green when detected, like an ambulance through a red light.
+**Auto-escalate:** Some diagnoses or patterns can be marked to **short-circuit** the normal light — jump straight to **green** (worth attention) when detected, like an ambulance through a red light. That still ranks importance for System One; it does **not** automatically fire a clinician nudge by itself.
 
 That database is a **seed training / labeling set**, not finished clinical doctrine. Panel review replaces placeholders. Medical students may help filter drafts; clinicians approve.
 
@@ -161,8 +165,8 @@ File: `docs/architecture/nudge-category-vocabulary.xlsx` (on the same V2 branch 
 |------|--------|
 | Architecture notes + diagram (hardware stacks, shared spine, V2D) | **PR #1** — `docs/architecture/` · `cognitive-companion-architecture.html` · `assets/cognitive-companion-architecture.png` |
 | V2D cloud research addendum | `docs/architecture/V2D-dual-box-cloud-research.md` |
-| Nudge category vocabulary spreadsheet | `docs/architecture/nudge-category-vocabulary.xlsx` |
-| Nudge vocabulary **schema** (Mac Mini prototype → Mac Studio production) | `docs/architecture/nudge-vocabulary-schema.md` |
+| System One category vocabulary spreadsheet (seed labels) | `docs/architecture/nudge-category-vocabulary.xlsx` |
+| System One vocabulary **schema** (Mac Mini prototype → Mac Studio production) | `docs/architecture/nudge-vocabulary-schema.md` |
 | IRB / NHSR Phase 0.5 drafts (HRP-503b path) | **PR #4** — `docs/regulatory/` |
 | This dossier | `docs/DOSSIER-plain-language.md` |
 
@@ -204,7 +208,7 @@ https://github.com/senrealinvestment/cognitive-companion/blob/v2-speech-layer-ab
 - [ ] Build a **formal evaluation pipeline** — continuous-integration (CI) harness, fixed test set, and scoreboard — **before any model training**. “Every update must pass eval” is currently a promise, not a system.  
   Response: ___
 
-- [ ] Build and populate the **versioned, provenance-tracked database** (who tagged what, when) that is the nudge-category seed list. Schema: `docs/architecture/nudge-vocabulary-schema.md`. **Build and populate now on Sergio’s existing Mac Mini** (prototype / dev). When the **Mac Studio** arrives, **migrate the same schema and data** to it as **production**.  
+- [ ] Build and populate the **versioned, provenance-tracked database** (who tagged what, when) that is the **System One training** seed list (traffic-light ranks and categories — not automatic clinician nudges). Schema: `docs/architecture/nudge-vocabulary-schema.md`. **Build and populate now on Sergio’s existing Mac Mini** (prototype / dev). When the **Mac Studio** arrives, **migrate the same schema and data** to it as **production**.  
   Response: ___
 
 - [ ] Define a **hard latency budget** for speech-to-cue (for example: 500 ms vs 2 seconds) as a written **spec**, not something discovered after purchase.  
@@ -236,13 +240,14 @@ https://github.com/senrealinvestment/cognitive-companion/blob/v2-speech-layer-ab
 
 “Wizard of Oz” here means the same thing as in the movie: a hidden person is running the show. In our sims the AI stays **silent**, logging every nudge it *would* have given, while a **human wizard** actually decides what happens — so the model never affects a patient. We are grading its judgment before anyone relies on it.
 
-In that **silent phase**, the model does **not** speak to the clinician. It still **logs every moment it would have nudged**.
+In that **silent phase**, the model does **not** speak to the clinician. It still **logs** both (a) the **System One** traffic-light rank it would have assigned and (b) every moment it would have sent a **nudge** (the separate clinician-facing output).
 
 Each log line should capture, in plain fields:
 
 - **When** (timestamp)
 - **What it heard** (short transcript snippet or note)
-- **What category** it would have chosen
+- **What category / traffic-light rank** System One chose (red / yellow / green)
+- **Whether it would have nudged** the clinician (yes / no) — remember: green rank ≠ automatic nudge
 - **How sure** it was (confidence)
 
 After each sim session, a clinician reviews those logs and answers **three simple questions** per logged call:
