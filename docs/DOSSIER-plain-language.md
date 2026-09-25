@@ -185,7 +185,7 @@ https://github.com/senrealinvestment/crisis-mirror/blob/v2-speech-layer-ab/docs/
 
 ## 8. Action checklist
 
-*(These are the open items flagged in **The story so far**. Copy answers into the `Response:` lines.)**
+*(These are the open items flagged in **The story so far**. Copy answers into the `Response:` lines.)*
 
 - [ ] Red-team the **de-ID / non-PHI classifier** before any real clinical data could hit a cloud research lane.  
   Response: ___
