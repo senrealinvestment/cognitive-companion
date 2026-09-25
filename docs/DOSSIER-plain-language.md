@@ -33,7 +33,7 @@ Crisis Mirror’s job is to be a careful second set of ears: quiet most of the t
 
 - **Hardware path:** Dual-box — **NVIDIA DGX Spark** plus **Mac Studio (512 GB target)**.
 - **Regulatory:** VCU **not-human-subjects** path drafted for Phase 0.5 — adapt into **HRP-503b** (NHSR). Activity is **internal only** (product go/no-go; **no** publishing cue-test results as research). Named **PI: Dr. Michael Kazior**; **co-investigator: Dr. Sergio Navarrete**. Drafts live on **PR #4** (not a final VCU determination until HRPP/IRB issues one).
-- **Build order:** **Wizard-of-Oz** (human sends cues) **before** buying/committing to full local models and hardware integration. **Lean Phase 0** — Architect + engineer first; specialists only for their pieces.
+- **Build order:** **Wizard-of-Oz** **before** buying/committing to full local models and hardware integration. “Wizard of Oz” is named after the movie where a hidden person runs a grand machine: here the AI runs **silently** in the background during sim sessions and logs every nudge it *would* have given, while a **human** (the “wizard”) actually decides what happens — so no patient is ever affected by the model’s output. We grade the model’s judgment without anyone relying on it yet. **Lean Phase 0** — Architect + engineer first; specialists only for their pieces.
 - **V1 retired:** Old protocol / Stanford-card style flow is out. Current work is **V2** (local System One + MedGemma cues; no cloud “Jev” deciding).
 
 **Still open (examples)**
@@ -151,7 +151,9 @@ Copy answers into the `Response:` lines. Check boxes when done.
 
 **Draft for clinician review — not final.**
 
-In early sims we can run a **silent phase**: the model does **not** speak to the clinician. It still **logs every moment it would have nudged**.
+“Wizard of Oz” here means the same thing as in the movie: a hidden person is running the show. In our sims the AI stays **silent**, logging every nudge it *would* have given, while a **human wizard** actually decides what happens — so the model never affects a patient. We are grading its judgment before anyone relies on it.
+
+In that **silent phase**, the model does **not** speak to the clinician. It still **logs every moment it would have nudged**.
 
 Each log line should capture, in plain fields:
 
