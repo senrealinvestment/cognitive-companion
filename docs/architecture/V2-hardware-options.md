@@ -47,7 +47,7 @@ Sources: NVIDIA Spark hardware; [Apple M3 Ultra / Mac Studio specs](https://supp
 | System One | **Laya** default | **NanoJev** native | Both, by service | Same (always local) |
 | NeMo / V2A train | Awkward | **Native** | Spark does T1/T3 CUDA | Same as Hybrid |
 | MedGemma 27B | Comfortable (+ RAG + research) | **Fits** (~14–54 GB) with speech | Prefer Mac for 27B+RAG | Same; Mac runs **non-PHI classifier** |
-| Largest practical research | 70B–120B easy; 671B MoE Q4 possible but crowded | Mid: **70B 4-bit ~40 GB** + speech; dual-Spark 405B **slow** | Mac for big RAG; Spark for CUDA jobs | Local RAG **+** enterprise cloud (non-PHI only) |
+| Largest practical research | 70B–120B easy; 671B MoE Q4 possible but crowded | Mid: **70B 4-bit ~40 GB** + speech; dual-Spark 405B **slow** | Mac for big RAG; Spark for CUDA jobs | Local RAG **+** frontier cloud **slot** (non-PHI only; OE/UpToDate optional) |
 | Decode speed | 27B 4-bit ~15–28 tok/s class (M3 Max proxies); measure Ultra | e.g. community: 70B NVFP4 ~5 tok/s; 120B ~27; dual 405B INT4 ~**1.8 tok/s** | LAN adds ms–tens of ms | Cloud research latency separate (opt-in) |
 | Price | ~$9.5k launch 512 GB; used much higher; new often 256 GB | ~$4.0–4.7k | Sum + networking | Hybrid + gateway/API spend |
 | Power | Idle ~9 W; max ~270 W (512 GB table); rated 480 W | SoC 140 W TDP; 240 W PSU | Both on UPS | Same |
@@ -90,5 +90,5 @@ Multiple variables differ (box, System One, ASR, training stack). **Outcome diff
 2. Does Spark **replace or complement** Mac?  
 3. Mac 512 used vs 256 new vs wait  
 4. Dual-Spark for 405B worth it given slow decode?  
-5. V2D: gateway (Vercel AI Gateway vs Cloudflare), classifier eval, enterprise cloud model pick  
+5. V2D: gateway (Vercel AI Gateway vs Cloudflare), classifier eval, **which frontier enterprise model fills the swappable slot**, optional OE/UpToDate plugins  
 6. Plus prior: wake-word, OE BAA, corpus rights, gold nudges, Sortformer vs Nemotron-3 on Mac, etc.

@@ -133,11 +133,11 @@ Salience · category · escalate · action/urgency — all **local** (Laya on H1
 3. Rules: **mandatory citations**; **no source = no claim**; corpus refresh cadence; **knowledge-cutoff** caveat; **paywalled journals excluded**.  
 4. Optional: de-ID **PubMed E-utilities** live query (public API, no PHI) — still a **network call** + policy decision.
 
-### Optional cloud: OpenEvidence
-Only if/when **enterprise BAA** secured. **No verified public self-serve API** (enterprise/Epic integrations). Dashed fallback in diagram.
+### Optional curated evidence: OpenEvidence / UpToDate
+Optional plugins behind deep research **once enterprise agreements are in place**. **Neither is a default.** OpenEvidence: only with **enterprise BAA**; no verified public self-serve API. UpToDate: same rule — contract first. Dashed / optional in diagram.
 
-### Optional cloud: V2D high-end research (non-PHI only)
-On **V2D** (Hybrid dual-box + cloud lane): after clinician wake/button, Mac Studio runs a **conservative non-PHI classifier**. Only general medical / protocol / educational queries may egress; **identifiers stripped**; when in doubt **stay on-box**. Route via **zero-retention gateway** (e.g. Vercel AI Gateway or Cloudflare → OpenAI/Anthropic enterprise) so **API keys never sit on the boxes**. Never automatic. See [`V2D-dual-box-cloud-research.md`](./V2D-dual-box-cloud-research.md).
+### Optional cloud: V2D frontier research slot (non-PHI only)
+On **V2D** (Hybrid dual-box + cloud lane): after clinician wake/button, Mac Studio runs a **conservative non-PHI classifier**. Only general medical / protocol / educational queries may egress; **identifiers stripped**; when in doubt **stay on-box**. Route via **zero-retention gateway** (e.g. Vercel AI Gateway or Cloudflare) to a **swappable frontier cloud model** with zero-data-retention enterprise tier (e.g. OpenAI or Anthropic), **selected at implementation time**. **API keys never sit on the boxes.** Never automatic. **OpenEvidence** and **UpToDate** may plug in later behind that model once enterprise agreements exist — **optional, not defaults**. See [`V2D-dual-box-cloud-research.md`](./V2D-dual-box-cloud-research.md).
 
 
 ### Still clinician opt-in
