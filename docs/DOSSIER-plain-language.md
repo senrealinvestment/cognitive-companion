@@ -1,74 +1,139 @@
 # Crisis Mirror — plain-language dossier
 
-**Audience:** Co-investigator and co-founder (and anyone joining the core team).  
-**Reading level:** Plain English.  
+**Who this is for:** Co-investigator, co-founder, and anyone joining the core team who has **not** been in the planning chats.  
+**How to read it:** Start at **The story so far**. Later sections zoom in on the same decisions. You should not need any other conversation to follow along.  
+**Reading level:** Plain English. When a technical word appears, it is explained in the same sentence.  
 **Last updated:** 2026-09-25
 
 This dossier is a living document — update it as decisions land.
 
 ---
 
-## 1. What we build
+## The story so far
 
-Crisis Mirror is an **ambient AI cognitive companion** for ICU clinicians.
+Crisis Mirror is a project to build an **ambient AI cognitive companion** for clinicians in **transplant ICU and critical care** (and related intensive care settings). “Ambient” means it listens in the background while people work. “Cognitive companion” means it tries to help the clinician **notice** important things — it does **not** give orders and it does **not** replace the clinician’s judgment.
 
-- Glasses and/or a phone **listen** to the room (audio only; **no camera** in the current design).
-- The system offers **advisory nudges** — short suggestions meant to help the clinician notice something.
-- It **never** writes orders, never replaces judgment, and never decides for the clinician.
-- The clinician always decides.
+### Where V1 ended and V2 began
+
+An earlier version of the idea (**V1**) explored ambient listening with a more rigid “protocol card” style approach. That path is **retired**. The team is redesigning from scratch as **V2** for a real clinical application Sergio has in mind: a careful, advisory AI companion for high-stakes ICU work.
+
+### Why the redesign was so detailed
+
+The V2 redesign grew out of a long architecture discussion. The team had to choose:
+
+- **Hardware** — which computers sit in a control room / closet and run the models  
+- **Speech-to-text** — how room audio becomes text the system can understand  
+- **Medical reasoning models** — which local models draft short advisory cues  
+- **Privacy and regulatory rules** — what may never leave the room, and what VCU paperwork comes first  
+- **Training approach** — how the system learns from labeled examples without updating itself at the bedside  
+
+Those choices are written up in the architecture notes on **GitHub pull request (PR) #1**. This dossier restates them in everyday language.
+
+### Decisions already locked (the short list)
+
+You will see each of these again below. Here is the spine of the plan:
+
+1. **Dual-box hardware:** An **NVIDIA DGX Spark** (strong at fast speech work) plus a **Mac Studio with 512 GB of memory** (strong at larger “thinking” and local literature search). Two separate computers on a private network — they do **not** merge into one giant memory pool.  
+2. **Local-first:** Bedside **decisions and nudges stay on those room computers**. Nothing is sent to the public cloud for deciding what to say in the moment.  
+3. **Optional V2D cloud research lane:** Only for **deeper, on-demand** questions after a wake word or button — and only after a strict **local** check that the question is **not** patient-identifying. Details later.  
+4. **Traffic-light nudge system:** Clinicians own the menu of what counts as a nudge (green / yellow / red). A spreadsheet is the seed list.  
+5. **Wizard-of-Oz first:** Before trusting hardware and models in the loop, run sims where the AI may log silently while a **human** decides what happens. Grade the AI’s judgment without anyone relying on it yet.  
+6. **Lean Phase 0:** Start thin — architecture and engineering first; specialists only when their piece is needed.  
+7. **VCU paperwork drafted (not finished until VCU says so):** Internal-only **not-human-subjects** path using **HRP-503b**, drafted for Phase 0.5. **Principal investigator (PI): Dr. Michael Kazior.** **Co-investigator: Dr. Sergio Navarrete.** Drafts live on **PR #4**.
+
+### Who is on the team (plain roles)
+
+- A **five-agent planning/build pod** covering, in everyday terms: **architecture**, **speech-to-text**, **clinical logic**, **regulatory and privacy**, and **coordination** (keeping the pieces aligned). Specialists stay scoped to their lane.  
+- About **5–6 medical students** as early **category filters** — helping draft and review the nudge menu and related labeling, with clinicians remaining the authority.  
+- **Investigators** named above for the VCU determination path.
+
+### What is still open
+
+Open risks and next actions are listed in the **action checklist** at the end. Examples: red-teaming the privacy filter before any cloud research, planning live calibration (not only sims), weekly student-batch review, advisory-only liability briefing, not hanging timelines on vendor deals, transcript reuse policy, picking the cloud provider only when implementing V2D, and confirming the 512 GB Mac purchase still makes sense as models get smaller.
 
 ---
 
-## 2. Why
+## 1. What we build
 
-In a busy ICU, people can miss cues under load — not because they are careless, but because attention is scarce.
+*(This matches the product described in **The story so far**.)*
 
-Crisis Mirror’s job is to be a careful second set of ears: quiet most of the time, useful when something important is likely being missed, and easy to ignore when it is wrong.
+Crisis Mirror listens with **audio only** (glasses and/or phone). The current design law is **no wearable camera**, because face-worn video creates serious privacy and consent problems.
+
+What the clinician sees or hears from the system is an **advisory nudge** — a short suggestion meant to help attention. The system:
+
+- **Never** writes medical orders  
+- **Never** decides treatment  
+- **Never** replaces the clinician  
+
+**The clinician always decides.**
+
+---
+
+## 2. Why it matters
+
+*(Same problem the redesign is trying to solve.)*
+
+In a busy ICU, people can miss cues under load — not because they are careless, but because attention is scarce. Crisis Mirror’s job is to be a careful second set of ears: quiet most of the time, useful when something important may be missed, and easy to ignore when it is wrong.
+
+That is why the traffic-light system and Wizard-of-Oz grading exist: we want proof that the companion is **helpful and not noisy** before anyone depends on it.
 
 ---
 
 ## 3. Status (as of this writing)
 
+*(Detail on the locked decisions from **The story so far**.)*
+
 **Decided / in motion**
 
-- **Hardware path:** Dual-box — **NVIDIA DGX Spark** plus **Mac Studio (512 GB target)**.
-- **Regulatory:** VCU **not-human-subjects** path drafted for Phase 0.5 — adapt into **HRP-503b** (NHSR). Activity is **internal only** (product go/no-go; **no** publishing cue-test results as research). Named **PI: Dr. Michael Kazior**; **co-investigator: Dr. Sergio Navarrete**. Drafts live on **PR #4** (not a final VCU determination until HRPP/IRB issues one).
-- **Build order:** **Wizard-of-Oz** **before** buying/committing to full local models and hardware integration. “Wizard of Oz” is named after the movie where a hidden person runs a grand machine: here the AI runs **silently** in the background during sim sessions and logs every nudge it *would* have given, while a **human** (the “wizard”) actually decides what happens — so no patient is ever affected by the model’s output. We grade the model’s judgment without anyone relying on it yet. **Lean Phase 0** — Architect + engineer first; specialists only for their pieces.
-- **V1 retired:** Old protocol / Stanford-card style flow is out. Current work is **V2** (local System One + MedGemma cues; no cloud “Jev” deciding).
+- **Hardware path:** Dual-box — **NVIDIA DGX Spark** plus **Mac Studio (512 GB target)**.  
+- **Regulatory:** VCU **not-human-subjects** path drafted for Phase 0.5 — adapt into **HRP-503b**. Activity is **internal only** (product go/no-go; **no** publishing cue-test results as research). **PI: Dr. Michael Kazior**; **co-investigator: Dr. Sergio Navarrete**. Drafts on **PR #4**. Final determination belongs to VCU HRPP / IRB — do not start sessions until you have their letter.  
+- **Build order:** **Wizard-of-Oz** before buying/committing to full local-model and hardware integration. “Wizard of Oz” is named after the movie where a hidden person runs a grand machine: here the AI can run **silently** in the background during sim sessions and log every nudge it *would* have given, while a **human** (the “wizard”) actually decides what happens — so no patient is ever affected by the model’s output. We grade the model’s judgment without anyone relying on it yet. **Lean Phase 0** — architecture and engineering first; specialists only for their pieces.  
+- **V1 retired:** Old protocol / card-style flow is out. Current work is **V2** (local decision routing + local medical cue drafting; **no** cloud model deciding bedside nudges).
 
-**Still open (examples)**
+**Still open (examples)** — see also the checklist:
 
-- Exact wake-word engine and family/estate permission for the tribute placeholder phrase.
-- Which frontier cloud model fills the optional V2D research **slot** (chosen at implementation).
-- Whether OpenEvidence / UpToDate deals happen (optional; not on the critical path).
-- Classifier evaluation for any future non-PHI cloud egress.
-- Final gold-nudge authors and sim consent details (see regulatory drafts).
+- Exact wake-word engine and permission questions for any tribute placeholder phrase  
+- Which frontier cloud model fills the optional V2D research slot (chosen at implementation)  
+- Whether OpenEvidence / UpToDate contracts happen (optional; not on the critical path)  
+- How well the non-PHI / de-identification check works before any cloud research egress  
+- Gold-nudge authors and sim consent details (see regulatory drafts on PR #4)
 
 ---
 
 ## 4. Architecture (plain)
 
-Think of two powerful computers in a **sim control room / closet**, not at the bedside as medical devices.
+*(This is the dual-box + local-first design from **The story so far**, explained end-to-end for a first-time reader.)*
 
-1. Glasses or phone send audio over an **encrypted local network** to those computers.
-2. **DGX Spark** focuses on **speech** (who spoke / what was said) and CUDA-friendly training jobs.
-3. **Mac Studio** focuses on **thinking** for the live advisory path (including MedGemma-style cue text and local literature search when needed).
-4. **Nothing goes to the cloud for bedside decisions.** Routing and nudges stay on the local boxes.
+Imagine two powerful computers in a **sim control room or closet** — not marketed as bedside medical devices.
 
-**Optional add-on: V2D cloud research lane**
+1. Glasses or a phone send audio over an **encrypted local network** (a private, protected link inside the facility/lab) to those computers.  
+2. **DGX Spark** focuses on **speech**: turning sound into text and related speech jobs, plus training work that needs NVIDIA’s CUDA tools.  
+3. **Mac Studio** focuses on **thinking** for the live advisory path: drafting short cue text with a local medical model (the working baseline discussed is **MedGemma 27B**), local literature search when needed, and — for V2D — the privacy gate before any optional cloud research.  
+4. **Nothing goes to the cloud for bedside decisions.** Choosing whether to nudge, and what to say in the moment, stays on the local boxes.
 
-- Only for **on-demand deep research** after a **wake word or button**.
-- **Never automatic.**
-- Before anything leaves the room: a **strict local non-PHI check** on the Mac (when in doubt, **stay local**), and patient identifiers stripped.
-- Traffic goes through a **zero-retention gateway** (keys stay off the boxes).
-- The cloud model is a **swappable slot**: a frontier model with zero-data-retention enterprise terms, **chosen at implementation** (examples people mention: OpenAI or Anthropic — not locked in).
+**Shared product spine (same idea on both boxes):** clean up / de-identify what must stay local → a small local “System One” router that decides salience and urgency → draft a short cue → a safety/wording gate → show a brief heads-up on glasses or phone → later, humans label whether it helped (for offline training only — **no self-updating at the bedside**).
+
+### Optional add-on: V2D cloud research lane
+
+*(The optional deeper-research path introduced in **The story so far**.)*
+
+V2D means: keep the dual-box local system, and add a **cloud research** option that is **not** used for automatic bedside decisions.
+
+Rules:
+
+- Only after a **wake word or button** (on-demand). **Never automatic.**  
+- Before anything leaves the room: a **strict local non-PHI check** on the Mac (“PHI” means patient-identifying information). When in doubt, **stay local**. Strip identifiers.  
+- Use a **zero-retention gateway** so API keys never sit on the Spark or Mac, and prompts/answers are not kept by the pipe.  
+- The cloud model is a **swappable slot**: a frontier model with zero-data-retention enterprise terms, **chosen at implementation** (people mention examples like OpenAI or Anthropic — the architecture does **not** lock a vendor).  
 - **OpenEvidence** and **UpToDate** may plug in later **only if** enterprise agreements exist. **Neither is a default.**
 
-Details: `docs/architecture/` on **PR #1**, especially the V2D addendum.
+Details for engineers: `docs/architecture/` on **PR #1**, especially `V2D-dual-box-cloud-research.md`.
 
 ---
 
 ## 5. Nudge system
+
+*(How the traffic-light idea from **The story so far** works day to day.)*
 
 Nudges use a **traffic-light** framing clinicians can edit:
 
@@ -78,39 +143,46 @@ Nudges use a **traffic-light** framing clinicians can edit:
 | **Yellow** | Worth paying attention to (**watch**) |
 | **Red** | Less important — monitor only (**stay quiet**) |
 
-**Clinicians own the category menu.** The seed list is a spreadsheet with organ-system tabs (Neuro, Cardiac, Pulmonary, GI, Hepatology, Renal, Heme, Infectious Disease, Endocrine, Musculoskeletal) plus an **Emergencies** tab whose jump-off is the **Stanford Emergency Manual (Stanford Guide)**.
+**Clinicians own the category menu.** The seed list is a spreadsheet with organ-system tabs (Neuro, Cardiac, Pulmonary, GI, Hepatology, Renal, Heme, Infectious Disease, Endocrine, Musculoskeletal) plus an **Emergencies** tab whose jump-off reference is the **Stanford Emergency Manual** (also called the Stanford Guide).
 
-**Auto-escalate:** some diagnoses/patterns can be marked to **short-circuit** the normal light — jump straight to green, like an ambulance through a red light — when that pattern is detected.
+**Auto-escalate:** Some diagnoses or patterns can be marked to **short-circuit** the normal light — jump straight to green when detected, like an ambulance through a red light.
 
-That spreadsheet is a **seed training / labeling set**, not finished clinical doctrine. Panel review replaces placeholders.
+That spreadsheet is a **seed training / labeling set**, not finished clinical doctrine. Panel review replaces placeholders. Medical students may help filter drafts; clinicians approve.
 
-File: `docs/architecture/nudge-category-vocabulary.xlsx`
+File: `docs/architecture/nudge-category-vocabulary.xlsx` (on the same V2 branch as this dossier).
 
 ---
 
 ## 6. Team
 
-- **Cognitive Companion Pod (five agents):** Architect, Speech Engineer, Clinical Models Lead, Clinical Safety & Eval, Regulatory & Privacy — coordinated for build/plan work; specialists stay scoped to their pieces.
-- **Human clinical layer:** About **5–6 medical students** as filters / helpers on vocabulary, labeling, and review batches (exact roster and schedule still operational).
+*(Same people as in **The story so far**, with a bit more structure.)*
+
+- **Five-agent Cognitive Companion pod** (planning/build roles in plain words): architecture, speech-to-text, clinical logic, regulatory and privacy, and coordination. Keep specialists paused or narrow until their piece is needed (lean Phase 0).  
+- **About 5–6 medical students** as early filters on categories and labeling batches.  
 - **Investigators:** Dr. Michael Kazior (PI for the VCU determination path); Dr. Sergio Navarrete (co-investigator / co-founder).
 
 ---
 
 ## 7. Doc index (where to click)
 
+*(Pointers to the deeper documents that back **The story so far**. If you are on GitHub’s `main` branch you may not see `docs/` yet — switch the branch dropdown to `v2-speech-layer-ab`.)*
+
 | What | Where |
 |------|--------|
-| Architecture notes + diagram (V2A / V2B / Hybrid / V2D) | **PR #1** — `docs/architecture/` · `crisis-mirror-architecture.html` · `assets/crisis-mirror-architecture.png` |
-| V2D cloud research addendum | `docs/architecture/V2D-dual-box-cloud-research.md` (on PR #1 branch) |
+| Architecture notes + diagram (hardware stacks, shared spine, V2D) | **PR #1** — `docs/architecture/` · `crisis-mirror-architecture.html` · `assets/crisis-mirror-architecture.png` |
+| V2D cloud research addendum | `docs/architecture/V2D-dual-box-cloud-research.md` |
 | Nudge category vocabulary spreadsheet | `docs/architecture/nudge-category-vocabulary.xlsx` |
-| IRB / NHSR Phase 0.5 drafts (HRP-503b path) | **PR #4** — `docs/regulatory/` (e.g. `phase0.5-nhsr-determination-request-DRAFT.md`, process + consent drafts) |
+| IRB / NHSR Phase 0.5 drafts (HRP-503b path) | **PR #4** — `docs/regulatory/` |
 | This dossier | `docs/DOSSIER-plain-language.md` |
+
+Direct dossier link on the V2 branch:  
+https://github.com/senrealinvestment/crisis-mirror/blob/v2-speech-layer-ab/docs/DOSSIER-plain-language.md
 
 ---
 
 ## 8. Action checklist
 
-Copy answers into the `Response:` lines. Check boxes when done.
+*(These are the open items flagged in **The story so far**. Copy answers into the `Response:` lines.)*
 
 - [ ] Red-team the **de-ID / non-PHI classifier** before any real clinical data could hit a cloud research lane.  
   Response: ___
@@ -151,6 +223,8 @@ Copy answers into the `Response:` lines. Check boxes when done.
 
 **Draft for clinician review — not final.**
 
+*(This is the grading method behind the Wizard-of-Oz step in **The story so far** and in Status.)*
+
 “Wizard of Oz” here means the same thing as in the movie: a hidden person is running the show. In our sims the AI stays **silent**, logging every nudge it *would* have given, while a **human wizard** actually decides what happens — so the model never affects a patient. We are grading its judgment before anyone relies on it.
 
 In that **silent phase**, the model does **not** speak to the clinician. It still **logs every moment it would have nudged**.
@@ -173,4 +247,5 @@ That is the whole grade for one call. No long forms. Stack enough sessions and y
 Use this rubric to train and calibrate; replace or tighten it once the clinical panel signs off.
 
 ---
+
 This dossier is a living document — update it as decisions land.
