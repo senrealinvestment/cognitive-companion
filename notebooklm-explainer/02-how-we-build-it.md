@@ -30,7 +30,7 @@ Quantities in year one are small: a handful of glasses, a dedicated tablet or tw
 
 ## Content before spectacle
 
-The first scenario pack will be a short list of crises we already teach, not a fantasy of every transplant emergency. Candidates include anaphylaxis, malignant hyperthermia, hemorrhage, airway cannot-intubate-cannot-oxygenate, and a shock/decompensation case. The exact first pack is still an open product decision and will be locked with simulation faculty before we write cues.
+The first scenario pack will be a short list of crises we already teach, not a fantasy of every ICU emergency. Candidates include anaphylaxis, malignant hyperthermia, hemorrhage, airway cannot-intubate-cannot-oxygenate, and a shock/decompensation case. The exact first pack is still an open product decision and will be locked with simulation faculty before we write cues.
 
 Each card is a cognitive-forcing prompt in the Croskerry sense: a short interrupt that makes a latent miss harder to ignore. It is not a lecture. It is not a differential-diagnosis essay on the lens.
 

@@ -1,4 +1,4 @@
-# Crisis Mirror — One-Pager
+# Cognitive Companion — One-Pager
 
 **Smart glasses ambient AI — cognitive companion for clinical medicine**  
 Real-time cost + cue quality feedback loop  
@@ -39,13 +39,13 @@ Ambient **audio** from clinician smart glasses (or phone) feeds a local protocol
 
 ## Why no camera (design law)
 
-A face-worn camera in a transplant ICU is a **PHI + consent + culture** problem, not just a tech feature:
+A face-worn camera in any ICU is a **PHI + consent + culture** problem, not just a tech feature:
 
 - Patients, families, and staff in frame without clean consent
 - Harder IRB / compliance / “what is that recording?” optics
 - Little extra value for v0 cognitive-forcing if **speech + protocol context** carry the trigger
 
-**Crisis Mirror v1 is audio-in → brain-on-phone → HUD + tone out.**  
+**Cognitive Companion v1 is audio-in → brain-on-phone → HUD + tone out.**  
 Vision is out of scope until a separate, explicit, approved program exists.
 
 ---
@@ -84,7 +84,7 @@ Sources: Brilliant Labs Halo materials; Even Realities G2 support/reviews (mics,
 | **Open / hackable** | **Best** — open HW/SW, Zephyr, SDKs | Consumer product; **MentraOS**-class app layer helps |
 | **All-day wear** | ~40 g, up to ~**14 h** claimed | ~**36 g**, multi-day with case (claims) |
 | **Price (ballpark)** | ~**$299–349** | ~**$599** (+ Rx; optional ring) |
-| **Fit to camera-free Crisis Mirror** | **Open prototype** if camera is truly off | **Clinical wear favorite** for unit optics |
+| **Fit to camera-free Cognitive Companion** | **Open prototype** if camera is truly off | **Clinical wear favorite** for unit optics |
 
 ### Recommendation (updated)
 
@@ -137,8 +137,8 @@ Sources: Brilliant Labs Halo materials; Even Realities G2 support/reviews (mics,
 
 | File | Purpose |
 |---|---|
-| `crisis-mirror-architecture.html` | Architecture diagram (open in browser) |
-| `crisis-mirror-flow.excalidraw` | Editable flow (excalidraw.com) |
+| `cognitive-companion-architecture.html` | Architecture diagram (open in browser) |
+| `cognitive-companion-flow.excalidraw` | Editable flow (excalidraw.com) |
 | `ONEPAGER.md` | This brief |
 | `assets/original-sketch.jpg` | Original whiteboard (historical; video path retired) |
 
@@ -153,4 +153,4 @@ Sources: Brilliant Labs Halo materials; Even Realities G2 support/reviews (mics,
 
 ---
 
-*Crisis Mirror • Tx ICU • Link / Hermes • camera-free v1*
+*Cognitive Companion • Tx ICU • Link / Hermes • camera-free v1*

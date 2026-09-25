@@ -86,7 +86,7 @@ If the chair knows a clean philanthropic or foundation path, that is different f
 
 We are not asking her to certify clinical outcome benefit.
 We are not asking her to approve a wearable camera.
-We are not asking her to make this a live transplant-ICU device this year.
+We are not asking her to make this a live ICU device this year.
 We are not asking her to fund $155,000 from the department.
 We are not asking her to broker a vendor deal.
 

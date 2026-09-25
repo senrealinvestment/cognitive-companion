@@ -33,5 +33,5 @@ teach-me/
 
 ## Source
 
-- GitHub: `senrealinvestment/crisis-mirror` → `.grok/skills/teach-me/`
+- GitHub: `senrealinvestment/cognitive-companion` → `.grok/skills/teach-me/`
 - Local Grok mirror: `~/.grok/skills/teach-me/`

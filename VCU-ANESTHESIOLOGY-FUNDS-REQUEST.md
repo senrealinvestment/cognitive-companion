@@ -1,10 +1,10 @@
-# Internal Funds Request — Crisis Mirror Simulation Pilot
+# Internal Funds Request — Cognitive Companion Simulation Pilot
 
 **To:** Leadership, Department of Anesthesiology  
 **Virginia Commonwealth University (VCU)**  
 **From:** Sergio Navarrete, MD — Transplant ICU / Critical Care Anesthesiology  
 **Date:** July 2026  
-**Re:** Departmental pilot support for *Crisis Mirror* — camera-free cognitive companion for critical care simulation  
+**Re:** Departmental pilot support for *Cognitive Companion* — camera-free cognitive companion for critical care simulation  
 
 **Requested amount:** **$12,500** (preferred) · **$7,500** (minimum viable)  
 **Period:** 12 months from award  
@@ -16,18 +16,18 @@
 
 ## Request in one paragraph
 
-I am requesting modest departmental support to build and test **Crisis Mirror** in the VCU Anesthesiology simulation environment, in collaboration with **Mike Kazior, MD** (simulation lab education) and resident **Marjo Beltoja, MD**. Crisis Mirror is a **camera-free** smart-glasses + phone system that delivers short, advisory cognitive-forcing cues (protocol checks) during critical decompensation scenarios for anesthesiology and critical care learners. The goal is education and human-factors measurement—not autonomous diagnosis, not bedside clinical deployment, and **not** wearable video recording. Hardware path: **Brilliant Labs Halo with camera hard-off** (onboard bone conduction + HUD + mics). Funds cover starter hardware, basic software/build support, and a structured sim evaluation with residents/fellows.
+I am requesting modest departmental support to build and test **Cognitive Companion** in the VCU Anesthesiology simulation environment, in collaboration with **Mike Kazior, MD** (simulation lab education) and resident **Marjo Beltoja, MD**. Cognitive Companion is a **camera-free** smart-glasses + phone system that delivers short, advisory cognitive-forcing cues (protocol checks) during critical decompensation scenarios for anesthesiology and critical care learners. The goal is education and human-factors measurement—not autonomous diagnosis, not bedside clinical deployment, and **not** wearable video recording. Hardware path: **Brilliant Labs Halo with camera hard-off** (onboard bone conduction + HUD + mics). Funds cover starter hardware, basic software/build support, and a structured sim evaluation with residents/fellows.
 
 ---
 
 ## Why this matters for VCU Anesthesiology
 
-| Problem | What Crisis Mirror does |
+| Problem | What Cognitive Companion does |
 |--------|-------------------------|
 | In crisis, learners freeze or fixate; attendings carry the cognitive load | Discrete **≤8-word HUD + tone** cues that force the next check (“consider vasoplegia vs bleed”) |
 | Generic sim debriefs are delayed and variable | Immediate, protocol-tied prompts + after-action **helpful / accurate** labels |
 | Wearable cameras are a PHI/culture non-starter | **No wearable camera by design** — Halo camera **hard-off**; audio + display only |
-| Transplant ICU excellence needs reproducible teaching of rare decompensations | Scenario pack starts with **liver reperfusion instability** and expandable ICU crises |
+| Critical care excellence across all ICUs (medical, surgical, transplant, neuro, cardiac) needs reproducible teaching of rare decompensations | Scenario pack covers cross-ICU crises (e.g., **liver reperfusion instability**, hemorrhage, airway, shock) and expands by unit |
 
 This aligns with departmental missions in **education, patient safety culture, and innovation**—with a path to society grants and later extramural funding once we have pilot data. Housing the pilot in the **departmental simulation lab under Dr. Kazior** keeps learner access, curriculum fit, and equipment stewardship inside Anesthesiology education.
 
@@ -41,7 +41,7 @@ This aligns with departmental missions in **education, patient safety culture, a
 4. **Label loop** — after each scenario: *Helpful? Accurate?* (+ optional short note)  
 5. **Metrics** — cue latency, %helpful, %accurate, learner preference on vs off, no increase in harmful actions in sim  
 
-**Exit criterion for year 1:** Learners prefer Crisis Mirror **on vs off** on ≥1 scenario class, with no increase in unsafe actions in simulation, and a short report suitable for a society abstract.
+**Exit criterion for year 1:** Learners prefer Cognitive Companion **on vs off** on ≥1 scenario class, with no increase in unsafe actions in simulation, and a short report suitable for a society abstract.
 
 ---
 
@@ -56,7 +56,7 @@ This aligns with departmental missions in **education, patient safety culture, a
 | Architecture and open working notes already public as concept pack | Commercial product launch |
 
 Concept architecture and product brief:  
-https://github.com/senrealinvestment/crisis-mirror  
+https://github.com/senrealinvestment/cognitive-companion  
 
 ---
 
@@ -161,7 +161,7 @@ This is intentionally **not** a request for a full research center or commercial
 
 ## Ask
 
-I respectfully request **$12,500** in departmental innovation / education pilot funds (**$7,500** minimum viable) to execute the Crisis Mirror simulation pilot over 12 months, in collaboration with **Dr. Mike Kazior** (simulation lab education) and **Dr. Marjo Beltoja** (resident collaborator), with equipment retained by the Department of Anesthesiology simulation program for ongoing educational use.
+I respectfully request **$12,500** in departmental innovation / education pilot funds (**$7,500** minimum viable) to execute the Cognitive Companion simulation pilot over 12 months, in collaboration with **Dr. Mike Kazior** (simulation lab education) and **Dr. Marjo Beltoja** (resident collaborator), with equipment retained by the Department of Anesthesiology simulation program for ongoing educational use.
 
 I am happy to present a 10-minute overview with Dr. Kazior at a faculty or education meeting and to adjust budget lines to departmental preferences (e.g., phone-only first while Halo is ordered).
 
@@ -172,10 +172,10 @@ I am happy to present a 10-minute overview with Dr. Kazior at a faculty or educa
 | Document | Location |
 |----------|----------|
 | Product one-pager | [ONEPAGER.md](./ONEPAGER.md) |
-| Architecture (camera-free) | [crisis-mirror-architecture.html](./crisis-mirror-architecture.html) |
+| Architecture (camera-free) | [cognitive-companion-architecture.html](./cognitive-companion-architecture.html) |
 | Funding strategy (external next steps) | [FUNDING.md](./FUNDING.md) |
-| Public concept repo | https://github.com/senrealinvestment/crisis-mirror |
+| Public concept repo | https://github.com/senrealinvestment/cognitive-companion |
 
 ---
 
-*Crisis Mirror · VCU Department of Anesthesiology · Internal pilot request · Education / simulation only · Halo camera hard-off · Not a clinical device deployment*
+*Cognitive Companion · VCU Department of Anesthesiology · Internal pilot request · Education / simulation only · Halo camera hard-off · Not a clinical device deployment*

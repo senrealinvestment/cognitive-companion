@@ -2,7 +2,7 @@
 
 **Scope (Link):** camera-free HUD + audio/bone-conduction cueing in anesthesia/critical-care sim, versus wearable video; live Halo vs Even G2 capability/availability; implications for Cognitive Companion v1 only. Cites-only. No code.
 
-**v1 frame used here:** Crisis Mirror’s published one-pager is audio-in → phone brain → HUD + tone, with no wearable camera. This brief does not re-litigate that product choice; it tests it against live literature and live hardware pages.
+**v1 frame used here:** Cognitive Companion’s published one-pager is audio-in → phone brain → HUD + tone, with no wearable camera. This brief does not re-litigate that product choice; it tests it against live literature and live hardware pages.
 
 **Date of retrieval:** 2026-08-17.
 

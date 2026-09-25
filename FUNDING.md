@@ -1,4 +1,4 @@
-# Crisis Mirror — Funding map (v0.1)
+# Cognitive Companion — Funding map (v0.1)
 
 **What we’re funding:** camera-free smart-glasses **cognitive companion** for critical care  
 (sim lab → education/QI → optional later bedside advisory)
@@ -9,7 +9,7 @@
 
 ## Blunt take
 
-| Path | Fit for Crisis Mirror now | Why |
+| Path | Fit for Cognitive Companion now | Why |
 |------|---------------------------|-----|
 | **University / education / sim lab pots** | **Best first money** | Matches sim-first, advisory, camera-free story |
 | **NIH / AHRQ research grants** | **Strong middle path** | CDS, safety, digital health validity — if you have academic PI + IRB home |
@@ -62,7 +62,7 @@ Only if you truly pursue regulated bedside product
 ### B. Specialty / education societies (examples to watch)
 - ASA / SCA / SCCM / ASTS education or innovation awards  
 - Simulation societies (SSH and similar)  
-- Transplant / critical care foundation micro-grants  
+- Critical care foundation micro-grants (medical, surgical, transplant, neuro, cardiac)  
 
 These are often **$5k–$50k**, perfect for hardware + scenario pack + small study.
 
@@ -95,7 +95,7 @@ You (or a co-PI) need an **academic applicant organization**, usually with IRB/e
 - Sometimes better for **engineering + sensing + HCI** than pure clinical trials  
 - Can pair with NIH via collaborative mechanisms
 
-**Crisis Mirror angle that reviews well:**
+**Cognitive Companion angle that reviews well:**
 - Cognitive forcing in high-stakes decompensation  
 - Human-in-loop, advisory-only  
 - Label loop (helpful/accurate) as a **safety science** contribution  
@@ -137,7 +137,7 @@ You (or a co-PI) need an **academic applicant organization**, usually with IRB/e
 - You can stomach aggressive milestones  
 - You are not using ARPA-H as “seed for a side project”
 
-For Crisis Mirror today: **watch list, not week-1 application.**
+For Cognitive Companion today: **watch list, not week-1 application.**
 
 ---
 
@@ -217,8 +217,8 @@ That’s fundable. “Replace intensivist judgment with glasses AI” is not.
 
 1. **Academic-only** vs **spin-out LLC** (SBIR door)?  
 2. First external ask: **society education grant** vs **institutional pilot** vs **FOA hunt with co-PI**?  
-3. Primary clinical story: **transplant ICU education** wedge vs **generic ICU cognitive forcing** (broader market, thinner novelty)?
+3. ~~Primary clinical story: transplant ICU education wedge vs generic ICU cognitive forcing?~~ **Decided 2026-09-24:** target all intensive care units (critical care broadly: medical, surgical, transplant, neuro, cardiac, and others). Still advisory only.
 
 ---
 
-*Crisis Mirror funding map · Link / Hermes · not legal/financial advice · verify live FOAs before applying*
+*Cognitive Companion funding map · Link / Hermes · not legal/financial advice · verify live FOAs before applying*

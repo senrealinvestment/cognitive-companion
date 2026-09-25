@@ -207,7 +207,7 @@ function sectionLabel(slide, text, x = 0.5, y = 0.28) {
     });
   });
 
-  s.addText("Formerly Crisis Mirror  ·  July 2026", {
+  s.addText("Cognitive Companion  ·  July 2026", {
     x: 0.5,
     y: 5.15,
     w: 6,
@@ -251,7 +251,7 @@ function sectionLabel(slide, text, x = 0.5, y = 0.28) {
     },
     {
       t: "Wearable video is a non-starter",
-      d: "Face-worn cameras in a transplant ICU are a PHI, consent, and culture problem.",
+      d: "Face-worn cameras in any ICU are a PHI, consent, and culture problem.",
       accent: C.danger,
     },
     {
@@ -713,7 +713,7 @@ function sectionLabel(slide, text, x = 0.5, y = 0.28) {
     rectRadius: 0.1,
   });
   s.addText(
-    "A face-worn camera in a transplant ICU is a PHI + consent + culture problem — not just a tech feature. v1 senses with sound only.",
+    "A face-worn camera in any ICU is a PHI + consent + culture problem — not just a tech feature. v1 senses with sound only.",
     {
       x: 0.75,
       y: 1.35,
@@ -1280,7 +1280,7 @@ function sectionLabel(slide, text, x = 0.5, y = 0.28) {
   });
 
   s.addText(
-    "Advisory · camera-free · education first  ·  github.com/senrealinvestment/crisis-mirror",
+    "Advisory · camera-free · education first  ·  github.com/senrealinvestment/cognitive-companion",
     {
       x: 0.5,
       y: 5.15,

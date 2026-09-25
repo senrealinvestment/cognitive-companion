@@ -8,11 +8,11 @@ Cognitive Companion fails if it is only a clinician with a slide deck, and it fa
 
 ## Clinical team
 
-**Sergio Navarrete, D.O.** — transplant anesthesiology and critical care, VCU. Clinical lead and product owner for version 1. The work is grounded in transplant ICU cognitive load and in simulation as the ethical place to test packaging before any live-patient claim.
+**Sergio Navarrete, D.O.** — transplant anesthesiology and critical care, VCU. Clinical lead and product owner for version 1. The work is grounded in ICU cognitive load across critical care (medical, surgical, transplant, neuro, cardiac) and in simulation as the ethical place to test packaging before any live-patient claim.
 
 **Brian Kazior, M.D., and Lorena Beltoja, M.D.** — clinical collaborators. They are part of the intended sim-facing team for scenario judgment and cue review. They are not being asked to fund this. They are being asked to keep the content honest.
 
-Version 1 does not put this device on live transplant patients. The clinical gravity of that unit is why the training problem is worth solving. The simulation lab is where we are allowed to measure misses.
+Version 1 does not put this device on live ICU patients. The clinical gravity of critical care is why the training problem is worth solving. The simulation lab is where we are allowed to measure misses.
 
 ## Engineering partner we already have
 

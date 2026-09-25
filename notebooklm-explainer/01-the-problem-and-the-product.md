@@ -20,7 +20,7 @@ In one sentence: glasses listen with microphones, never with a camera, and show 
 
 It is a **packaging** test of known-good cognitive-aid content. It is not a new diagnosis engine. It is not watching faces. It is not writing to the medical record. It is not learning online at the bedside.
 
-Version 1 lives in the simulation lab, not in a live transplant ICU.
+Version 1 lives in the simulation lab, not in a live ICU of any kind.
 
 ## Three layers, on purpose
 
@@ -55,6 +55,6 @@ We will not claim mortality benefit. We will not claim this is an FDA device. We
 
 ## Why this department
 
-This work sits in anesthesiology and critical-care simulation because that is where crisis checklists, airway, hemorrhage, and decompensation already live as teaching problems. VCU’s transplant critical-care volume is the clinical gravity that makes the training problem real. Version 1 does not touch live transplant patients. It borrows the cognitive structure of that work and tests it where we are allowed to be wrong: in sim.
+This work sits in anesthesiology and critical-care simulation because that is where crisis checklists, airway, hemorrhage, and decompensation already live as teaching problems. The target setting is critical care broadly: medical, surgical, transplant, neuro, cardiac, and other intensive care units, where the same crises recur. Version 1 does not touch live patients. It borrows the cognitive structure of that work and tests it where we are allowed to be wrong: in sim.
 
-The product name in conversation is Cognitive Companion. The repository still carries an older working title, Crisis Mirror. Same project.
+The product is branded **Cognitive Companion** (see the plain-language dossier for the early working-name note).
