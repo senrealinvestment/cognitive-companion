@@ -1,8 +1,8 @@
-# V2 Shared Layers (identical across V2A · V2B · Hybrid)
+# V2 Shared Layers (identical across V2A · V2B · Hybrid · V2D local spine)
 
 > **V2A and V2B are FULL STACKS** (NVIDIA Spark path vs Apple Mac path), not speech-only.  
 > This file is the **shared product spine**: SystemOneClient adapter, safety gate, labeling loop, clinician opt-in deep research, three fine-tune tracks, data platform.  
-> Hardware comparison: [`V2-hardware-options.md`](./V2-hardware-options.md) · Hybrid: [`V2-hybrid.md`](./V2-hybrid.md) · Local research LLMs: [`V2-local-medical-reasoning-models.md`](./V2-local-medical-reasoning-models.md).
+> Hardware comparison: [`V2-hardware-options.md`](./V2-hardware-options.md) · Hybrid: [`V2-hybrid.md`](./V2-hybrid.md) · **V2D** (Hybrid + gated cloud research): [`V2D-dual-box-cloud-research.md`](./V2D-dual-box-cloud-research.md) · Local research LLMs: [`V2-local-medical-reasoning-models.md`](./V2-local-medical-reasoning-models.md).
 
 > **Target setting:** all intensive care units (critical care broadly: medical, surgical, transplant, neuro, cardiac, and other critical care units). Broadened from transplant ICU on 2026-09-24. **Advisory only:** cues suggest, the clinician decides; nothing here makes or executes clinical decisions.
 
@@ -135,6 +135,10 @@ Salience · category · escalate · action/urgency — all **local** (Laya on H1
 
 ### Optional cloud: OpenEvidence
 Only if/when **enterprise BAA** secured. **No verified public self-serve API** (enterprise/Epic integrations). Dashed fallback in diagram.
+
+### Optional cloud: V2D high-end research (non-PHI only)
+On **V2D** (Hybrid dual-box + cloud lane): after clinician wake/button, Mac Studio runs a **conservative non-PHI classifier**. Only general medical / protocol / educational queries may egress; **identifiers stripped**; when in doubt **stay on-box**. Route via **zero-retention gateway** (e.g. Vercel AI Gateway or Cloudflare → OpenAI/Anthropic enterprise) so **API keys never sit on the boxes**. Never automatic. See [`V2D-dual-box-cloud-research.md`](./V2D-dual-box-cloud-research.md).
+
 
 ### Still clinician opt-in
 Wake word / button; never auto; soft glyph from System One. **Wake phrase (placeholder, 2026-09-24): "Hey Dr. Bellomo"**. A multi-word phrase like this is less likely to fire by accident on normal room talk. It needs a custom-trained model, because no off-the-shelf model knows this phrase. The name honors Prof. Rinaldo Bellomo AO, the intensive care researcher who died on 6 May 2025. Before any public or commercial use, get permission from his family or estate so the phrase doesn't imply an endorsement. Latency local deep: **estimate 5–30 s** depending on retrieval+gen (**labeled estimate**). Output: panel+citations primary; optional MedGemma one-liner + wording check.

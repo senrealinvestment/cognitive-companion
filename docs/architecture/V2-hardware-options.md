@@ -1,8 +1,8 @@
-# V2 Hardware Options — Mac Studio vs DGX Spark vs Hybrid
+# V2 Hardware Options — Mac Studio vs DGX Spark vs Hybrid vs V2D
 
 ## OPEN DECISION (read first)
 **Single box vs dual box?** Does **Spark replace or complement** the Mac?  
-Recommendation to debate: **Hybrid complements** — Spark owns CUDA speech + NanoJev + NeMo training; Mac owns MedGemma 27B + large local research RAG. Or pick **one** stack (V2A or V2B) for Phase 1 sim simplicity.
+Recommendation to debate: **Hybrid complements** — Spark owns CUDA speech + NanoJev + NeMo training; Mac owns MedGemma 27B + large local research RAG. **V2D** = Hybrid **plus** a gated non-PHI cloud research lane (see [`V2D-dual-box-cloud-research.md`](./V2D-dual-box-cloud-research.md)). Or pick **one** stack (V2A or V2B) for Phase 1 sim simplicity.
 
 ---
 
@@ -39,20 +39,20 @@ Sources: NVIDIA Spark hardware; [Apple M3 Ultra / Mac Studio specs](https://supp
 
 ## Comparison table — Mac 512 vs Spark vs both
 
-| Dimension | **V2B Mac Studio (target 512 GB)** | **V2A DGX Spark** | **Hybrid (both)** |
-|-----------|------------------------------------|-------------------|-------------------|
-| Memory | 512 GB (procure used/stock if new max 256) | 128 GB | Separate pools — **cannot merge** |
-| Bandwidth | 819 GB/s | 273 GB/s | LAN between boxes |
-| Stack | MLX / CoreML / MPS | **Full CUDA** + DGX OS | Service split over LAN |
-| System One | **Laya** default | **NanoJev** native | Both, by service |
-| NeMo / V2A train | Awkward | **Native** | Spark does T1/T3 CUDA |
-| MedGemma 27B | Comfortable (+ RAG + research) | **Fits** (~14–54 GB) with speech | Prefer Mac for 27B+RAG |
-| Largest practical research | 70B–120B easy; 671B MoE Q4 possible but crowded | Mid: **70B 4-bit ~40 GB** + speech; dual-Spark 405B **slow** | Mac for big RAG; Spark for CUDA jobs |
-| Decode speed | 27B 4-bit ~15–28 tok/s class (M3 Max proxies); measure Ultra | e.g. community: 70B NVFP4 ~5 tok/s; 120B ~27; dual 405B INT4 ~**1.8 tok/s** | LAN adds ms–tens of ms |
-| Price | ~$9.5k launch 512 GB; used much higher; new often 256 GB | ~$4.0–4.7k | Sum + networking |
-| Power | Idle ~9 W; max ~270 W (512 GB table); rated 480 W | SoC 140 W TDP; 240 W PSU | Both on UPS |
-| Size / noise | Desktop; fans, quiet | 1.2 kg SFF; fans | Two boxes |
-| OS / IT | macOS | DGX OS Linux Arm | **Two OSes** to patch |
+| Dimension | **V2B Mac Studio (target 512 GB)** | **V2A DGX Spark** | **Hybrid (both)** | **V2D (Hybrid + cloud research)** |
+|-------|------------------------------------|-------------------|-------------------|----------------------------------|
+| Memory | 512 GB (procure used/stock if new max 256) | 128 GB | Separate pools — **cannot merge** | Same as Hybrid + cloud lane |
+| Bandwidth | 819 GB/s | 273 GB/s | LAN between boxes | Same + gateway RTT for research |
+| Stack | MLX / CoreML / MPS | **Full CUDA** + DGX OS | Service split over LAN | Hybrid + **gateway** cloud research |
+| System One | **Laya** default | **NanoJev** native | Both, by service | Same (always local) |
+| NeMo / V2A train | Awkward | **Native** | Spark does T1/T3 CUDA | Same as Hybrid |
+| MedGemma 27B | Comfortable (+ RAG + research) | **Fits** (~14–54 GB) with speech | Prefer Mac for 27B+RAG | Same; Mac runs **non-PHI classifier** |
+| Largest practical research | 70B–120B easy; 671B MoE Q4 possible but crowded | Mid: **70B 4-bit ~40 GB** + speech; dual-Spark 405B **slow** | Mac for big RAG; Spark for CUDA jobs | Local RAG **+** enterprise cloud (non-PHI only) |
+| Decode speed | 27B 4-bit ~15–28 tok/s class (M3 Max proxies); measure Ultra | e.g. community: 70B NVFP4 ~5 tok/s; 120B ~27; dual 405B INT4 ~**1.8 tok/s** | LAN adds ms–tens of ms | Cloud research latency separate (opt-in) |
+| Price | ~$9.5k launch 512 GB; used much higher; new often 256 GB | ~$4.0–4.7k | Sum + networking | Hybrid + gateway/API spend |
+| Power | Idle ~9 W; max ~270 W (512 GB table); rated 480 W | SoC 140 W TDP; 240 W PSU | Both on UPS | Same |
+| Size / noise | Desktop; fans, quiet | 1.2 kg SFF; fans | Two boxes | Same |
+| OS / IT | macOS | DGX OS Linux Arm | **Two OSes** to patch | + gateway / enterprise cloud policy |
 
 Decode cites: Level1Techs Spark first impressions table (community; treat as indicative).
 
@@ -86,8 +86,9 @@ Multiple variables differ (box, System One, ASR, training stack). **Outcome diff
 ---
 
 ## OPEN DECISIONS
-1. Single box (V2A **or** V2B) vs **hybrid dual box**  
+1. Single box (V2A **or** V2B) vs **hybrid dual box** vs **V2D** (Hybrid + gated cloud research)  
 2. Does Spark **replace or complement** Mac?  
 3. Mac 512 used vs 256 new vs wait  
 4. Dual-Spark for 405B worth it given slow decode?  
-5. Plus prior: wake-word, OE BAA, corpus rights, gold nudges, Sortformer vs Nemotron-3 on Mac, etc.
+5. V2D: gateway (Vercel AI Gateway vs Cloudflare), classifier eval, enterprise cloud model pick  
+6. Plus prior: wake-word, OE BAA, corpus rights, gold nudges, Sortformer vs Nemotron-3 on Mac, etc.

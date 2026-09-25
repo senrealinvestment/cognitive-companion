@@ -22,3 +22,7 @@ Shared product layers remain identical ([`V2-shared-layers.md`](./V2-shared-laye
 
 ## Local medical reasoning models
 Catalog (benchmarks, licenses, Spark/Mac fit, shortlist): [`V2-local-medical-reasoning-models.md`](./V2-local-medical-reasoning-models.md).
+
+## V2D extension
+
+**V2D** keeps this Hybrid LAN split and adds a **non-PHI cloud research** lane after a **Mac Studio** classifier (conservative; strip identifiers; gateway with zero retention; wake/button only). Details: [`V2D-dual-box-cloud-research.md`](./V2D-dual-box-cloud-research.md).
